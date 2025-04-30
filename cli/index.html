@@ -597,7 +597,91 @@
   
   
   <span class="md-ellipsis">
-    Selinfo from Redis key
+    Selfinfo custom Redis key
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_2" id="__nav_7_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Selfinfo internal IP Redis key (experimental)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Selfinfo internal IP Redis key (experimental)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../profiles/duplicated_env/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../profiles/shared_categories/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Shared Categories
     
   </span>
   
@@ -619,6 +703,36 @@
           </ul>
         </nav>
       
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extending/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Extending Selfinfo
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -660,17 +774,18 @@
 
   <h1>CLI</h1>
 
-<p><strong><code>selfinfo write-selfinfo</code></strong> - Stores selfinfo data under unique Redis key. This data can be retrieved by selfinfo page if <code>ckan.selfinfo.additional_profiles_using_redis_keys</code> is set with the stored keys.</p>
+<p><strong><code>selfinfo write-selfinfo</code></strong> - Stores Selfinfo data under unique Redis key. This data can be retrieved by selfinfo page if <code>ckan.selfinfo.additional_profiles_using_redis_keys</code> is set with the stored keys.</p>
 <p>Arguments:</p>
 <ul>
 <li><strong>key</strong> - Unique Redis key. Example <code>CKAN_Additional_Selfinfo_Source</code></li>
 <li><strong>label</strong> - (Optional) Label to be displayed on selfinfo page. Example <code>"Additional Selfinfo Source"</code>. If not provided, <code>key</code> will be used as label instead.</li>
 </ul>
-<p><strong><code>selfinfo delete_selfinfo_redis_key</code></strong> - Deletes Redis key if such exists specifically created for selfinfo as it adds an prefix to the unique under the hood.</p>
+<p><strong><code>selfinfo delete-selfinfo-redis-key</code></strong> - Deletes Redis key if such exists specifically created for selfinfo as it adds an prefix to the unique under the hood.</p>
 <p>Arguments:</p>
 <ul>
 <li><strong>key</strong> - Unique Redis key. Example <code>CKAN_Additional_Selfinfo_Source</code></li>
 </ul>
+<p><strong><code>selfinfo write-selfinfo-duplicated-env</code></strong> - Stores Selfinfo information in Redis under internal IP address of the Env. In order to show them, <code>ckan.selfinfo.duplicated_envs.mode</code> should be turned on in CKAN config, this replaces <code>default</code> profile with those Profile Keys.</p>
 
 
 

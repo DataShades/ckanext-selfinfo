@@ -8,25 +8,23 @@
       
       
       
-        <link rel="canonical" href="https://datashades.github.io/ckanext-selfinfo/categories/">
+        <link rel="canonical" href="https://datashades.github.io/ckanext-selfinfo/extending/overview/">
       
       
-        <link rel="prev" href="../git_info/">
+        <link rel="prev" href="../../profiles/shared_categories/">
       
       
-        <link rel="next" href="../cli/">
       
-      
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.12">
     
     
       
-        <title>Categories - ckanext-selfinfo</title>
+        <title>Extending Selfinfo - ckanext-selfinfo</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.2afb09e1.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2afb09e1.min.css">
       
       
 
@@ -45,7 +43,7 @@
       
     
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -64,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#categories" class="md-skip">
+        <a href="#ckan-hooks" class="md-skip">
           Skip to content
         </a>
       
@@ -80,7 +78,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="ckanext-selfinfo" class="md-header__button md-logo" aria-label="ckanext-selfinfo" data-md-component="logo">
+    <a href="../.." title="ckanext-selfinfo" class="md-header__button md-logo" aria-label="ckanext-selfinfo" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -100,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Categories
+              Extending Selfinfo
             
           </span>
         </div>
@@ -190,7 +188,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="ckanext-selfinfo" class="md-nav__button md-logo" aria-label="ckanext-selfinfo" data-md-component="logo">
+    <a href="../.." title="ckanext-selfinfo" class="md-nav__button md-logo" aria-label="ckanext-selfinfo" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -220,7 +218,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -242,7 +240,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../requirements/" class="md-nav__link">
+      <a href="../../requirements/" class="md-nav__link">
         
   
   
@@ -264,7 +262,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../installation/" class="md-nav__link">
+      <a href="../../installation/" class="md-nav__link">
         
   
   
@@ -286,7 +284,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../config_settings/" class="md-nav__link">
+      <a href="../../config_settings/" class="md-nav__link">
         
   
   
@@ -305,20 +303,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
@@ -334,7 +330,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             Configuration
@@ -348,7 +344,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../secure_url_and_action/" class="md-nav__link">
+      <a href="../../secure_url_and_action/" class="md-nav__link">
         
   
   
@@ -371,7 +367,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../unique_redis_key_per_portal_instance/" class="md-nav__link">
+      <a href="../../unique_redis_key_per_portal_instance/" class="md-nav__link">
         
   
   
@@ -394,7 +390,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../errors/" class="md-nav__link">
+      <a href="../../errors/" class="md-nav__link">
         
   
   
@@ -417,7 +413,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../git_info/" class="md-nav__link">
+      <a href="../../git_info/" class="md-nav__link">
         
   
   
@@ -437,30 +433,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Categories
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../categories/" class="md-nav__link">
         
   
   
@@ -471,33 +447,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#categories" class="md-nav__link">
-    <span class="md-ellipsis">
-      Categories
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -517,7 +466,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cli/" class="md-nav__link">
+      <a href="../../cli/" class="md-nav__link">
         
   
   
@@ -577,7 +526,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../profiles/overview/" class="md-nav__link">
+      <a href="../../profiles/overview/" class="md-nav__link">
         
   
   
@@ -638,7 +587,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../profiles/redis_key/" class="md-nav__link">
+      <a href="../../profiles/redis_key/" class="md-nav__link">
         
   
   
@@ -699,7 +648,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../profiles/duplicated_env/" class="md-nav__link">
+      <a href="../../profiles/duplicated_env/" class="md-nav__link">
         
   
   
@@ -722,7 +671,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../profiles/shared_categories/" class="md-nav__link">
+      <a href="../../profiles/shared_categories/" class="md-nav__link">
         
   
   
@@ -765,10 +714,30 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../extending/overview/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Extending Selfinfo
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -779,6 +748,42 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ckan-hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      CKAN Hooks
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#template-overwrite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template overwrite
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -808,9 +813,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#categories" class="md-nav__link">
+  <a href="#ckan-hooks" class="md-nav__link">
     <span class="md-ellipsis">
-      Categories
+      CKAN Hooks
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#template-overwrite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template overwrite
     </span>
   </a>
   
@@ -835,28 +849,36 @@
   
 
 
-  <h1>Categories</h1>
+  <h1>Extending Selfinfo</h1>
 
-<h2 id="categories">Categories</h2>
-<p>Out of the box, Selfinfo will try to load all the possible information that currently available, but you can reduce those by adding <code>ckan.selfinfo.categories_list</code>, where you provide an list of categories you want to see on the page and API endpoint.</p>
-<p>This is really needed, when you have an instance that doesn't use UI, like CKAN Jobs worker, so for example the Blueprints are not needed, as CKAN won't provide them or Python Modules, which can be spacing consuming for big projects.</p>
-<p>See <a href="../config_settings/">Config Settings</a> for an example of this CKAN Config.</p>
-<p>Here are the current list of categories to choose:</p>
-<div class="language-py highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">ckan</span><span class="o">.</span><span class="n">selfinfo</span><span class="o">.</span><span class="n">categories_list</span> <span class="o">=</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">python_modules</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">platform_info</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">ram_usage</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">disk_usage</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">git_info</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">freeze</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">errors</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">actions</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">auth_actions</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">blueprints</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">helpers</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="n">status_show</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    <span class="n">ckan_queues</span>
+<p>Selfinfo provides a different types of information about CKAN, but sometimes you need some custom information or manipulate with existing Data that Selfinfo provides.</p>
+<p>To extend Selfinfo, you can use CKAN hooks + template overwrite.</p>
+<h3 id="ckan-hooks">CKAN Hooks</h3>
+<p>There is an interface ISelfinfo that has an method selfinfo_after_prepared, which provides you an ability to extend or modify the data before main Selfinfo action provides you.</p>
+<p>Example of how it might look in your <code>plugin.py</code> file:</p>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">ckanext.selfinfo.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">ISelfinfo</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">MyPlugin</span><span class="p">(</span><span class="n">plugins</span><span class="o">.</span><span class="n">SingletonPlugin</span><span class="p">):</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">plugins</span><span class="o">.</span><span class="n">implements</span><span class="p">(</span><span class="n">ISelfinfo</span><span class="p">,</span> <span class="n">inherit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">selfinfo_after_prepared</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="c1"># Modifications done to data here</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        <span class="k">return</span> <span class="n">data</span>
 </span></code></pre></div>
+<h3 id="template-overwrite">Template overwrite</h3>
+<p>You can add additional Tabs navigation and Tabs content by overwriting <code>additional_content_tabs.html</code> and <code>additional_navigation_tabs.html</code> templates. Those templates were specifically created to be overwritten.</p>
+<p>Example of how it might look for example overwriting <code>additional_navigation_tabs.html</code>:</p>
+<p>In your templates folder that structure should be like this:</p>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">/</span><span class="n">templates</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="o">/</span><span class="n">selfinfo</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>        <span class="o">/</span><span class="n">snippets</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>            <span class="o">/</span><span class="n">additional_navigation_tabs</span><span class="o">.</span><span class="n">html</span>
+</span></code></pre></div>
+<p>Content example</p>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;#nav-custom-{{ profile }}&quot;</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;nav-link&quot;</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;nav-custom-{{ profile }}-tab&quot;</span> <span class="n">data</span><span class="o">-</span><span class="n">bs</span><span class="o">-</span><span class="n">toggle</span><span class="o">=</span><span class="s2">&quot;tab&quot;</span> <span class="n">data</span><span class="o">-</span><span class="n">bs</span><span class="o">-</span><span class="n">target</span><span class="o">=</span><span class="s2">&quot;#nav-custom-{{ profile }}&quot;</span> <span class="n">role</span><span class="o">=</span><span class="s2">&quot;tab&quot;</span> <span class="n">aria</span><span class="o">-</span><span class="n">controls</span><span class="o">=</span><span class="s2">&quot;nav-custom-{{ profile }}&quot;</span> <span class="n">aria</span><span class="o">-</span><span class="n">selected</span><span class="o">=</span><span class="s2">&quot;false&quot;</span><span class="o">&gt;</span><span class="n">Custom</span> <span class="n">Tab</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
+</span></code></pre></div>
+<p>Why <code>snippets</code> instead of <code>{% block custom_block %}</code>, because of variables transferring after you extend an block, which are missing variables from the original template, while in overwriting snippet you can use the provided variables like <code>profile</code> and <code>data</code>.</p>
 
 
 
@@ -905,10 +927,10 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      <script src="../../assets/javascripts/bundle.c8b220af.min.js"></script>
       
     
   </body>
