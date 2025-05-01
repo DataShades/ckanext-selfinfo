@@ -14,7 +14,7 @@
         <link rel="prev" href="../installation/">
       
       
-        <link rel="next" href="../secure_url_and_action/">
+        <link rel="next" href="../configuration/secure_url_and_action/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -393,7 +393,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../secure_url_and_action/" class="md-nav__link">
+      <a href="../configuration/secure_url_and_action/" class="md-nav__link">
         
   
   
@@ -416,7 +416,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../unique_redis_key_per_portal_instance/" class="md-nav__link">
+      <a href="../configuration/unique_redis_key_per_portal_instance/" class="md-nav__link">
         
   
   
@@ -439,7 +439,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../errors/" class="md-nav__link">
+      <a href="../configuration/errors/" class="md-nav__link">
         
   
   
@@ -462,7 +462,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../git_info/" class="md-nav__link">
+      <a href="../configuration/git_info/" class="md-nav__link">
         
   
   
@@ -485,7 +485,30 @@
   
   
     <li class="md-nav__item">
-      <a href="../categories/" class="md-nav__link">
+      <a href="../configuration/solr_schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Solr Schema
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/categories/" class="md-nav__link">
         
   
   
@@ -846,6 +869,7 @@
 <h4 id="note">NOTE!</h4>
 <p>For Linux, keep in mind that the added folder in <code>ckan.selfinfo.ckan_repos_path</code> should have the same owner as the one that runs the application (e.g. if the application runs from <code>ckan</code> User in the system, then ckanext-scheming folder owner should be <code>ckan</code>), otherwise there will be an error related to ownership of the repository.</p>
 <p>Errors for GIT now being stored below the original Table on GIT Info tab.</p>
+<p><strong><code>ckan.selfinfo.solr_schema_filenamet</code></strong> - (Optional) Used to specify the filename that Solr uses for CKAN schema. Mentioned in <a href="../configuration/solr_schema/">Enable Solr Schema</a>.</p>
 <p><strong><code>ckan.selfinfo.additional_profiles_using_redis_keys</code></strong> - Retrieves selfinfo data on page from external sources that store selfinfo data using <code>write-selfinfo</code> cli command under unique Redis key. The stored data should be under same Redis connection as per the "default" profile.</p>
 <p>Example: <code>unique_redis_key_1 unique_redis_key_2</code></p>
 <p><strong><code>ckan.selfinfo.categories_list</code></strong> - (Optional) List of categories that should be shown on Selfinfo Page or Returned using API. Example of usage <code>ckan.selfinfo.categories_list = errors ram_usage disk_usage</code>.

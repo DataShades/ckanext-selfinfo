@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://datashades.github.io/ckanext-selfinfo/profiles/overview/">
+        <link rel="canonical" href="https://datashades.github.io/ckanext-selfinfo/configuration/solr_schema/">
       
       
-        <link rel="prev" href="../../cli/">
+        <link rel="prev" href="../git_info/">
       
       
-        <link rel="next" href="../redis_key/">
+        <link rel="next" href="../categories/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Overview - ckanext-selfinfo</title>
+        <title>Solr Schema - ckanext-selfinfo</title>
       
     
     
@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#profiles" class="md-skip">
+        <a href="#enable-solr-schema" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Overview
+              Solr Schema
             
           </span>
         </div>
@@ -305,18 +305,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
@@ -332,7 +334,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             Configuration
@@ -346,7 +348,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../configuration/secure_url_and_action/" class="md-nav__link">
+      <a href="../secure_url_and_action/" class="md-nav__link">
         
   
   
@@ -369,7 +371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../configuration/unique_redis_key_per_portal_instance/" class="md-nav__link">
+      <a href="../unique_redis_key_per_portal_instance/" class="md-nav__link">
         
   
   
@@ -392,7 +394,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../configuration/errors/" class="md-nav__link">
+      <a href="../errors/" class="md-nav__link">
         
   
   
@@ -415,7 +417,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../configuration/git_info/" class="md-nav__link">
+      <a href="../git_info/" class="md-nav__link">
         
   
   
@@ -435,10 +437,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../configuration/solr_schema/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Solr Schema
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -449,6 +471,33 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#enable-solr-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enable Solr Schema
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -461,7 +510,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../configuration/categories/" class="md-nav__link">
+      <a href="../categories/" class="md-nav__link">
         
   
   
@@ -510,20 +559,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
           <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
@@ -539,7 +586,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             Profiles
@@ -550,30 +597,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Overview
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../profiles/overview/" class="md-nav__link">
         
   
   
@@ -584,33 +611,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#profiles" class="md-nav__link">
-    <span class="md-ellipsis">
-      Profiles
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -661,7 +661,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../redis_key/" class="md-nav__link">
+      <a href="../../profiles/redis_key/" class="md-nav__link">
         
   
   
@@ -722,7 +722,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../duplicated_env/" class="md-nav__link">
+      <a href="../../profiles/duplicated_env/" class="md-nav__link">
         
   
   
@@ -745,7 +745,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../shared_categories/" class="md-nav__link">
+      <a href="../../profiles/shared_categories/" class="md-nav__link">
         
   
   
@@ -831,9 +831,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#profiles" class="md-nav__link">
+  <a href="#enable-solr-schema" class="md-nav__link">
     <span class="md-ellipsis">
-      Profiles
+      Enable Solr Schema
     </span>
   </a>
   
@@ -858,11 +858,12 @@
   
 
 
-  <h1>Overview</h1>
+  <h1>Solr Schema</h1>
 
-<h2 id="profiles">Profiles</h2>
-<p>By default, Selfinfo provides an infromation about current CKAN APP, which might be not enough where CKAN infostructure is split between different environments (instances).</p>
-<p>Due to this, <code>profiles</code> are added. This is an ability to get information about other Evnrionments on one Page. By default, main Selfinfo screen is marked under <code>default</code>, where all other profiles will have other labels or machine names.</p>
+<h2 id="enable-solr-schema">Enable Solr Schema</h2>
+<p><img alt="Enabled GIT Info" src="../../assets/solr_schema.png" /></p>
+<p>In order to enable Solr Schema you need to add <code>ckan.selfinfo.solr_schema_filename</code>, which is the filename that Solr uses for your schema. In different Solr settings this file can be named <code>managed-schema</code> or <code>schema.xml</code>, you can find which one Solr is using in your Solr Core directory -&gt; conf folder.</p>
+<p>If <code>ckan.selfinfo.solr_schema_filename</code> is not set, the tab will be missing.</p>
 
 
 
