@@ -872,8 +872,8 @@
 <p><strong><code>ckan.selfinfo.solr_schema_filename</code></strong> - (Optional) Used to specify the filename that Solr uses for CKAN schema. Mentioned in <a href="../configuration/solr_schema/">Enable Solr Schema</a>.</p>
 <p><strong><code>ckan.selfinfo.additional_profiles_using_redis_keys</code></strong> - Retrieves selfinfo data on page from external sources that store selfinfo data using <code>write-selfinfo</code> cli command under unique Redis key. The stored data should be under same Redis connection as per the "default" profile.</p>
 <p>Example: <code>unique_redis_key_1 unique_redis_key_2</code></p>
-<p><strong><code>ckan.selfinfo.categories_list</code></strong> - (Optional) List of categories that should be shown on Selfinfo Page or Returned using API. Example of usage <code>ckan.selfinfo.categories_list = errors ram_usage disk_usage</code>.
-By default shows all configured categories.</p>
+<p><strong><code>ckan.selfinfo.categories_list</code></strong> - (Optional) List of categories that should only be shown on Selfinfo Page or Returned using API. Example of usage <code>ckan.selfinfo.categories_list = errors ram_usage disk_usage</code>.
+By default, if not set, selfinfo will show all categories available.</p>
 <p><strong><code>ckan.selfinfo.duplicated_envs.mode</code></strong> - (Optional) By enabling, removes <code>default</code> profile and replaces it by duplicated Envs mentioned in <a href="../profiles/duplicated_env/">Selfinfo under Redis internal env IP key</a> section. By default set to <code>False</code>.</p>
 <p><strong><code>ckan.selfinfo.categories_list</code></strong> - (Optional) Used in combination with ckan.selfinfo.duplicated_envs.mode to specify, which categories are going to be shared between the duplicated Envs. Mentioned in <a href="../profiles/shared_categories/">Shared categories</a>.</p>
 
