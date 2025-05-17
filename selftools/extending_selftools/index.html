@@ -8,13 +8,11 @@
       
       
       
-        <link rel="canonical" href="https://datashades.github.io/ckanext-selfinfo/profiles/redis_key/">
+        <link rel="canonical" href="https://datashades.github.io/ckanext-selfinfo/selftools/extending_selftools/">
       
       
-        <link rel="prev" href="../overview/">
+        <link rel="prev" href="../config_settings/">
       
-      
-        <link rel="next" href="../duplicated_env/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +20,7 @@
     
     
       
-        <title>Selfinfo custom Redis key - ckanext-selfinfo</title>
+        <title>Extending Selftools - ckanext-selfinfo</title>
       
     
     
@@ -64,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#store-selfinfo-under-redis-unique-key" class="md-skip">
+        <a href="#extending-db-models-list" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Selfinfo custom Redis key
+              Extending Selftools
             
           </span>
         </div>
@@ -510,20 +508,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
           <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
@@ -539,7 +535,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             Profiles
@@ -553,7 +549,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../overview/" class="md-nav__link">
+      <a href="../../profiles/overview/" class="md-nav__link">
         
   
   
@@ -573,20 +569,18 @@
                 
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
         
           
           <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
@@ -602,7 +596,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7_2">
             <span class="md-nav__icon md-icon"></span>
             Cron Based
@@ -613,30 +607,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Selfinfo custom Redis key
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../profiles/redis_key/" class="md-nav__link">
         
   
   
@@ -647,33 +621,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#store-selfinfo-under-redis-unique-key" class="md-nav__link">
-    <span class="md-ellipsis">
-      Store Selfinfo under Redis unique key
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -724,7 +671,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../duplicated_env/" class="md-nav__link">
+      <a href="../../profiles/duplicated_env/" class="md-nav__link">
         
   
   
@@ -747,7 +694,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../shared_categories/" class="md-nav__link">
+      <a href="../../profiles/shared_categories/" class="md-nav__link">
         
   
   
@@ -812,18 +759,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
         
           
           <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
@@ -839,7 +788,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             Selftools
@@ -853,7 +802,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../selftools/overview/" class="md-nav__link">
+      <a href="../overview/" class="md-nav__link">
         
   
   
@@ -876,7 +825,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../selftools/configuration/" class="md-nav__link">
+      <a href="../configuration/" class="md-nav__link">
         
   
   
@@ -937,7 +886,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../selftools/categories/solr/" class="md-nav__link">
+      <a href="../categories/solr/" class="md-nav__link">
         
   
   
@@ -960,7 +909,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../selftools/categories/db/" class="md-nav__link">
+      <a href="../categories/db/" class="md-nav__link">
         
   
   
@@ -983,7 +932,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../selftools/categories/redis/" class="md-nav__link">
+      <a href="../categories/redis/" class="md-nav__link">
         
   
   
@@ -1006,7 +955,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../selftools/categories/config/" class="md-nav__link">
+      <a href="../categories/config/" class="md-nav__link">
         
   
   
@@ -1037,7 +986,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../selftools/config_settings/" class="md-nav__link">
+      <a href="../config_settings/" class="md-nav__link">
         
   
   
@@ -1057,10 +1006,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../selftools/extending_selftools/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Extending Selftools
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1071,6 +1040,48 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#extending-db-models-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extending DB Models list
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Extending DB Models list">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ckan-hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      CKAN Hooks
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1108,11 +1119,26 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#store-selfinfo-under-redis-unique-key" class="md-nav__link">
+  <a href="#extending-db-models-list" class="md-nav__link">
     <span class="md-ellipsis">
-      Store Selfinfo under Redis unique key
+      Extending DB Models list
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Extending DB Models list">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ckan-hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      CKAN Hooks
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1135,16 +1161,23 @@
   
 
 
-  <h1>Selfinfo custom Redis key</h1>
+  <h1>Extending Selftools</h1>
 
-<h2 id="store-selfinfo-under-redis-unique-key">Store Selfinfo under Redis unique key</h2>
-<p>Using <code>ckan selfinfo write-selfinfo</code> cli command, you can store Selfinfo information about the CKAN APP under an unique Redis key, additionally adding label to it.</p>
-<p>The additional evironment should use same Redis connection, as the default profile in this example.</p>
-<p>Example of Cron job, running every 10 minutes:</p>
-<div class="language-text highlight"><pre><span></span><code>*/10 * * * * /usr/lib/ckan/VIRTUAL_ENV/bin/ckan -c CONFIG_PATH selfinfo write-selfinfo UNIQUE_REDIS_KEY &quot;CUSTOM LABEL&quot; &gt; /dev/null 2&gt;&amp;1
-</code></pre></div>
-<p>Then you need to add this custom key to Selnfinfo config param <code>ckan.selfinfo.additional_profiles_using_redis_keys</code>, after reload the additional profile will be displayed.</p>
-<p><img alt="Additional Profile using Cron" src="../../assets/cron_redis_unique_key.png" /></p>
+<h2 id="extending-db-models-list">Extending DB Models list</h2>
+<p>To extend Selftools DB Models list, you can use CKAN hooks.</p>
+<h3 id="ckan-hooks">CKAN Hooks</h3>
+<p>There is an interface <code>ISelftools</code> that has an method <code>selftools_db_models</code>, which provides you an ability to extend or modify Models list that will appear in DB Category.</p>
+<p>Example of how it might look in your <code>plugin.py</code> file:</p>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">ckanext.selftools.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">ISelftools</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">MyPlugin</span><span class="p">(</span><span class="n">plugins</span><span class="o">.</span><span class="n">SingletonPlugin</span><span class="p">):</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">plugins</span><span class="o">.</span><span class="n">implements</span><span class="p">(</span><span class="n">ISelftools</span><span class="p">,</span> <span class="n">inherit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">selftools_db_models</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">models_list</span><span class="p">):</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="c1"># Modifications done to models_list here</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        <span class="k">return</span> <span class="n">models_list</span>
+</span></code></pre></div>
 
 
 
