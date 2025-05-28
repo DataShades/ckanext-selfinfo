@@ -1147,6 +1147,7 @@
 <p>To do so, you need to setup and cronjob for the Env image, from which new ENVs will be created that will run for example every 10 minutes and store its information under their IP address key.</p>
 <p>Then enable <code>ckan.selfinfo.duplicated_envs.mode</code> by setting it to <code>true</code> value.</p>
 <p>Now while opening the Selfinfo page, instead of <code>default</code> profile, there will be one or multiple profiles per each Env that is currently active.</p>
+<p>Additionally you can set <code>ckan.selfinfo.additional_profiles_expire_time</code> to specify how long the profiles will live. This is needed to have an old profiles to be deleted automatically after certain amount of time, when they are not being updated. Otherwise, you can manually delete an old profile from the UI.</p>
 <p><img alt="Duplicated Env Profile" src="../../assets/duplicated_env.png" /></p>
 <p>Example of Cron job, running every 10 minutes:</p>
 <div class="language-text highlight"><pre><span></span><code>*/10 * * * * /usr/lib/ckan/VIRTUAL_ENV/bin/ckan -c CONFIG_PATH selfinfo write-selfinfo-duplicated-env&quot; &gt; /dev/null 2&gt;&amp;1
