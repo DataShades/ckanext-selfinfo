@@ -193,14 +193,13 @@ def selftools_db_update(
         if curr_model:
             try:
                 model_class = curr_model[0]["model"]
+                table_details = inspect(model_class)
 
                 primary_key = None
-                mapper = model_class.__mapper__
-                pk_prop = list(mapper.iterate_properties)
-                for prop in pk_prop:
-                    if hasattr(prop, "columns") and prop.columns[0].primary_key:
-                        primary_key = getattr(model_class, prop.key)
-                if not primary_key:
+                try:
+                    primary_name = table_details.primary_key[0].name
+                    primary_key = getattr(model_class, primary_name)
+                except Exception:
                     return {
                         "success": False,
                         "message": "Cannot extract Primary key for the Model.",
@@ -413,21 +412,17 @@ def selftools_model_export(
             default_models: Any,
         ) -> None | dict[str, Any]:
             model_name = model_class.__name__
-            primary_key = None
-            mapper = model_class.__mapper__
-            pk_prop = list(mapper.iterate_properties)
-            for prop in pk_prop:
-                if hasattr(prop, "columns") and prop.columns[0].primary_key:
-                    primary_key = getattr(model_class, prop.key)
-            if not primary_key:
+            table_details = inspect(model_class)
+
+            primary_name = None
+            try:
+                primary_name = table_details.primary_key[0].name
+            except Exception:
                 return {
                     "success": False,
-                    "message": "Cannot extract Primary key for the Model.",
+                    "message": "Cannot extract Primary name for the Model.",
                 }
 
-            primary_name = primary_key.name
-
-            table_details = inspect(model_class)
             relationships = table_details.relationships
             columns = [col.name for col in table_details.c]
 
