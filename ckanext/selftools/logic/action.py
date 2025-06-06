@@ -7,6 +7,7 @@ from sqlalchemy import desc, exc as sql_exceptions
 from sqlalchemy.inspection import inspect
 import redis
 from typing import Any, Literal
+from datetime import datetime
 
 from ckan import types
 import ckan.model as model
@@ -265,7 +266,7 @@ def selftools_redis_query(
     def _safe_key_display(k: bytes) -> str:
         try:
             # Check for binary prefix or signs of pickled data
-            if any(s in repr(k) for s in [r'\x80', r'\x00']):
+            if any(s in repr(k) for s in [r"\x80", r"\x00"]):
                 return repr(k)
             return k.decode("utf-8")
         except UnicodeDecodeError:
@@ -359,3 +360,286 @@ def selftools_config_query(
         return {"success": True, "results": config_results}
 
     return {"success": False}
+
+
+def selftools_model_export(
+    context: types.Context, data_dict: dict[str, Any]
+) -> dict[str, Any] | Literal[False]:
+    tk.check_access("sysadmin", context, data_dict)
+
+    if not utils.selftools_verify_operations_pwd(data_dict.get("selftools_pwd")):
+        return {"success": False, "message": "Unauthorized action."}
+
+    q_model = data_dict.get("model")
+    limit = data_dict.get("limit")
+    locals = data_dict.get("local[]", [])
+    remotes = data_dict.get("remote[]", [])
+    custom_relationships = []
+
+    if locals and remotes:
+        for r in (
+            list(zip(locals, remotes))
+            if isinstance(locals, list)
+            else [(locals, remotes)]
+        ):
+            local = r[0].split(".")
+            remote = r[1].split(".")
+
+            if not len(local) == 2 or not len(remote) == 2:
+                return {
+                    "success": False,
+                    "message": "Issue with extracting Custom Relationships, please review them.",
+                }
+            custom_relationships.append(
+                {
+                    "local_model": local[0],
+                    "local_field": local[1],
+                    "remote_model": remote[0],
+                    "remote_field": remote[1],
+                }
+            )
+
+    if q_model:
+
+        def _to_string(value: str):
+            if isinstance(value, datetime):
+                return value.isoformat()
+            return value
+
+        def _collect(
+            row: dict[str, Any],
+            model_class: Any,
+            collector: dict[str, Any],
+            default_models: Any,
+        ) -> None | dict[str, Any]:
+            model_name = model_class.__name__
+            primary_key = None
+            mapper = model_class.__mapper__
+            pk_prop = list(mapper.iterate_properties)
+            for prop in pk_prop:
+                if hasattr(prop, "columns") and prop.columns[0].primary_key:
+                    primary_key = getattr(model_class, prop.key)
+            if not primary_key:
+                return {
+                    "success": False,
+                    "message": "Cannot extract Primary key for the Model.",
+                }
+
+            primary_name = primary_key.name
+
+            table_details = inspect(model_class)
+            relationships = table_details.relationships
+            columns = [col.name for col in table_details.c]
+
+            values = {}
+            primary_value = ""
+            for col in columns:
+                value = getattr(row, col, None)
+
+                if value is not None:
+                    values[col] = _to_string(value)
+                else:
+                    values[col] = None
+
+                if col == primary_name:
+                    primary_value = value
+
+            unique_key = model_name + "." + primary_value
+
+            if unique_key not in collector:
+                collector[unique_key] = {
+                    "model": model_name,
+                    "primary_key": primary_name,
+                    "values": values,
+                }
+
+                for _, rel in relationships.items():
+                    class_field = None
+                    local_key = None
+                    for local_col, remote_col in rel.local_remote_pairs:
+                        remote_key = remote_col.name
+                        local_key = local_col.name
+
+                        class_field = getattr(rel.mapper.class_, remote_key)
+                    if class_field and local_key:
+                        rows = (
+                            model.Session.query(rel.mapper.class_)
+                            .filter(class_field == values[local_key])
+                            .all()
+                        )
+                        if rows:
+                            [
+                                _collect(
+                                    row, rel.mapper.class_, collector, default_models
+                                )
+                                for row in rows
+                            ]
+
+            if c_r := [
+                i for i in custom_relationships if i["local_model"] == model_name
+            ]:
+                for r in c_r:
+                    r_m = [m for m in default_models if m["label"] == r["remote_model"]]
+                    if r_m and r["local_field"] in values:
+                        remote_model = r_m[0]["model"]
+                        class_field = getattr(remote_model, r["remote_field"])
+
+                        rows = (
+                            model.Session.query(remote_model)
+                            .filter(class_field == values[r["local_field"]])
+                            .all()
+                        )
+                        if rows:
+                            [
+                                _collect(row, remote_model, collector, default_models)
+                                for row in rows
+                            ]
+
+        default_models = utils.get_db_models()
+        curr_model = [m for m in default_models if m["label"] == q_model]
+
+        if curr_model:
+            field = data_dict.get("field")
+            value = data_dict.get("value")
+
+            try:
+                model_class = curr_model[0]["model"]
+                q = model.Session.query(model_class)
+
+                if field and value:
+                    q = q.filter(getattr(model_class, field) == value)
+
+                if limit:
+                    q = q.limit(int(limit))
+
+                results = q.all()
+                collector = {}
+                [
+                    _collect(row, model_class, collector, default_models)
+                    for row in results
+                ]
+
+                return {
+                    "success": True,
+                    "results": collector,
+                }
+            except (AttributeError, sql_exceptions.CompileError) as e:
+                return {
+                    "success": False,
+                    "message": str(e),
+                }
+    return False
+
+
+def selftools_model_import(
+    context: types.Context, data_dict: dict[str, Any]
+) -> dict[str, Any] | Literal[False]:
+
+    tk.check_access("sysadmin", context, data_dict)
+
+    if not utils.selftools_verify_operations_pwd(data_dict.get("selftools_pwd")):
+        return {"success": False, "message": "Unauthorized action."}
+
+    default_models = utils.get_db_models()
+    inserted_list = []
+    models_data = data_dict.get("models_data", {})
+
+    def _get_model_class(name: str):
+        return [m for m in default_models if m["label"] == name][0]["model"]
+
+    def _get_model_relations(model_names: Any) -> dict[str, Any]:
+        """
+        Returns:
+        {
+            'PackageExtra': {
+                'Package': {
+                    'local_column': 'package_id',
+                    'remote_column': 'id'
+                }
+            },
+            ...
+        }
+        """
+        dependencies = {}
+
+        for model_name in model_names:
+            model_cls = _get_model_class(model_name)
+            deps = {}
+
+            for rel in inspect(model_cls).relationships:
+                if not rel.direction.name.startswith("MANYTOONE"):
+                    continue  # Only track dependencies, not backrefs
+
+                related_cls = rel.mapper.class_
+                related_model_name = related_cls.__name__
+
+                if related_model_name in model_names:
+                    # Should be a 1:1 mapping between local and remote columns
+                    local_column = next(iter(rel.local_columns)).name
+                    remote_column = next(iter(rel.remote_side)).name
+
+                    deps[related_model_name] = {
+                        "local_column": local_column,
+                        "remote_column": remote_column,
+                    }
+
+            dependencies[model_name] = deps
+
+        return dependencies
+
+    def _try_to_datetime(value: Any):
+        if value and isinstance(value, str):
+            try:
+                return datetime.fromisoformat(value)
+            except ValueError:
+                pass
+
+        return value
+
+    def _create_row(rid: str, row: dict[str, Any]):
+        if rid in inserted_list:
+            return
+
+        model_name = row["model"]
+        model_class = _get_model_class(model_name)
+        values = row["values"]
+        primary_name = row["primary_key"]
+
+        if model_relations.get(model_name):
+            # Insert firstly the parent related row
+            for m, k in model_relations[model_name].items():
+                local_value = values.get(k["local_column"])
+
+                dict_key = ".".join([m, local_value])
+
+                if models_data.get(dict_key):
+                    _create_row(dict_key, models_data[dict_key])
+
+        primary_key = getattr(model_class, primary_name)
+
+        session = model.Session()
+
+        obj_id = values.get(primary_name)
+        r_obj = model.Session.query(model_class).filter(primary_key == obj_id).first()
+
+        if not r_obj:
+            r_obj = model_class()
+        for k, v in values.items():
+            setattr(r_obj, k, _try_to_datetime(v))
+
+        session.add(r_obj)
+        session.commit()
+        inserted_list.append(rid)
+
+    try:
+        model_classes = {v["model"] for v in models_data.values()}
+        model_relations = _get_model_relations(model_classes)
+
+        for rid, row in models_data.items():
+            _create_row(rid, row)
+    except Exception as e:
+        return {
+            "success": False,
+            "message": str(e),
+        }
+    return {"success": True}

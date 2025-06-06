@@ -1,0 +1,13 @@
+{% import 'macros/form.html' as form %}
+
+<div class="row align-items-center relationship-item">
+    <div class="col-lg-5">
+        {{ form.input('local[]', label=_('Local'), error='') }}           
+    </div>
+    <div class="col-lg-5">
+        {{ form.input('remote[]', label=_('Remote'), error='') }}          
+    </div>
+    <div class="col-lg-2">
+        <button class="btn btn-danger" type="button" onclick="this.closest('.relationship-item').remove()"><i class="fas fa-minus"></i></button>
+    </div>
+</div>

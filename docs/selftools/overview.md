@@ -21,6 +21,9 @@ Categories:
     - Delete
 * **Config**
     - Query
+* **Model**
+    - Export
+    - Import
 
 Those categories can be used an many cases when quick fix is required on remote Environments or for investigation in combination with Selfinfo Errors category.
 

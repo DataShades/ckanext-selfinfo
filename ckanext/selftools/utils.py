@@ -85,6 +85,22 @@ SELFTOOLS_TOOLS = [
             },
         ],
     },
+    {
+        "key": "model",
+        "label": "Model",
+        "tools": [
+            {
+                "key": "model_export",
+                "label": "Export",
+                "snippet": "/selftools/tools/model/model_export.html",
+            },
+            {
+                "key": "model_import",
+                "label": "Import",
+                "snippet": "/selftools/tools/model/model_import.html",
+            },
+        ],
+    },
 ]
 
 
@@ -93,6 +109,8 @@ def get_db_models() -> list[dict[str, Any]]:
         models = [
             model.Package,
             model.PackageExtra,
+            model.PackageTag,
+            model.Tag,
             model.Resource,
             model.ResourceView,
             model.User,

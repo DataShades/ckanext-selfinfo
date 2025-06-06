@@ -420,7 +420,7 @@ def get_ckan_registered_cli() -> list[Any]:
     return data
 
 
-def get_status_show():
+def get_status_show() -> Any:
     return tk.get_action("status_show")({}, {})
 
 

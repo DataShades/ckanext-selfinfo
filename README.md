@@ -18,6 +18,10 @@ It is designed to do different sort of operations with SOLR/DB/Redis Data, for e
 
 You can find more details on what it does and what it needed for in [here](https://datashades.github.io/ckanext-selfinfo/selftools/overview/).
 
+## Active work
+
+You can find future features that currently being under development on [this board](https://github.com/orgs/DataShades/projects/1/views/1).
+
 ## Requirements
 
 Compatibility with core CKAN versions:
@@ -29,7 +33,7 @@ Compatibility with core CKAN versions:
   | 2.9          | untested                                |
   | 2.10         | yes                                     |
   | 2.11         | yes                                     |
-  | master       | yes as of 2025/05 (check test results)  |
+  | master       | yes as of 2025/06 (check test results)  |
 
 
 ## License

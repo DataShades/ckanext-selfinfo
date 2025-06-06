@@ -1,0 +1,22 @@
+{% import 'macros/form.html' as form %}
+
+<div class="d-flex mb-3">
+    <a href="https://datashades.github.io/ckanext-selfinfo/selftools/categories/model/">
+        {{ _('Documentation') }}
+    </a>
+</div>
+
+<div class="">
+    <form class="form-control border-0 shadow-none p-0" hx-post="{{ h.url_for('selftools_htmx.selftools_model_import') }}" hx-trigger="submit" hx-target="#model-import-resp" hx-swap="innerHTML" enctype="multipart/form-data">
+        <label for="file">Upload File</label>
+        <input type="file" name="file" id="file" required />
+
+        <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#model-import-confirmation">
+            Import
+        </button>
+
+        {% snippet "selftools/snippets/confirmation.html", modal_id='model-import-confirmation', modal_label_id='model-import-label-id' %}
+    </form>
+</div>
+
+<div id="model-import-resp" class="bg-light p-3 border rounded mt-3">Output here...</div>

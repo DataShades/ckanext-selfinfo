@@ -24,7 +24,8 @@ dependencies = [
     "prettytable>=3.10.0",
     "psutil>=7.0.0",
     "GitPython>=3.1.32",
-    "distro>=1.9.0"
+    "distro>=1.9.0",
+    "cryptography>=44.0.2",
 ]
 authors = [
     {name = "DataShades", email = "datashades@linkdigital.com.au"},

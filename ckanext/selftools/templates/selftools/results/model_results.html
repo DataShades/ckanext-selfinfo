@@ -1,0 +1,15 @@
+<a class="btn btn-primary mb-3" href="{{ download_link }}">
+    {{ _('Download All') }}
+</a>
+
+{% if r_length > 100 %}
+<div class="py-3">
+    Got {{ r_length }} results, but showing only first 100 items in order to not slow the loading page...
+</div>
+{% endif %}
+
+<div class="position-relative">
+    <button class="position-absolute end-0 top-0 btn btn-primary"
+        onclick='copyElementContent("selftools-model-export-rows")'>{{ _('Copy') }}</button>
+    <pre class="text-break"><code id="selftools-model-export-rows">{{ json }}</code></pre>
+</div>

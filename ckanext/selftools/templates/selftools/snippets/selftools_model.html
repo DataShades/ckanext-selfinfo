@@ -1,0 +1,4 @@
+{% set model_options = h.selftools_get_db_model_options() %}
+
+{% do extras.update({'model_options': model_options}) %}
+{% snippet "selftools/snippets/selftools_categories_structure.html", tool=tool, category=category, extras=extras %}

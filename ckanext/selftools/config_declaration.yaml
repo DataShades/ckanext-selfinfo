@@ -11,10 +11,11 @@ groups:
             default: ''
           - key: ckan.selftools.categories
             type: list
-            default: solr db redis config
+            default: solr db redis config model
           - key: ckan.selftools.tools_blacklist
             type: list
             default: ''
           - key: ckan.selftools.model_fields_blacklist
             type: list
             default: ''
+          - key: ckan.selftools.model_key_ecryption
