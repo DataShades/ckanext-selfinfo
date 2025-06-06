@@ -4,7 +4,7 @@ import json
 from typing import cast, Any
 from flask import Blueprint, Response
 from urllib.parse import urlencode
-from cryptography.fernet import Fernet
+from cryptography.fernet import Fernet, InvalidToken
 import gzip
 from werkzeug.utils import secure_filename
 
@@ -458,7 +458,12 @@ def selftools_model_import() -> Any | str:
         sfilename = secure_filename(filename)
         f_extension = sfilename.split(".")[-1]
         data = file.read()
-        key = selftools_config.selftools_get_model_ecryption_key()
+
+        key = (
+            data_dict["decryption_key"]
+            if data_dict.get("decryption_key")
+            else selftools_config.selftools_get_model_ecryption_key()
+        )
 
         if f_extension == "bin" and key:
             fernet = Fernet(key)
@@ -477,6 +482,7 @@ def selftools_model_import() -> Any | str:
             )
         else:
             return _("Finished.")
-
+    except InvalidToken:
+        return _("Cannot decrypt the file.")
     except Exception as e:
         return str(e)

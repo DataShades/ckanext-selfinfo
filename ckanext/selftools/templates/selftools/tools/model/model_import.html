@@ -9,7 +9,18 @@
 <div class="">
     <form class="form-control border-0 shadow-none p-0" hx-post="{{ h.url_for('selftools_htmx.selftools_model_import') }}" hx-trigger="submit" hx-target="#model-import-resp" hx-swap="innerHTML" enctype="multipart/form-data">
         <label for="file">Upload File</label>
-        <input type="file" name="file" id="file" required />
+        <div class="mb-3">
+            <input type="file" name="file" id="file" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="decryption_key" class="form-label">{{ _('(Optional) External Decryption Key') }}</label>
+            <input class="form-control" type="text" id="decryption_key" name="decryption_key">
+            <div class="info-block mb-2">
+                <i class="fa fa-info-circle"></i>
+                {{ _("Provide it only if the File has extensin '.bin' and your local encryption key cannot decrypt the file.") }}
+            </div>
+        </div>
 
         <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#model-import-confirmation">
             Import
