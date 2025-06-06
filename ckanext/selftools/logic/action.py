@@ -398,6 +398,17 @@ def selftools_model_export(
                 }
             )
 
+    # default value condition zip
+    default_value_conditions_field = [
+        "default_value_condition_model[]",
+        "default_value_condition_field[]",
+        "default_value_condition_value[]",
+        "default_value_condition_set_field[]",
+        "default_value_condition_set_value[]",
+    ]
+    columns = map(lambda key: data_dict.get(key, []), default_value_conditions_field)
+    default_value_conditions = list(zip(*columns))
+
     if q_model:
 
         def _to_string(value: str):
@@ -489,6 +500,19 @@ def selftools_model_export(
                                 _collect(row, remote_model, collector, default_models)
                                 for row in rows
                             ]
+
+            if default_value_conditions:
+                matches = [
+                    condition
+                    for condition in default_value_conditions
+                    if model_name == condition[0]
+                    and condition[1] in values
+                    and condition[2] == values[condition[1]]
+                ]
+
+                if matches:
+                    for m in matches:
+                        collector[unique_key]["values"][m[3]] = m[4]
 
         default_models = utils.get_db_models()
         curr_model = [m for m in default_models if m["label"] == q_model]

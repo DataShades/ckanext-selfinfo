@@ -416,6 +416,16 @@ def selftools_model_export_custom_relationships_fields() -> Any | str:
     )
 
 
+@selftools_htmx.route(
+    "/selftools/model-export-default-value-condition", methods=["POST"]
+)
+def selftools_model_export_custom_default_value_condition() -> Any | str:
+    return tk.render(
+        "/selftools/tools/model/model_export_custom_default_value_condition.html",
+        extra_vars={},
+    )
+
+
 @selftools_htmx.route("/selftools/model-import", methods=["POST"])
 def selftools_model_import() -> Any | str:
     context: types.Context = cast(

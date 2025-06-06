@@ -1,0 +1,26 @@
+{% import 'macros/form.html' as form %}
+
+<div class="row align-items-center default-value-condition-item">
+    <div class="col-lg-1">
+        {{ form.input('default_value_condition_model[]', label=_('Condition Model'), error='') }}
+    </div>
+    <div class="col-lg-1">
+        {{ _('WHERE') }}
+    </div>
+    <div class="col-lg-4">
+        {{ form.input('default_value_condition_field[]', label=_('Condition Field'), error='') }}
+        {{ form.input('default_value_condition_value[]', label=_('Condition Value'), error='') }} 
+    </div>
+    <div class="col-lg-1">
+        {{ _('SET') }}
+    </div>
+    <div class="col-lg-4">
+        {{ form.input('default_value_condition_set_field[]', label=_('Condition Set Field'), error='') }}
+        {{ form.input('default_value_condition_set_value[]', label=_('Condition Set Value'), error='') }}  
+    </div>
+    <div class="col-lg-1">
+        <button class="btn btn-danger" type="button" onclick="this.closest('.default-value-condition-item').remove()"><i class="fas fa-minus"></i></button>
+    </div>
+</div>
+
+
