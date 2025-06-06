@@ -443,7 +443,7 @@ def selftools_model_import() -> Any | str:
     if not file:
         return "No file provided"
 
-    filename = file.filename
+    filename = file.filename if file.filename else ""
     try:
         sfilename = secure_filename(filename)
         f_extension = sfilename.split(".")[-1]
