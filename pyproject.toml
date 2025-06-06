@@ -1,7 +1,7 @@
 [build-system]
 requires = [
     "setuptools>=61.2",
-] #pip 25+ recomended
+]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -26,6 +26,7 @@ dependencies = [
     "GitPython>=3.1.32",
     "distro>=1.9.0",
     "cryptography>=44.0.2",
+    "pip>=21.0.0"
 ]
 authors = [
     {name = "DataShades", email = "datashades@linkdigital.com.au"},
