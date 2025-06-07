@@ -1,4 +1,4 @@
-<h2 class="mt-3">
+<h2 class="m-3 text-center">
     {{ _('Freeze') }}
     <button class="text-primary bg-transparent box-shadow-none border-0" onclick='copyElementContent("{{ id }}-anchor")'>
         <i class="fa fa-link fs-3" aria-hidden="true"></i>
@@ -7,5 +7,5 @@
         {{ full_url ~ '#' ~ id }}
     </div>
 </h2>
-<button class="btn btn-primary mb-3" onclick="copyTextareaClip('freeze-list')">{{ _('Copy list') }}</button>
+<button class="btn btn-dark mb-3" onclick="copyTextareaClip('freeze-list')">{{ _('Copy list') }}</button>
 <textarea rows="{{ data.freeze.modules|length }}" class="w-100 form-control" id="freeze-list">{{ data.freeze.modules_html }}</textarea>

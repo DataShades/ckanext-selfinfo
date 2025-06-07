@@ -1,0 +1,40 @@
+{% extends "header.html" %}
+
+{% block header_wrapper %} {% block header_account %}
+<div class="selfinfo-account-masthead account-masthead bg-dark bg-gradient">
+  <div class="px-3">
+    {% block header_account_container_content %} {{ super() }} {% endblock %}
+  </div>
+</div>
+{% endblock %}
+<header class="bg-dark selfinfo-masthead">
+  <div class="p-3">
+    {% block header_debug %} {{ super() }} {% endblock %}
+    <nav class="navbar navbar-expand-lg navbar-light p-0">
+      <hgroup class="{{ g.header_class }} navbar-left">
+
+      {% block header_logo %}
+        {{ super() }}
+        <a class="logo ms-3" target="_blank" href="https://github.com/DataShades/">
+            <img src="/images/datashades_logo.png" alt="CKAN" title="CKAN">
+      </a>
+      {% endblock %}
+
+       </hgroup>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-navigation-toggle"
+        aria-controls="main-navigation-toggle" aria-expanded="false" aria-label="{{ _('Toggle navigation') }}">
+        <span class="fa fa-bars text-white"></span>
+      </button>
+
+      <div class="main-navbar collapse navbar-collapse" id="main-navigation-toggle">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            {% block header_site_navigation %}
+                {{ super() }}
+            {% endblock %}
+        </ul>
+
+      </div>
+    </nav>
+  </div>
+</header>
+{% endblock %}

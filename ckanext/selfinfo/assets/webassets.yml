@@ -9,8 +9,8 @@ selfinfo-js:
     preload:
       - base/main
 
-# selfinfo-css:
-#   filter: cssrewrite
-#   output: ckanext-selfinfo/%(version)s-selfinfo.css
-#   contents:
-#     - css/selfinfo.css
+selfinfo-css:
+  filter: cssrewrite
+  output: ckanext-selfinfo/%(version)s-selfinfo.css
+  contents:
+    - style.css

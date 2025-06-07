@@ -1,5 +1,31 @@
-/*
-body {
-  border-radius: 0;
+#selfinfo-layout .nav.nav-pills .nav-link.active {
+  background-color: #fff;
+  color: rgb(51, 51, 51);
 }
-*/
+
+#selfinfo-layout .nav.nav-pills .nav-link {
+  color: #fff;
+}
+
+.selfinfo-masthead.masthead {
+  background-image: none;
+}
+
+.selfinfo-masthead .navbar-nav li a {
+  padding: 0.6rem 0.9rem;
+  border-radius: 0.3rem;
+  color: #fff;
+}
+
+.selfinfo-masthead .navbar-nav li a:hover,
+.selfinfo-account-masthead.account-masthead .list-unstyled li a:hover {
+  background-color: #fff;
+  color: rgb(51, 51, 51);
+  text-decoration: none;
+}
+
+.selfinfo-account-masthead.account-masthead .account {
+  float: none;
+  display: flex;
+  justify-content: end;
+}

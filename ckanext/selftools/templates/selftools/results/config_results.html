@@ -1,14 +1,6 @@
 <div class="table-responsive">
     <div class="d-flex justify-content-between mb-3 align-items-center">
-        <div>
-            <input type="text"
-            id="selftools-config-query-table-search"
-            class="form-control"
-            placeholder="Search..."
-            data-module="search-through-table"
-            data-module-target-table="selftools-config-query-results-rows">
-        </div>
-        <button class="btn btn-primary" onclick="copyTableJsonToClipboard('selftools-config-query-results-rows')">
+        <button class="btn btn-dark" onclick="copyTableJsonToClipboard('selftools-config-query-results-rows')">
             Copy as JSON
         </button>
     </div>
@@ -29,3 +21,21 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    var dataTable =  new DataTable('#selftools-config-query-results-rows', {
+        layout: {
+          topStart: {
+              pageLength: {
+                  menu: [ 10, 25, 50, 100, 1000, 10000 ]
+              },
+          },
+          topEnd: {
+            searchBuilder: {},
+              search: {
+                  placeholder: 'Search here'
+              }
+          },
+        }
+    });
+</script>

@@ -1,4 +1,4 @@
-<h2 class="mt-3">
+<h2 class="m-3 text-center">
     {{ _('Solr Schema') }}
     <button class="text-primary bg-transparent box-shadow-none border-0" onclick='copyElementContent("{{ id }}-anchor")'>
         <i class="fa fa-link fs-3" aria-hidden="true"></i>
@@ -8,6 +8,6 @@
     </div>
 </h2>
 <div class="position-relative">
-    <button class="position-absolute end-0 top-0 btn btn-primary" onclick='copyElementContent("ckan_solr_schema-text")'>{{ _('Copy') }}</button>
+    <button class="position-absolute end-0 top-0 btn btn-dark" onclick='copyElementContent("ckan_solr_schema-text")'>{{ _('Copy') }}</button>
     <pre><code class="language-xml" id="ckan_solr_schema-text">{{ data.ckan_solr_schema.schema | e }}</code></pre>
 </div>

@@ -1,4 +1,4 @@
-<h2 class="mt-3">
+<h2 class="m-3 text-center">
     CKAN Queues
     <button class="text-primary bg-transparent box-shadow-none border-0" onclick='copyElementContent("{{ id }}-anchor")'>
         <i class="fa fa-link fs-3" aria-hidden="true"></i>
@@ -9,10 +9,10 @@
 </h2>
 
 <nav>
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <div class="nav nav-pills nav-fill border border-dark rounded bg-dark" id="nav-tab" role="tablist">
         {% for queue, value in data.ckan_queues.items() %}
             {% set queue_name = queue|replace(':', '-') %}
-            <button class="nav-link {% if loop.index == 1 %} active {% endif %}" id="{{ queue_name }}-queue-tab" role="tab" aria-controls="nav-{{ queue_name }}-queue-general" aria-selected="{% if loop.index == 1 %}true{% else %}false{% endif %}" data-bs-toggle="tab" data-bs-target="#nav-{{ queue_name }}-queue-general">{{ queue_name }} ({{ value.count }}{% if value.above_the_limit %}+{% endif %})</button>
+            <button class="nav-link rounded-0 fw-bold {% if loop.index == 1 %} active {% endif %}" id="{{ queue_name }}-queue-tab" role="tab" aria-controls="nav-{{ queue_name }}-queue-general" aria-selected="{% if loop.index == 1 %}true{% else %}false{% endif %}" data-bs-toggle="tab" data-bs-target="#nav-{{ queue_name }}-queue-general">{{ queue_name }} ({{ value.count }}{% if value.above_the_limit %}+{% endif %})</button>
         {% endfor %}
     </div>
 </nav>

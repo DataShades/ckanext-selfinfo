@@ -1,39 +1,38 @@
-<h3 class="mt-3">
-    CKAN Helpers
-</h3>
-<div class="mb-3">
+<div class="my-3">
     <i class="fas fa-exclamation-triangle text-warning"></i> - Missing docstring.
     <i class="fas fa-info-circle text-info"></i> - Chained.
 </div>
-<input type="text" class="form-control mb-3" placeholder="Search items..." data-module="search-through-content" data-module-target="#helpers-accrd-parent .accordion-item">
+<input type="text" class="form-control mx-0 mb-3" placeholder="Search items..." data-module="search-through-content" data-module-target="#helpers-accrd-parent .accordion-item">
 <div>
-    <div class="accordion" id="helpers-accrd-parent">
+    <div class="accordion row" id="helpers-accrd-parent">
         {% for helper in data.helpers %}
-        <div class="accordion-item mb-3 border">
-            <h2 class="accordion-header" id="helper-{{helper.func_name}}-heading">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#helper-{{helper.func_name}}" aria-expanded="false" aria-controls="helper-{{helper.func_name}}">
-                <div class="d-flex">
-                    <span class="h4 mb-0">{{ helper.func_name }}</span>
-                    {% if not helper.docstring %}
-                        <i class="fas fa-exclamation-triangle text-warning ms-2"></i>
+        <div class="accordion-item border-0 col-lg-6 pb-3">
+            <div class="border">
+                <h2 class="accordion-header" id="helper-{{helper.func_name}}-heading">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#helper-{{helper.func_name}}" aria-expanded="false" aria-controls="helper-{{helper.func_name}}">
+                    <div class="d-flex">
+                        <span class="h4 mb-0">{{ helper.func_name }}</span>
+                        {% if not helper.docstring %}
+                            <i class="fas fa-exclamation-triangle text-warning ms-2"></i>
+                        {% endif %}
+                        {% if helper.chained %}
+                            <i class="fas fa-info-circle text-info ms-2"></i>
+                        {% endif %}
+                    </div>
+                  </button>
+                </h2>
+                <div id="helper-{{helper.func_name}}" class="accordion-collapse collapse" aria-labelledby="helper-{{helper.func_name}}-heading">
+                  <div class="accordion-body">
+                    <div class="h4 mb-3">
+                        {{ helper.defined }}
+                    </div>
+                    {% if helper.docstring %}
+                        <pre>{{ helper.docstring }}</pre>
+                    {% else %}
+                        <p>Missing docstring for this Helper.</p>
                     {% endif %}
-                    {% if helper.chained %}
-                        <i class="fas fa-info-circle text-info ms-2"></i>
-                    {% endif %}
+                  </div>
                 </div>
-              </button>
-            </h2>
-            <div id="helper-{{helper.func_name}}" class="accordion-collapse collapse" aria-labelledby="helper-{{helper.func_name}}-heading">
-              <div class="accordion-body">
-                <div class="h4 mb-3">
-                    {{ helper.defined }}
-                </div>
-                {% if helper.docstring %}
-                    <pre>{{ helper.docstring }}</pre>
-                {% else %}
-                    <p>Missing docstring for this Helper.</p>
-                {% endif %}
-              </div>
             </div>
           </div>
         {% endfor %}

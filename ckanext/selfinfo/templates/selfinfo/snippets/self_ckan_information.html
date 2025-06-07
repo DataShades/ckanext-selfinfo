@@ -1,4 +1,4 @@
-<h2 class="mt-3">
+<h2 class="m-3 text-center">
     CKAN Information
     <button class="text-primary bg-transparent box-shadow-none border-0" onclick='copyElementContent("{{ id }}-anchor")'>
         <i class="fa fa-link fs-3" aria-hidden="true"></i>
@@ -8,24 +8,24 @@
     </div>
 </h2>
 <nav>
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <div class="nav nav-pills nav-fill border border-dark rounded bg-dark" id="nav-tab" role="tablist">
     {% if data.status_show %}
-    <button class="nav-link active" id="nav-ckan-tab-basic-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-basic-{{profile}}" role="tab" aria-controls="nav-ckan-tab-basic-{{profile}}" aria-selected="true">Basic Info</button>
+    <button class="nav-link rounded-0 fw-bold active" id="nav-ckan-tab-basic-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-basic-{{profile}}" role="tab" aria-controls="nav-ckan-tab-basic-{{profile}}" aria-selected="true">Basic Info</button>
     {% endif %}
     {% if data.actions %}
-    <button class="nav-link" id="nav-ckan-tab-actions-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-actions-{{profile}}" role="tab" aria-controls="nav-ckan-tab-actions-{{profile}}" aria-selected="false">Actions</button>
+    <button class="nav-link rounded-0 fw-bold" id="nav-ckan-tab-actions-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-actions-{{profile}}" role="tab" aria-controls="nav-ckan-tab-actions-{{profile}}" aria-selected="false">Actions</button>
     {% endif %}
     {% if data.auth_actions %}
-    <button class="nav-link" id="nav-ckan-tab-auths-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-auths-{{profile}}" role="tab" aria-controls="nav-ckan-tab-auths-{{profile}}" aria-selected="false">Auth</button>
+    <button class="nav-link rounded-0 fw-bold" id="nav-ckan-tab-auths-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-auths-{{profile}}" role="tab" aria-controls="nav-ckan-tab-auths-{{profile}}" aria-selected="false">Auth</button>
     {% endif %}
     {% if data.helpers %}
-    <button class="nav-link" id="nav-ckan-tab-helpers-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-helpers-{{profile}}" role="tab" aria-controls="nav-ckan-tab-helpers-{{profile}}" aria-selected="false">Helpers</button>
+    <button class="nav-link rounded-0 fw-bold" id="nav-ckan-tab-helpers-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-helpers-{{profile}}" role="tab" aria-controls="nav-ckan-tab-helpers-{{profile}}" aria-selected="false">Helpers</button>
     {% endif %}
     {% if data.blueprints %}
-    <button class="nav-link" id="nav-ckan-tab-blueprints-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-blueprints-{{profile}}" role="tab" aria-controls="nav-ckan-tab-blueprints-{{profile}}" aria-selected="false">Blueprints</button>
+    <button class="nav-link rounded-0 fw-bold" id="nav-ckan-tab-blueprints-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-blueprints-{{profile}}" role="tab" aria-controls="nav-ckan-tab-blueprints-{{profile}}" aria-selected="false">Blueprints</button>
     {% endif %}
     {% if data.ckan_cli_commands %}
-    <button class="nav-link" id="nav-ckan-tab-ckan_cli_commands-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-ckan_cli_commands-{{profile}}" role="tab" aria-controls="nav-ckan-tab-ckan_cli_commands-{{profile}}" aria-selected="false">CLI Commands</button>
+    <button class="nav-link rounded-0 fw-bold" id="nav-ckan-tab-ckan_cli_commands-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-ckan_cli_commands-{{profile}}" role="tab" aria-controls="nav-ckan-tab-ckan_cli_commands-{{profile}}" aria-selected="false">CLI Commands</button>
     {% endif %}
     </div>
 </nav>

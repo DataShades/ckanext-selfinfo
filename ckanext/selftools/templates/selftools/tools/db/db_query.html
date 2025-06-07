@@ -17,7 +17,7 @@
 
         <fieldset class="border p-3 mb-3">
             <legend class="w-auto">
-                <a class="btn btn-primary" data-bs-toggle="collapse" href="#db_q_order_collapse" role="button" aria-expanded="false" aria-controls="db_q_order_collapse">
+                <a class="btn btn-dark" data-bs-toggle="collapse" href="#db_q_order_collapse" role="button" aria-expanded="false" aria-controls="db_q_order_collapse">
                     Results Order
                 </a>
             </legend>
@@ -35,7 +35,7 @@
             <label for="limit">Limit</label>
             <input type="number" name="limit" min="1" max="{{ h.get_operations_limit() }}" step="1" value="{{ h.get_operations_limit() }}" class=""  required />
         </div>
-        <button type="submit" class="btn btn-primary mt-2">Submit</button>
+        <button type="submit" class="btn btn-dark mt-2">Submit</button>
     </form>
 </div>
 

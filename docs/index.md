@@ -2,7 +2,7 @@
 
 This extension is built to represent a basic information about the running CKAN Application accessible only to admins.
 
-![Main Selfinfo Screen](assets/main_screen_gif.gif)
+![Main Selfinfo Screen](assets/main_screen.png)
 
 CKAN should be configured to be able to connect to Redis as it heavily relies on it for storage.
 

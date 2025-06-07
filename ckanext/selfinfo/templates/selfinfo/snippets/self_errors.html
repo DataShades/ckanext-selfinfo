@@ -1,5 +1,5 @@
-<div class="d-flex justify-content-between align-items-center">
-    <h2 class="mt-3">
+<div class="position-relative">
+    <h2 class="m-3 text-center">
         {{ data.errors|length }} 
         {% if data.errors|length == 1 %}
             {{ _('Error') }}
@@ -13,10 +13,10 @@
             {{ full_url ~ '#' ~ id }}
         </div>
     </h2>
-    <div>
+    <div class="position-absolute top-0 end-0">
         {% if data.errors|length and profile == 'default' %}
             <form action="">
-                <button class="btn btn-primary" type="submit" name="drop_errors" value="true">{{ _('Clear Errors') }}</button>
+                <button class="btn btn-dark" type="submit" name="drop_errors" value="true">{{ _('Clear Errors') }}</button>
             </form>
         {% endif %}
     </div>
@@ -27,7 +27,7 @@
         {% for error in data.errors|reverse %}
             {% set even = loop.index % 2 == 0 %}
             <div class="list-group-item p-3 {% if even %} list-group-item-secondary {% endif %} position-relative">
-                <button class="position-absolute end-0 top-0 m-3 btn btn-primary mb-3" onclick='copyElementContent("selfinfo-{{ loop.index }}-error")'>{{ _('Copy') }}</button>
+                <button class="position-absolute end-0 top-0 m-3 btn btn-dark mb-3" onclick='copyElementContent("selfinfo-{{ loop.index }}-error")'>{{ _('Copy') }}</button>
                 {% if error.error_url %}
                     <div class="mb-3">
                         {% if error.error_url.startswith("http") %}

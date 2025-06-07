@@ -1,35 +1,34 @@
-<h3 class="mt-3">
-    CKAN Actions
-</h3>
-<div class="mb-3">
+<div class="my-3">
     <i class="fas fa-exclamation-triangle text-warning"></i> - Missing docstring.
     <i class="fas fa-info-circle text-info"></i> - Chained.
 </div>
-<input type="text" class="form-control mb-3" placeholder="Search items..." data-module="search-through-content" data-module-target="#actions-accrd-parent .accordion-item">
+<input type="text" class="form-control mx-0 mb-3" placeholder="Search items..." data-module="search-through-content" data-module-target="#actions-accrd-parent .accordion-item">
 <div>
-    <div class="accordion" id="actions-accrd-parent">
+    <div class="accordion row" id="actions-accrd-parent">
         {% for action in data.actions %}
-        <div class="accordion-item mb-3 border">
-            <h2 class="accordion-header" id="action-{{action.func_name}}-heading">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#action-{{action.func_name}}" aria-expanded="false" aria-controls="action-{{action.func_name}}">
-                <div class="d-flex">
-                    <span class="h4 mb-0">{{ action.func_name }}</span>
-                    {% if not action.docstring %}
-                        <i class="fas fa-exclamation-triangle text-warning ms-2"></i>
-                    {% endif %}
-                    {% if action.chained %}
-                        <i class="fas fa-info-circle text-info ms-2"></i>
-                    {% endif %}
+        <div class="accordion-item border-0 col-lg-6 pb-3">
+            <div class="border">              
+              <h2 class="accordion-header" id="action-{{action.func_name}}-heading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#action-{{action.func_name}}" aria-expanded="false" aria-controls="action-{{action.func_name}}">
+                  <div class="d-flex">
+                      <span class="h4 mb-0">{{ action.func_name }}</span>
+                      {% if not action.docstring %}
+                          <i class="fas fa-exclamation-triangle text-warning ms-2"></i>
+                      {% endif %}
+                      {% if action.chained %}
+                          <i class="fas fa-info-circle text-info ms-2"></i>
+                      {% endif %}
+                  </div>
+                </button>
+              </h2>
+              <div id="action-{{action.func_name}}" class="accordion-collapse collapse" aria-labelledby="action-{{action.func_name}}-heading">
+                <div class="accordion-body">
+                  {% if action.docstring %}
+                      <pre>{{ action.docstring }}</pre>
+                  {% else %}
+                      <p>Missing docstring for this Action.</p>
+                  {% endif %}
                 </div>
-              </button>
-            </h2>
-            <div id="action-{{action.func_name}}" class="accordion-collapse collapse" aria-labelledby="action-{{action.func_name}}-heading">
-              <div class="accordion-body">
-                {% if action.docstring %}
-                    <pre>{{ action.docstring }}</pre>
-                {% else %}
-                    <p>Missing docstring for this Action.</p>
-                {% endif %}
               </div>
             </div>
           </div>

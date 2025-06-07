@@ -1,10 +1,10 @@
 {% set selftools_categories = h.selftools_categories() %}
 
-<nav class="mb-3">
-    <ul class="nav nav-pills nav-fill border border-primary rounded mb-3" id="selftools-tab" role="tablist">
+<nav class="px-3 py-2 bg-dark">
+    <ul class="nav nav-pills nav-fill border border-primary rounded border-light" id="selftools-tab" role="tablist">
         {% for category in selftools_categories %}
             <li class="nav-item" role="presentation">
-                <button href="#nav-{{ category.key }}-selftools" class="nav-link fw-bold rounded-0 {% if loop.index == 1 %} active {% endif %}" id="nav-{{ category.key }}-selftools-tab" data-bs-toggle="tab" data-bs-target="#nav-{{ category.key }}-selftools" role="tab" aria-controls="nav-{{ category.key }}-selftools" aria-selected="true">{{ category.label }}</button>
+                <button href="#nav-{{ category.key }}-selftools" class="nav-link rounded-0 fw-bold {% if loop.index == 1 %} active {% endif %}" id="nav-{{ category.key }}-selftools-tab" data-bs-toggle="tab" data-bs-target="#nav-{{ category.key }}-selftools" role="tab" aria-controls="nav-{{ category.key }}-selftools" aria-selected="true">{{ category.label }}</button>
             </li>
         {% endfor %}
     </ul>

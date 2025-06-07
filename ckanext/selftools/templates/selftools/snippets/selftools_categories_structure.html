@@ -1,14 +1,16 @@
-<ul class="nav nav-pills nav-fill border border-primary rounded mb-3" id="pills-tab" role="tablist">
-    {% for tool in category.tools %}
-        <li class="nav-item" role="presentation">
-            <button class="nav-link fw-bold rounded-0 {% if loop.index == 1 %} active {% endif %}" id="{{category.key}}-{{tool.key}}-tab" data-bs-toggle="pill" data-bs-target="#{{category.key}}-{{tool.key}}-content" type="button" role="tab">
-                {{ tool.label }}
-            </button>
-        </li>
-    {% endfor %}
-</ul>
+<div class="px-3 pt-2 pb-3 bg-dark">
+    <ul class="nav nav-pills nav-fill border border-primary rounded border-light" id="pills-tab" role="tablist">
+        {% for tool in category.tools %}
+            <li class="nav-item" role="presentation">
+                <button class="nav-link rounded-0 fw-bold {% if loop.index == 1 %} active {% endif %}" id="{{category.key}}-{{tool.key}}-tab" data-bs-toggle="pill" data-bs-target="#{{category.key}}-{{tool.key}}-content" type="button" role="tab">
+                    {{ tool.label }}
+                </button>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
 
-<div class="tab-content d-block">
+<div class="tab-content d-block p-3">
     {% for tool in category.tools %}
         <div class="tab-pane fade {% if loop.index == 1 %} show active {% endif %}" id="{{category.key}}-{{tool.key}}-content" role="tabpanel" aria-labelledby="selfinfo-plugin-tab">
             {% snippet tool.snippet, tool=tool, category=category, extras=extras %}

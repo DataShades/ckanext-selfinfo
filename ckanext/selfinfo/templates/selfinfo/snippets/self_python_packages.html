@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between">
-    <h2 class="mt-3">
+    <h2 class="m-3 text-center">
         Python Packages
         <button class="text-primary bg-transparent box-shadow-none border-0" onclick='copyElementContent("{{ id }}-anchor")'>
             <i class="fa fa-link fs-3" aria-hidden="true"></i>
@@ -46,7 +46,7 @@
                                 </td>
                                 <td class="td-{{ values.name }}-selfinfo-updated">
                                     {{ h.render_datetime(values.updated) }}
-                                    <button name="force-reset" data-target="{{ values.name }}" class="force-reset-selfinfo btn btn-primary">
+                                    <button name="force-reset" data-target="{{ values.name }}" class="force-reset-selfinfo btn btn-dark">
                                         <i class="fas fa-sync-alt"></i>
                                     </button>
                                 </td>

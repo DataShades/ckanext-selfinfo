@@ -5,7 +5,7 @@
             <input type="text" id="selftools-redis-query-table-search" class="form-control" placeholder="Search..."
                 data-module="search-through-table" data-module-target-table="selftools-redis-query-results-rows">
         </div>
-        <button class="btn btn-primary" onclick="copyTableJsonToClipboard('selftools-redis-query-results-rows')">
+        <button class="btn btn-dark" onclick="copyTableJsonToClipboard('selftools-redis-query-results-rows')">
             Copy as JSON
         </button>
     </div>
@@ -28,3 +28,24 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    var dataTable =  new DataTable('#selftools-redis-query-results-rows', {
+        layout: {
+          topStart: {
+              pageLength: {
+                  menu: [ 10, 25, 50, 100, 1000, 10000 ]
+              },
+              buttons: [
+                'csv'
+              ],  
+          },
+          topEnd: {
+            searchBuilder: {},
+              search: {
+                  placeholder: 'Search here'
+              }
+          },
+        }
+    });
+</script>

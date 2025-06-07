@@ -1,43 +1,42 @@
-<h3 class="mt-3">
-    CKAN Blueprints
-</h3>
-<input type="text" class="form-control mb-3" placeholder="Search items..." data-module="search-through-content" data-module-target="#bpAcc .accordion-item">
+<input type="text" class="form-control mx-0 my-3" placeholder="Search items..." data-module="search-through-content" data-module-target="#bpAcc .accordion-item">
 <div>
-    <button onclick="toggleAccordion('bpAcc')" class="btn btn-primary mb-3">Toggle All</button>
-    <div class="accordion" id="bpAcc">
+    <button onclick="toggleAccordion('bpAcc')" class="btn btn-dark mb-3">Toggle All</button>
+    <div class="accordion row" id="bpAcc">
         {% for blueprint, endpoints in data.blueprints.items() %}
-        <div class="accordion-item mb-3 border">
-            <h2 class="accordion-header" id="blueprint-{{blueprint}}-heading">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#blueprint-{{blueprint}}" aria-expanded="false" aria-controls="blueprint-{{blueprint}}">
-                <div class="d-flex">
-                    <span class="h4 mb-0">{{ blueprint }}</span>
+        <div class="accordion-item border-0 col-lg-6 pb-3">
+            <div class="border">
+                <h2 class="accordion-header" id="blueprint-{{blueprint}}-heading">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#blueprint-{{blueprint}}" aria-expanded="false" aria-controls="blueprint-{{blueprint}}">
+                    <div class="d-flex">
+                        <span class="h4 mb-0">{{ blueprint }}</span>
+                    </div>
+                  </button>
+                </h2>
+                <div id="blueprint-{{blueprint}}" class="accordion-collapse collapse" aria-labelledby="blueprint-{{blueprint}}-heading">
+                  <div class="accordion-body">
+                    <ul class="list-group">
+                        {% for endipoint in endpoints %}
+                            <li class="list-group-item">
+                                <div class="">
+                                    <span class="me-3">{{ _('Path') }}:</span> <b>{{ endipoint.path }}</b>
+                                </div>
+                                <div class="">
+                                    <span class="me-3">{{ _('Route') }}:</span> <b>{{ endipoint.route }}</b>
+                                </div>
+                                <div class="">
+                                    <span class="me-3">{{ _('Route Func') }}:</span> <b>{{ endipoint.route_func }}</b>
+                                </div>
+                                <div class="">
+                                    <span class="me-3">{{ _('Methods') }}:</span>
+                                        {% for method in endipoint.methods %}
+                                            <span class="badge bg-secondary">{{ method }}</span>
+                                        {% endfor %}
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                  </div>
                 </div>
-              </button>
-            </h2>
-            <div id="blueprint-{{blueprint}}" class="accordion-collapse collapse" aria-labelledby="blueprint-{{blueprint}}-heading">
-              <div class="accordion-body">
-                <ul class="list-group">
-                    {% for endipoint in endpoints %}
-                        <li class="list-group-item">
-                            <div class="">
-                                <span class="me-3">{{ _('Path') }}:</span> <b>{{ endipoint.path }}</b>
-                            </div>
-                            <div class="">
-                                <span class="me-3">{{ _('Route') }}:</span> <b>{{ endipoint.route }}</b>
-                            </div>
-                            <div class="">
-                                <span class="me-3">{{ _('Route Func') }}:</span> <b>{{ endipoint.route_func }}</b>
-                            </div>
-                            <div class="">
-                                <span class="me-3">{{ _('Methods') }}:</span>
-                                    {% for method in endipoint.methods %}
-                                        <span class="badge bg-secondary">{{ method }}</span>
-                                    {% endfor %}
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-              </div>
             </div>
           </div>
         {% endfor %}
