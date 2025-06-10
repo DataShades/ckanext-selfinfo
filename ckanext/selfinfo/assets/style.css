@@ -29,3 +29,7 @@
   display: flex;
   justify-content: end;
 }
+
+.header-image .logo img {
+  min-height: 50px;
+}
