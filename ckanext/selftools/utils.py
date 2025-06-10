@@ -110,15 +110,18 @@ def get_db_models() -> list[dict[str, Any]]:
             model.Package,
             model.PackageExtra,
             model.PackageTag,
+            model.PackageRelationship,
             model.Tag,
             model.Resource,
             model.ResourceView,
             model.User,
             model.Group,
+            model.GroupExtra,
             model.Member,
             model.PackageMember,
             model.Vocabulary,
             model.SystemInfo,
+            model.ApiToken,
         ]
 
         # models modification

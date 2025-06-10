@@ -646,9 +646,12 @@ def selftools_model_import(
         for k, v in values.items():
             setattr(r_obj, k, _try_to_datetime(v))
 
-        session.add(r_obj)
-        session.commit()
-        inserted_list.append(rid)
+        try:
+            session.add(r_obj)
+            session.commit()
+            inserted_list.append(rid)
+        except sql_exceptions.IntegrityError:
+            session.rollback()
 
     try:
         model_classes = {v["model"] for v in models_data.values()}
