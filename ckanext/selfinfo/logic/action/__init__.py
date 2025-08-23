@@ -14,6 +14,7 @@ def get_actions():
         "update_last_module_check": update.update_last_module_check,
         "selfinfo_get_ram": get.selfinfo_get_ram,
         "selfinfo_delete_profile": delete.selfinfo_delete_profile,
+        "status_show": get.status_show,
     }
 
     return actions

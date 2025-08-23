@@ -58,3 +58,16 @@ def selfinfo_get_ram(
     tk.check_access("sysadmin", context, data_dict)
 
     return utils.get_ram_usage()
+
+
+@tk.side_effect_free
+@tk.chained_action
+def status_show(
+    next_: types.Action, context: types.Context, data_dict: types.DataDict
+) -> types.ActionResult.StatusShow:
+    results = next_(context, data_dict)
+    if "extensions" in results:
+        results["extensions"] = [
+            ext for ext in results["extensions"] if ext not in ["selfinfo", "selftools"]
+        ]
+    return results
