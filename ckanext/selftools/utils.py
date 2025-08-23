@@ -5,6 +5,8 @@ import logging
 from typing import Any
 import ckan.model as model
 import ckan.plugins as p
+from ckan.model.domain_object import DomainObject
+from ckan.model.base import BaseModel
 
 from ckanext.selftools import interfaces
 from ckanext.selftools.config import (
@@ -106,23 +108,10 @@ SELFTOOLS_TOOLS = [
 
 def get_db_models() -> list[dict[str, Any]]:
     try:
-        models = [
-            model.Package,
-            model.PackageExtra,
-            model.PackageTag,
-            model.PackageRelationship,
-            model.Tag,
-            model.Resource,
-            model.ResourceView,
-            model.User,
-            model.Group,
-            model.GroupExtra,
-            model.Member,
-            model.PackageMember,
-            model.Vocabulary,
-            model.SystemInfo,
-            model.ApiToken,
-        ]
+        ckan_core_models = DomainObject.__subclasses__()
+        custom_ckan_models = BaseModel.__subclasses__()
+        models = ckan_core_models if ckan_core_models else []
+        models.extend(custom_ckan_models if ckan_core_models else [])
 
         # models modification
         for item in p.PluginImplementations(interfaces.ISelftools):
