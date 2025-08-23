@@ -3,7 +3,6 @@ from __future__ import annotations
 import logging
 
 from typing import Any
-import ckan.model as model
 import ckan.plugins as p
 from ckan.model.domain_object import DomainObject
 from ckan.model.base import BaseModel
