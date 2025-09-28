@@ -5,8 +5,7 @@ import json
 import sqlalchemy as sa
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.ext.mutable import MutableDict
-from typing_extensions import Self
-from typing import Any
+from typing import Any, List
 import hashlib
 
 import ckan.model as model
@@ -26,15 +25,15 @@ class SelfTrackingModel(tk.BaseModel):
     extras = sa.Column(MutableDict.as_mutable(JSONB))
 
     @classmethod
-    def get_by_id(cls, id: str) -> Self | None:
+    def get_by_id(cls: type[SelfTrackingModel], id: str) -> SelfTrackingModel | None:
         return model.Session.query(cls).filter(cls.id == id).first()
 
     @classmethod
-    def get_by_path(cls, alias: str) -> Self | None:
+    def get_by_path(cls: type[SelfTrackingModel], alias: str) -> SelfTrackingModel | None:
         return model.Session.query(cls).filter(cls.alias == alias).first()
 
     @classmethod
-    def get_by_type(cls, type: str) -> list[Self]:
+    def get_by_type(cls: type[SelfTrackingModel], type: str) -> list[SelfTrackingModel]:
         return (
             model.Session.query(cls)
             .filter(cls.type == type)
@@ -43,11 +42,11 @@ class SelfTrackingModel(tk.BaseModel):
         )
 
     @classmethod
-    def get_all(cls) -> list[Self]:
+    def get_all(cls: type[SelfTrackingModel]) -> list[SelfTrackingModel]:
         return model.Session.query(cls).order_by(cls.track_time.desc()).all()
 
     @classmethod
-    def create(cls, data_dict: dict[str, Any]) -> Self:
+    def create(cls: type[SelfTrackingModel], data_dict: dict[str, Any]) -> SelfTrackingModel:
         selftrack = cls(**data_dict)
 
         model.Session.add(selftrack)
@@ -66,7 +65,7 @@ class SelfTrackingModel(tk.BaseModel):
         model.Session.commit()
 
     @classmethod
-    def color_from_type(cls, type_: str) -> str:
+    def color_from_type(cls: type[SelfTrackingModel], type_: str) -> str:
         color = tracking_config.selftracking_type_color(type_)
 
         if not color:
@@ -76,7 +75,7 @@ class SelfTrackingModel(tk.BaseModel):
         return color
 
     @classmethod
-    def get_tracks_by_types(cls):
+    def get_tracks_by_types(cls: type[SelfTrackingModel]) -> list[dict[str, Any]]:
         results = (
             model.Session.query(cls.type, sa.func.count(cls.id))
             .group_by(cls.type)
@@ -91,7 +90,9 @@ class SelfTrackingModel(tk.BaseModel):
         return results
 
     @classmethod
-    def get_tracks_by_type_and_days(cls, type, days):
+    def get_tracks_by_type_and_days(
+        cls: type[SelfTrackingModel], type: str, days: int
+    ) -> dict[str, Any]:
         since = datetime.utcnow() - timedelta(days=days)
         results = (
             model.Session.query(
@@ -113,7 +114,9 @@ class SelfTrackingModel(tk.BaseModel):
         return {"raw": data, "json": json.dumps(data)}
 
     @classmethod
-    def get_tracks_count_for_x_days(cls, days):
+    def get_tracks_count_for_x_days(
+        cls: type[SelfTrackingModel], days: int
+    ) -> dict[Any, Any]:
         since = datetime.utcnow() - timedelta(days=days)
         results = (
             model.Session.query(
@@ -142,7 +145,9 @@ class SelfTrackingModel(tk.BaseModel):
         return data
 
     @classmethod
-    def get_tracks_per_type(cls, type, t_days=None):
+    def get_tracks_per_type(
+        cls: type[SelfTrackingModel], type: str, t_days: int | None = None
+    ) -> List[Any]:
 
         q = model.Session.query(cls.path, sa.func.count().label("count")).filter(
             cls.type == type
@@ -157,7 +162,7 @@ class SelfTrackingModel(tk.BaseModel):
         return q
 
     @classmethod
-    def get_tracks_for_last_24_hours(cls):
+    def get_tracks_for_last_24_hours(cls: type[SelfTrackingModel]) -> dict[str, Any]:
         end_time = datetime.now(timezone.utc).replace(minute=0, second=0, microsecond=0)
         start_time = end_time - timedelta(hours=23)
         results = (
