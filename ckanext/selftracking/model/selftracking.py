@@ -14,7 +14,7 @@ import ckan.plugins.toolkit as tk
 import ckanext.selftracking.config as tracking_config
 
 
-class SelfTrackingModel(tk.BaseModel):
+class SelfTrackingModel(tk.BaseModel):  # type: ignore
     __tablename__ = "selftracking"
 
     id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
@@ -29,7 +29,9 @@ class SelfTrackingModel(tk.BaseModel):
         return model.Session.query(cls).filter(cls.id == id).first()
 
     @classmethod
-    def get_by_path(cls: type[SelfTrackingModel], alias: str) -> SelfTrackingModel | None:
+    def get_by_path(
+        cls: type[SelfTrackingModel], alias: str
+    ) -> SelfTrackingModel | None:
         return model.Session.query(cls).filter(cls.alias == alias).first()
 
     @classmethod
@@ -46,7 +48,9 @@ class SelfTrackingModel(tk.BaseModel):
         return model.Session.query(cls).order_by(cls.track_time.desc()).all()
 
     @classmethod
-    def create(cls: type[SelfTrackingModel], data_dict: dict[str, Any]) -> SelfTrackingModel:
+    def create(
+        cls: type[SelfTrackingModel], data_dict: dict[str, Any]
+    ) -> SelfTrackingModel:
         selftrack = cls(**data_dict)
 
         model.Session.add(selftrack)

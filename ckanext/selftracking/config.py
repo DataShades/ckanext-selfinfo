@@ -36,7 +36,7 @@ def selftracking_type_colors() -> dict[str, dict[str, Any]]:
     return colors
 
 
-def selftracking_type_color(type) -> str:
+def selftracking_type_color(type: str) -> str:
     color = tk.config.get(
         SELFTRACKING_TRACK_TYPE_COLOR_PREFIX + type.replace(" ", "_"), ""
     )

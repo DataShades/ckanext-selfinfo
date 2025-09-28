@@ -20,6 +20,6 @@ def selftracking_get_data():
     }
 
 
-def selftracking_get_view_data(type):
+def selftracking_get_view_data(type: str):
     view_data = SelfTrackingModel.get_tracks_per_type(type)
     return view_data
