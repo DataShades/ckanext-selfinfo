@@ -9,7 +9,7 @@ import ckan.plugins as p
 from ckan.lib.redis import connect_to_redis, Redis
 
 from ckanext.selftracking import interfaces
-import ckanext.selftracking.config as tracking_config
+import ckanext.selftracking.config as s_config
 from ckanext.selftracking.model.selftracking import SelfTrackingModel
 
 
@@ -37,7 +37,8 @@ def selftracking_add_track_to_redis(data_dict: dict[str, Any]) -> None:
     redis: Redis = connect_to_redis()
 
     try:
-        redis.rpush("ckan_pure_selftracking", json.dumps(data_dict))
+        key = s_config.selftracking_get_redis_prefix() + "_selftracking_tracks"
+        redis.rpush(key, json.dumps(data_dict))
     except (ValueError, TypeError):
         log.error("Cannot store track in Redis.")
 
@@ -45,11 +46,12 @@ def selftracking_add_track_to_redis(data_dict: dict[str, Any]) -> None:
 
 
 def selftracking_store_tracks_in_db():
-    batch_size = tracking_config.selftracking_redis_batch_size()
+    batch_size = s_config.selftracking_redis_batch_size()
     redis: Redis = connect_to_redis()
     pipe = redis.pipeline()
-    pipe.lrange("ckan_pure_selftracking", 0, batch_size - 1)
-    pipe.ltrim("ckan_pure_selftracking", batch_size, -1)
+    key = s_config.selftracking_get_redis_prefix() + "_selftracking_tracks"
+    pipe.lrange(key, 0, batch_size - 1)
+    pipe.ltrim(key, batch_size, -1)
     batch, _ = pipe.execute()
     for b in batch:
         # For testing big amount
@@ -81,7 +83,7 @@ def get_categories_list() -> list[dict[str, Any]]:
 
 
 def get_selftracking_categories() -> list[dict[str, Any]]:
-    categories = tracking_config.selftracking_get_categories_list()
+    categories = s_config.selftracking_get_categories_list()
 
     categories_list = [
         category for category in get_categories_list() if category["key"] in categories

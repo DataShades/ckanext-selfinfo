@@ -5,9 +5,14 @@ from typing import Any
 import ckan.plugins.toolkit as tk
 
 
+SELFTRACKING_REDIS_PREFIX = "ckan.selftracking.redis_prefix"
 SELFTRACKING_CATEGORIES = "ckan.selftracking.categories"
 SELFTRACKING_REDIS_BATCH_SIZE = "ckan.selftracking.redis_batch_size"
 SELFTRACKING_TRACK_TYPE_COLOR_PREFIX = "ckan.selftracking.type_color."
+
+
+def selftracking_get_redis_prefix():
+    return tk.config.get(SELFTRACKING_REDIS_PREFIX)
 
 
 def selftracking_get_categories_list():
