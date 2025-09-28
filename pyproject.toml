@@ -50,6 +50,7 @@ Homepage = "https://github.com/DataShades/ckanext-selfinfo"
 [project.entry-points."ckan.plugins"]
 selfinfo = "ckanext.selfinfo.plugin:SelfinfoPlugin"
 selftools = "ckanext.selftools.plugin:SelftoolsPlugin"
+selftracking = "ckanext.selftracking.plugin:SelftrackingPlugin"
 
 [project.entry-points."babel.extractors"]
 ckan = "ckan.lib.extract:extract_ckan"

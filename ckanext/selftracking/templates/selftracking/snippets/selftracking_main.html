@@ -1,0 +1,38 @@
+{% set main_data = h.selftracking_get_data() %}
+<div class="p-3 mt-4">
+    <div class="row">
+        <div class="col-lg-6 mt-4">
+            <div class="card p-3 h-100">
+                <h2 class="mb-3 text-center">
+                    {{ _('Total Views') }}
+                </h2>
+                <div class="d-flex justify-content-center h-100 align-items-center">
+                    <div style="max-width: 400px; width: 100%;">
+                        <canvas width="400" height="400" id="chart" data-module="selftracking-main" data-module-data-pie='{{ main_data.count_by_type|tojson }}'></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 mt-4">
+            <div class="card p-3 h-100">
+                <h2 class="mb-3 text-center">
+                    {{ _('Views for last 24 hours') }}
+                </h2>
+                <div>
+                    <canvas id="last-24-hours" data-module="selftracking-24-hours" data-module-data='{{ main_data.tracks_last_24_hours|tojson }}'></canvas>
+                </div>
+            </div>
+        </div>
+        {% for key, data in main_data.track_types_count.items() %}
+            <div class="col-lg-6 mt-4">
+                <div class="card p-3 h-100">
+                    <h2 class="mb-3 text-center">
+                        {{ key|capitalize }} {{ _('per last 30 days') }}
+                    </h2>
+                    {% set target = key |replace(' ', '-') %}
+                    <canvas id="{{ target }}-bar-chart" data-module="selftracking-bar-chart" data-module-data='{{ data|tojson }}' data-module-key="{{ key }}" data-module-target="{{ target }}"></canvas>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

@@ -24,9 +24,17 @@ class SelfinfoErrorHandler(logging.Handler):
 
             errors = json.loads(redis.get(redis_key))  # pyright: ignore
             errors_limit = selfinfo_get_errors_limit()
-            if len(errors) >= errors_limit:
-                start_key = len(errors) - errors_limit + 1
-                errors = errors[start_key:]
+
+            try:
+                if len(errors) >= errors_limit:
+                    start_key = len(errors) - errors_limit + 1
+                    errors = errors[start_key:]
+            except TypeError:
+                # config_declaration is not initialized yet
+                # so the app is not running
+                # jump over the limit to store the error
+                pass
+
             current_url = None
             try:
                 current_url = tk.h.full_current_url()

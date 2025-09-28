@@ -68,6 +68,8 @@ def status_show(
     results = next_(context, data_dict)
     if "extensions" in results:
         results["extensions"] = [
-            ext for ext in results["extensions"] if ext not in ["selfinfo", "selftools"]
+            ext
+            for ext in results["extensions"]
+            if ext not in ["selfinfo", "selftools", "selftracking"]
         ]
     return results

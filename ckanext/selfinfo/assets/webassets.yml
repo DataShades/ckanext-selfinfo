@@ -2,6 +2,7 @@ selfinfo-js:
   filter: rjsmin
   output: ckanext-selfinfo/%(version)s-selfinfo.js
   contents:
+    - js/vendor/datatables.min.js
     - js/reset-module-last-check.js
     - js/search-through-content.js
     - js/search-through-table.js
@@ -13,4 +14,5 @@ selfinfo-css:
   filter: cssrewrite
   output: ckanext-selfinfo/%(version)s-selfinfo.css
   contents:
+    - css/vendor/datatables.css
     - style.css

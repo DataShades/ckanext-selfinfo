@@ -255,6 +255,13 @@ def selftools_redis_query(
                 val = redis_conn.get(key)
             elif key_type == "hash":
                 val = redis_conn.hgetall(key)
+            elif key_type == "list":
+                length = redis_conn.llen(key)
+                val = str(
+                    [item.decode("utf-8") for item in redis_conn.lrange(key, 0, 24)]
+                )
+                if length > 25:
+                    val += f" showing only first 25 elements, current number of elements is {length}"
             else:
                 val = f"<Unsupported type: {key_type}>"
         except redis.exceptions.RedisError as e:  # pyright: ignore

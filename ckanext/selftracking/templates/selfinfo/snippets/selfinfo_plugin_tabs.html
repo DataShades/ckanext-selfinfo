@@ -1,0 +1,11 @@
+{% ckan_extends %}
+
+{% block selfinfo_plugin_tabs %}
+	{{ super() }}
+	<li class="nav-item fs-4" role="presentation">
+		<button class="nav-link fw-bold rounded-0" id="selftracking-plugin-tab" data-bs-toggle="pill"
+			data-bs-target="#selftracking-plugin" type="button" role="tab">
+			{{ _('Selftracking') }}
+		</button>
+	</li>
+{% endblock %}
