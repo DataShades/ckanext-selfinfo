@@ -40,6 +40,12 @@ nav:
       - Model: selftools/categories/model.md
     - Config Settings: selftools/config_settings.md
     - Extending Selftools: selftools/extending_selftools.md
+  - Selftracking:
+    - Overview: selftracking/overview.md
+    - Configuration: selftracking/configuration.md
+    - Config Settings: selftracking/config_settings.md
+    - Custom Tracks: selftracking/custom_tracks.md
+    - Categories: selftracking/categories.md
 
 
 markdown_extensions:

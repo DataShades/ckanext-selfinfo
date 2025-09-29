@@ -1,0 +1,21 @@
+selftracking-js:
+  filter: rjsmin
+  output: ckanext-selftracking/%(version)s-selftracking.js
+  contents:
+    - js/vendor/chart.umd.min.js
+    - js/selftracking-main.js
+    - js/selftracking-views-table.js
+    - js/selftracking-24-hours.js
+    - js/selftracking-bar-chart.js
+  extra:
+    preload:
+      - base/main
+
+selftracking-global-js:
+  filter: rjsmin
+  output: ckanext-selftracking/%(version)s-selftracking-global.js
+  contents:
+    - js/selftracking-track-click.js
+  extra:
+    preload:
+      - base/main

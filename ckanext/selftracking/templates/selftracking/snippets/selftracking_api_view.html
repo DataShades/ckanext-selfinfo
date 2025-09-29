@@ -1,0 +1,27 @@
+{% set api_view_data = h.selftracking_get_view_data("api view") %}
+
+<div class="p-3 mt-4">
+    <div class="table-responsive">
+        <div class="d-flex justify-content-between mb-3 align-items-center">
+          <button class="btn btn-dark" onclick="copyTableJsonToClipboard('selftracking-api-views-path')">
+            Copy as JSON
+          </button>
+        </div>
+        <table id="selftracking-api-views-path" class="table table-striped table-bordered table-hover" data-module="selftracking-views-table" data-module-target="selftracking-api-views-path">
+            <thead class="table-light">
+              <tr>
+                  <th scope="col">{{ _('Path') }}</th>
+                  <th scope="col">{{ _('Views') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in api_view_data %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+version: 1
+groups:
+    - annotation: selftracking configuration
+      options:
+          - key: ckan.selftracking.categories
+            type: list
+            default: main page_view api_view
+          - key: ckan.selftracking.redis_batch_size
+            type: int
+            default: 300
+          - key: ckan.selftracking.redis_prefix
+            default: ''

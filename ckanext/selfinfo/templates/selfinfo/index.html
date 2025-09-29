@@ -3,13 +3,11 @@
 {% block styles %}
     {{ super() }}
     {% asset "selfinfo/selfinfo-css" %}
-    <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.3.2/b-3.2.3/b-colvis-3.2.3/b-html5-3.2.3/b-print-3.2.3/date-1.5.5/sc-2.4.3/sb-1.8.2/datatables.min.css" rel="stylesheet" integrity="sha384-nt4QPs/3NJrYE8fn3KunRHwtBtL9vfdfLwxwEd77lbPCBTSlrSzSGMsPRpwC2ZGv" crossorigin="anonymous">
 {% endblock styles %}
 
 {% block scripts %}
     {{ super() }}
     {% asset "selfinfo/selfinfo-js" %}
-    <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.3.2/b-3.2.3/b-colvis-3.2.3/b-html5-3.2.3/b-print-3.2.3/date-1.5.5/sc-2.4.3/sb-1.8.2/datatables.min.js" integrity="sha384-VMg7uILXNFuDPoDgaFIj7Rmy6mZD/EeLKvog5HaDz1b8cBRsJ075SkSr85d7vPR8" crossorigin="anonymous" defer></script>
     {% snippet 'selfinfo/scripts/selfinfo_custom_scripts.html' %}
 {% endblock scripts %}
 

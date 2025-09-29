@@ -1,0 +1,19 @@
+{% asset 'selftracking/selftracking-js' %}
+{% set selftracking_categories = h.selftracking_categories() %}
+
+<nav class="px-3 py-2 bg-dark">
+    <ul class="nav nav-pills nav-fill border border-primary rounded border-light" id="selftracking-tab" role="tablist">
+        {% for category in selftracking_categories %}
+            <li class="nav-item" role="presentation">
+                <button href="#nav-{{ category.key }}-selftracking" class="nav-link rounded-0 fw-bold {% if loop.index == 1 %} active {% endif %}" id="nav-{{ category.key }}-selftracking-tab" data-bs-toggle="tab" data-bs-target="#nav-{{ category.key }}-selftracking" role="tab" aria-controls="nav-{{ category.key }}-selftracking" aria-selected="true">{{ category.label }}</button>
+            </li>
+        {% endfor %}
+    </ul>
+</nav>
+<div class="tab-content d-block" id="nav-selftracking-data">
+    {% for category in selftracking_categories %}
+        <div class="tab-pane fade {% if loop.index == 1 %} show active {% endif %}" id="nav-{{ category.key }}-selftracking" role="tabpanel" aria-labelledby="nav-{{ category.key }}-selftracking-tab">
+            {% snippet category.snippet, category=category %}
+        </div>
+    {% endfor %}
+</div>
