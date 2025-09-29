@@ -10,13 +10,21 @@ On CKAN admin page `/ckan-admin/selfinfo` can see a big variety of information s
 
 Check full [documentation](https://datashades.github.io/ckanext-selfinfo/) for more information.
 
-## Selftools (new)
+## Selftools
 
 Selftools plugin is now available for ckanext-selfinfo.
 
 It is designed to do different sort of operations with SOLR/DB/Redis Data, for example Search within the DB using UI, update records in DB, SOLR search, index Dataset within UI, CKAN config query and more.
 
 You can find more details on what it does and what it needed for in [here](https://datashades.github.io/ckanext-selfinfo/selftools/overview/).
+
+## Selftracking (new)
+
+Selftracking plugin is now available for ckanext-selfinfo.
+
+An plugin that provides lightweight tracking of user interactions. It records page views, API calls, and supports custom event tracking such as resource downloads, enabling better insights into portal usage and user behavior.
+
+You can find more details on what it does and how to confiugre [here](https://datashades.github.io/ckanext-selfinfo/selftracking/overview/).
 
 ## Active work
 
