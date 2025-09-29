@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://datashades.github.io/ckanext-selfinfo/configuration/git_info/">
+        <link rel="canonical" href="https://datashades.github.io/ckanext-selfinfo/selftracking/overview/">
       
       
-        <link rel="prev" href="../errors/">
+        <link rel="prev" href="../../selftools/extending_selftools/">
       
       
-        <link rel="next" href="../solr_schema/">
+        <link rel="next" href="../configuration/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>GIT Info - ckanext-selfinfo</title>
+        <title>Overview - ckanext-selfinfo</title>
       
     
     
@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#enable-git-info" class="md-skip">
+        <a href="#selftracking" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              GIT Info
+              Overview
             
           </span>
         </div>
@@ -305,20 +305,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
@@ -334,7 +332,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             Configuration
@@ -348,7 +346,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../secure_url_and_action/" class="md-nav__link">
+      <a href="../../configuration/secure_url_and_action/" class="md-nav__link">
         
   
   
@@ -371,7 +369,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../unique_redis_key_per_portal_instance/" class="md-nav__link">
+      <a href="../../configuration/unique_redis_key_per_portal_instance/" class="md-nav__link">
         
   
   
@@ -394,7 +392,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../errors/" class="md-nav__link">
+      <a href="../../configuration/errors/" class="md-nav__link">
         
   
   
@@ -414,30 +412,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    GIT Info
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../configuration/git_info/" class="md-nav__link">
         
   
   
@@ -448,33 +426,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#enable-git-info" class="md-nav__link">
-    <span class="md-ellipsis">
-      Enable GIT Info
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -487,7 +438,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../solr_schema/" class="md-nav__link">
+      <a href="../../configuration/solr_schema/" class="md-nav__link">
         
   
   
@@ -510,7 +461,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../categories/" class="md-nav__link">
+      <a href="../../configuration/categories/" class="md-nav__link">
         
   
   
@@ -1108,18 +1059,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" checked>
         
           
           <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
@@ -1135,7 +1088,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
             Selftracking
@@ -1146,10 +1099,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../selftracking/overview/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1160,6 +1133,48 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#selftracking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Selftracking
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Selftracking">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      How it works?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1172,7 +1187,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../selftracking/configuration/" class="md-nav__link">
+      <a href="../configuration/" class="md-nav__link">
         
   
   
@@ -1195,7 +1210,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../selftracking/config_settings/" class="md-nav__link">
+      <a href="../config_settings/" class="md-nav__link">
         
   
   
@@ -1218,7 +1233,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../selftracking/custom_tracks/" class="md-nav__link">
+      <a href="../custom_tracks/" class="md-nav__link">
         
   
   
@@ -1241,7 +1256,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../selftracking/categories/" class="md-nav__link">
+      <a href="../categories/" class="md-nav__link">
         
   
   
@@ -1289,11 +1304,26 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#enable-git-info" class="md-nav__link">
+  <a href="#selftracking" class="md-nav__link">
     <span class="md-ellipsis">
-      Enable GIT Info
+      Selftracking
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Selftracking">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      How it works?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1316,13 +1346,19 @@
   
 
 
-  <h1>GIT Info</h1>
+  <h1>Overview</h1>
 
-<h2 id="enable-git-info">Enable GIT Info</h2>
-<p><img alt="Enabled GIT Info" src="../../assets/git.png" /></p>
-<p>In order to enable GIT Info you need to add the <code>ckan.selfinfo.ckan_repos_path</code>, which is the path to your folder, where all extensions stored.</p>
-<p>Keep in mind, that ownership for those folders should be accessible for the User that runs the CKAN APP, if not, on GIT Info tab under <strong>Repos with errors</strong>, errors will be shown regarding ownership.</p>
-<p>Additionally you can specify using <code>ckan.selfinfo.ckan_repos</code>, which repos you want to track from this folder, as by default it will try to read all of them.</p>
+<h2 id="selftracking">Selftracking</h2>
+<p><img alt="Selftracking Screen" src="../../assets/selftracking_main.png" /></p>
+<p>This CKAN extension provides a lightweight tracking system for monitoring how users interact with your data portal. It captures three main types of events:</p>
+<p><strong>Page views</strong> – Track visits to datasets, resources, organizations, or any other portal pages.</p>
+<p><strong>API usage</strong> – Record calls made to CKAN API endpoints to better understand programmatic access.</p>
+<p><strong>Custom tracks</strong> – Log specific user actions, such as resource downloads or other interactions you want to monitor. Check custom events section for more details.</p>
+<p>The tracking is designed to run efficiently without adding overhead to CKAN’s normal operations. Collected data can be used for analytics, reporting, or integration with external monitoring tools, helping administrators understand portal usage patterns and user behavior.</p>
+<p>Out of the box only <strong>Page View</strong> and <strong>API View</strong> categories are available without modifications.</p>
+<h3 id="how-it-works">How it works?</h3>
+<p>While visiting page, in order not to interact with the DB it stores the action in Redis special list. After finalizing the <a href="../configuration/">Configuration</a> step 4, it then from Redis should appear in your DB.
+Same goes for custom registered track types mentioned in <a href="../custom_tracks/">Custom Tracks</a>.</p>
 
 
 

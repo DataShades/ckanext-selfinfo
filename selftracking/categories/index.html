@@ -8,13 +8,11 @@
       
       
       
-        <link rel="canonical" href="https://datashades.github.io/ckanext-selfinfo/configuration/git_info/">
+        <link rel="canonical" href="https://datashades.github.io/ckanext-selfinfo/selftracking/categories/">
       
       
-        <link rel="prev" href="../errors/">
+        <link rel="prev" href="../custom_tracks/">
       
-      
-        <link rel="next" href="../solr_schema/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +20,7 @@
     
     
       
-        <title>GIT Info - ckanext-selfinfo</title>
+        <title>Categories - ckanext-selfinfo</title>
       
     
     
@@ -64,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#enable-git-info" class="md-skip">
+        <a href="#ckan-hook" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              GIT Info
+              Categories
             
           </span>
         </div>
@@ -305,20 +303,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
@@ -334,7 +330,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             Configuration
@@ -348,7 +344,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../secure_url_and_action/" class="md-nav__link">
+      <a href="../../configuration/secure_url_and_action/" class="md-nav__link">
         
   
   
@@ -371,7 +367,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../unique_redis_key_per_portal_instance/" class="md-nav__link">
+      <a href="../../configuration/unique_redis_key_per_portal_instance/" class="md-nav__link">
         
   
   
@@ -394,7 +390,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../errors/" class="md-nav__link">
+      <a href="../../configuration/errors/" class="md-nav__link">
         
   
   
@@ -414,30 +410,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    GIT Info
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../configuration/git_info/" class="md-nav__link">
         
   
   
@@ -448,33 +424,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#enable-git-info" class="md-nav__link">
-    <span class="md-ellipsis">
-      Enable GIT Info
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -487,7 +436,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../solr_schema/" class="md-nav__link">
+      <a href="../../configuration/solr_schema/" class="md-nav__link">
         
   
   
@@ -510,7 +459,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../categories/" class="md-nav__link">
+      <a href="../../configuration/categories/" class="md-nav__link">
         
   
   
@@ -1108,18 +1057,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" checked>
         
           
           <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
@@ -1135,7 +1086,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
             Selftracking
@@ -1149,7 +1100,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../selftracking/overview/" class="md-nav__link">
+      <a href="../overview/" class="md-nav__link">
         
   
   
@@ -1172,7 +1123,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../selftracking/configuration/" class="md-nav__link">
+      <a href="../configuration/" class="md-nav__link">
         
   
   
@@ -1195,7 +1146,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../selftracking/config_settings/" class="md-nav__link">
+      <a href="../config_settings/" class="md-nav__link">
         
   
   
@@ -1218,7 +1169,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../selftracking/custom_tracks/" class="md-nav__link">
+      <a href="../custom_tracks/" class="md-nav__link">
         
   
   
@@ -1238,10 +1189,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../selftracking/categories/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Categories
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1252,6 +1223,33 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ckan-hook" class="md-nav__link">
+    <span class="md-ellipsis">
+      CKAN Hook
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1289,9 +1287,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#enable-git-info" class="md-nav__link">
+  <a href="#ckan-hook" class="md-nav__link">
     <span class="md-ellipsis">
-      Enable GIT Info
+      CKAN Hook
     </span>
   </a>
   
@@ -1316,13 +1314,60 @@
   
 
 
-  <h1>GIT Info</h1>
+  <h1>Categories</h1>
 
-<h2 id="enable-git-info">Enable GIT Info</h2>
-<p><img alt="Enabled GIT Info" src="../../assets/git.png" /></p>
-<p>In order to enable GIT Info you need to add the <code>ckan.selfinfo.ckan_repos_path</code>, which is the path to your folder, where all extensions stored.</p>
-<p>Keep in mind, that ownership for those folders should be accessible for the User that runs the CKAN APP, if not, on GIT Info tab under <strong>Repos with errors</strong>, errors will be shown regarding ownership.</p>
-<p>Additionally you can specify using <code>ckan.selfinfo.ckan_repos</code>, which repos you want to track from this folder, as by default it will try to read all of them.</p>
+<p>You can add your own custom categories to Selftracking section alongside Page View and API View or modify the exisitng categories.</p>
+<h3 id="ckan-hook">CKAN Hook</h3>
+<p>There is an interface <code>ISelftracking</code> that has an method <code>selftracking_categories</code>, which provides you an ability to extend or modify categories list.</p>
+<p>Example of how it might look in your <code>plugin.py</code> file:</p>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">ckanext.selftracking.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">ISelftracking</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">MyPlugin</span><span class="p">(</span><span class="n">plugins</span><span class="o">.</span><span class="n">SingletonPlugin</span><span class="p">):</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">plugins</span><span class="o">.</span><span class="n">implements</span><span class="p">(</span><span class="n">ISelftracking</span><span class="p">,</span> <span class="n">inherit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">selftracking_categories</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">models_list</span><span class="p">):</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="c1"># Modifications done to categories here</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        <span class="c1"># You can register any category you need, it shouldn&#39;t be only Track types, but an custom dashboards</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        <span class="c1"># Example of structure</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        <span class="n">new_category</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>            <span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;resource_download&quot;</span><span class="p">,</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>            <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;Resource Downloads&quot;</span><span class="p">,</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>            <span class="s2">&quot;snippet&quot;</span><span class="p">:</span> <span class="s2">&quot;CUSTOM_PATH_TO_SNIPPET&quot;</span><span class="p">,</span> <span class="c1"># Example /YOUR_EXTENSION/snippets/selftracking_resource_download.html</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>        <span class="p">}</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>        <span class="n">categories</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_category</span><span class="p">)</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>        <span class="k">return</span> <span class="n">categories</span>
+</span></code></pre></div>
+<p>Within your snippet you'll need to prepare an variable or logic that will return expected data. Here is an example of variable using helper function, but you can construct anything you would like, even an full functional dashboard based of your needs:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>{% set resource_download_data = h.selftracking_get_view_data(&quot;resource download&quot;) %}
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>&lt;div class=&quot;p-3 mt-4&quot;&gt;
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    &lt;div class=&quot;table-responsive&quot;&gt;
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>        &lt;div class=&quot;d-flex justify-content-between mb-3 align-items-center&quot;&gt;
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>          &lt;button class=&quot;btn btn-dark&quot; onclick=&quot;copyTableJsonToClipboard(&#39;selftracking-api-views-path&#39;)&quot;&gt;
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>            Copy as JSON
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>          &lt;/button&gt;
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>        &lt;/div&gt;
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>        &lt;table id=&quot;selftracking-resource-download-path&quot; class=&quot;table table-striped table-bordered table-hover&quot; data-module=&quot;selftracking-views-table&quot; data-module-target=&quot;selftracking-api-views-path&quot;&gt;
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>            &lt;thead class=&quot;table-light&quot;&gt;
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>              &lt;tr&gt;
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>                  &lt;th scope=&quot;col&quot;&gt;{{ _(&#39;Path&#39;) }}&lt;/th&gt;
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>                  &lt;th scope=&quot;col&quot;&gt;{{ _(&#39;Views&#39;) }}&lt;/th&gt;
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>              &lt;/tr&gt;
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>            &lt;/thead&gt;
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>            &lt;tbody&gt;
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>              {% for row in api_view_data %}
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>                &lt;tr&gt;
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>                    &lt;td&gt;{{ row[0] }}&lt;/td&gt;
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>                    &lt;td&gt;{{ row[1] }}&lt;/td&gt;
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>                &lt;/tr&gt;
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>              {% endfor %}
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>            &lt;/tbody&gt;
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>        &lt;/table&gt;
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>    &lt;/div&gt;
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>&lt;/div&gt;
+</span></code></pre></div></p>
 
 
 
