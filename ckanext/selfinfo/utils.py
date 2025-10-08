@@ -518,13 +518,14 @@ def selfinfo_retrieve_internal_ip():
 
 def selfinfo_internal_ip_keys() -> list[str]:
     redis: Redis = connect_to_redis()
+    prefix = config.selfinfo_get_redis_prefix() + "selfinfo_duplicated_env_"
     return [
-        i.decode("utf-8") for i in redis.scan_iter(match="selfinfo_duplicated_env_*")
+        i.decode("utf-8") for i in redis.scan_iter(match=prefix + "*")
     ]
 
 
 def selfinfo_delete_redis_key(key: str) -> bool:
-    if not key.startswith("selfinfo_"):
+    if not "selfinfo_" in key:
         return False
     redis: Redis = connect_to_redis()
     selfinfo_key = key

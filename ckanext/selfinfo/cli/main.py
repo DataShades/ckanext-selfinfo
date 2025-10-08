@@ -102,6 +102,7 @@ def write_selfinfo(key: str, label: str):
 def write_selfinfo_duplicated_env():
     expire_time = config.selfinfo_get_additional_profiles_expire_time()
     internal_ip = utils.selfinfo_retrieve_internal_ip()
+    redis_prefix = config.selfinfo_get_redis_prefix()
     data = tk.get_action(config.selfinfo_get_main_action_name())(
         {"ignore_auth": True}, {}
     )
@@ -116,7 +117,9 @@ def write_selfinfo_duplicated_env():
                 del data[category]
 
     redis: Redis = connect_to_redis()
-    selfinfo_key = "selfinfo_duplicated_env_" + internal_ip.replace(".", "_")
+    selfinfo_key = (
+        redis_prefix + "selfinfo_duplicated_env_" + internal_ip.replace(".", "_")
+    )
 
     if expire_time:
         redis.set(selfinfo_key, json.dumps(data), ex=expire_time)
