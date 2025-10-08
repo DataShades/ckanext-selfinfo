@@ -525,7 +525,7 @@ def selfinfo_internal_ip_keys() -> list[str]:
 
 
 def selfinfo_delete_redis_key(key: str) -> bool:
-    if not "selfinfo_" in key:
+    if "selfinfo_" not in key:
         return False
     redis: Redis = connect_to_redis()
     selfinfo_key = key
