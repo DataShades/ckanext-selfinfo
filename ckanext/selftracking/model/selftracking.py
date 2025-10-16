@@ -29,7 +29,7 @@ class SelfTrackingModel(tk.BaseModel):  # type: ignore
         return model.Session.query(cls).filter(cls.id == id).first()
 
     @classmethod
-    def get_by_path(cls: type[SelfTrackingModel], path: str) -> list:
+    def get_by_path(cls: type[SelfTrackingModel], path: str) -> list[SelfTrackingModel]:
         return (
             model.Session.query(cls)
             .filter(cls.path == path)
@@ -170,7 +170,8 @@ class SelfTrackingModel(tk.BaseModel):  # type: ignore
 
     @classmethod
     def get_tracks_for_last_24_hours(cls: type[SelfTrackingModel]) -> dict[str, Any]:
-        end_time = datetime.now(timezone.utc).replace(minute=0, second=0, microsecond=0)
+        end_time = datetime.now(timezone.utc).replace(
+            minute=0, second=0, microsecond=0)
         start_time = end_time - timedelta(hours=23)
         results = (
             model.Session.query(
