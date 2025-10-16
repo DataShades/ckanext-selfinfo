@@ -6,7 +6,7 @@ from typing import cast
 import ckan.plugins.toolkit as tk
 from ckan import types
 import ckan.model as model
-from ckan.common import _, request
+from ckan.common import request
 
 from ckanext.selftracking.model.selftracking import SelfTrackingModel
 
