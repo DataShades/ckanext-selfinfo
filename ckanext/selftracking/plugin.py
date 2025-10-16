@@ -14,6 +14,7 @@ from .cli import get_commands
 @tk.blanket.auth_functions
 @tk.blanket.cli(get_commands)
 @tk.blanket.helpers
+@tk.blanket.blueprints
 class SelftrackingPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IMiddleware, inherit=True)

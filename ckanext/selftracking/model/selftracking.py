@@ -29,10 +29,13 @@ class SelfTrackingModel(tk.BaseModel):  # type: ignore
         return model.Session.query(cls).filter(cls.id == id).first()
 
     @classmethod
-    def get_by_path(
-        cls: type[SelfTrackingModel], alias: str
-    ) -> SelfTrackingModel | None:
-        return model.Session.query(cls).filter(cls.alias == alias).first()
+    def get_by_path(cls: type[SelfTrackingModel], path: str) -> list:
+        return (
+            model.Session.query(cls)
+            .filter(cls.path == path)
+            .order_by(SelfTrackingModel.track_time.desc())
+            .all()
+        )
 
     @classmethod
     def get_by_type(cls: type[SelfTrackingModel], type: str) -> list[SelfTrackingModel]:

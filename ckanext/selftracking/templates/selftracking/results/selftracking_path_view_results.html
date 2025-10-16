@@ -1,0 +1,32 @@
+<div class="p-3 mt-4">
+    <h3>
+      {{ path }}
+    </h3>
+    <div class="table-responsive">
+        <div class="d-flex justify-content-between mb-3 align-items-center">
+          <button class="btn btn-dark" onclick="copyTableJsonToClipboard('selftracking-path-data-table')">
+            Copy as JSON
+          </button>
+        </div>
+        <table id="selftracking-path-data-table" class="table table-striped table-bordered table-hover" data-module="selftracking-views-table" data-module-target="selftracking-path-data-table">
+            <thead class="table-light">
+              <tr>
+                  <th class="hidden" scope="col">{{ _('Path') }}</th>
+                  <th scope="col">{{ _('ID') }}</th>
+                  <th scope="col">{{ _('User') }}</th>
+                  <th scope="col">{{ _('Track Time') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in path_view_data %}
+                <tr>
+                    <td class="hidden">{{ path }}</td>
+                    <td>{{ row.id }}</td>
+                    <td>{{ h.linked_user(row.user) }}</td>
+                    <th>{{ h.render_datetime(row.track_time, with_hours=True) }}</th>
+                </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
