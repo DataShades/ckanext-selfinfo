@@ -2,10 +2,12 @@ selfinfo-js:
   filter: rjsmin
   output: ckanext-selfinfo/%(version)s-selfinfo.js
   contents:
+    - js/vendor/jquery.ui.datepicker.js
     - js/vendor/datatables.min.js
     - js/reset-module-last-check.js
     - js/search-through-content.js
     - js/search-through-table.js
+    - js/datepicker.js
   extra:
     preload:
       - base/main
@@ -14,5 +16,6 @@ selfinfo-css:
   filter: cssrewrite
   output: ckanext-selfinfo/%(version)s-selfinfo.css
   contents:
+    - css/vendor/jquery.ui.datepicker.css
     - css/vendor/datatables.css
     - style.css

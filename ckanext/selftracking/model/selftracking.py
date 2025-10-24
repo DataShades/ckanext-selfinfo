@@ -153,16 +153,30 @@ class SelfTrackingModel(tk.BaseModel):  # type: ignore
 
     @classmethod
     def get_tracks_per_type(
-        cls: type[SelfTrackingModel], type: str, t_days: int | None = None
+        cls: type[SelfTrackingModel],
+        type: str,
+        from_date: datetime | None = None,
+        to_date: datetime | None = None,
     ) -> List[Any]:
 
         q = model.Session.query(cls.path, sa.func.count().label("count")).filter(
             cls.type == type
         )
 
-        if t_days:
-            since = datetime.utcnow() - timedelta(days=t_days)
-            q = q.filter(cls.track_time >= since)
+        if from_date and to_date:
+            q = q.filter(
+                cls.track_time.between(
+                    from_date,
+                    to_date.replace(hour=23, minute=59, second=59, microsecond=999999),
+                )
+            )
+        elif from_date:
+            q = q.filter(cls.track_time >= from_date)
+        elif to_date:
+            q = q.filter(
+                cls.track_time
+                <= to_date.replace(hour=23, minute=59, second=59, microsecond=999999)
+            )
 
         q = q.group_by(cls.path).order_by(sa.func.count().desc()).all()
 
@@ -170,8 +184,7 @@ class SelfTrackingModel(tk.BaseModel):  # type: ignore
 
     @classmethod
     def get_tracks_for_last_24_hours(cls: type[SelfTrackingModel]) -> dict[str, Any]:
-        end_time = datetime.now(timezone.utc).replace(
-            minute=0, second=0, microsecond=0)
+        end_time = datetime.now(timezone.utc).replace(minute=0, second=0, microsecond=0)
         start_time = end_time - timedelta(hours=23)
         results = (
             model.Session.query(
@@ -208,3 +221,29 @@ class SelfTrackingModel(tk.BaseModel):  # type: ignore
             "labels": labels,
         }
         return result
+
+    @classmethod
+    def get_tracks_views_query(
+        cls: type[SelfTrackingModel], data: dict[str, Any]
+    ) -> List[Any]:
+        type = data.get("type", "")
+        from_date = data.get("from_date")
+        to_date = data.get("to_date")
+
+        results = model.Session.query(cls.path, sa.func.count().label("count")).filter(
+            cls.type == type
+        )
+
+        if from_date:
+            results = results.filter(cls.track_time >= from_date)
+
+        if to_date:
+            results = results.filter(cls.track_time <= to_date)
+
+        results = (
+            results.group_by(sa.func.date_trunc("day", cls.track_time))
+            .order_by("day")
+            .all()
+        )
+
+        return results

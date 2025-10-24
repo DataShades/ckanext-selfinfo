@@ -1,0 +1,16 @@
+<table id="selftracking-{{ type_machine }}-path" class="table table-striped table-bordered table-hover" data-module="selftracking-views-table" data-module-target="selftracking-{{ type_machine }}-path">
+    <thead class="table-light">
+        <tr>
+            <th scope="col">{{ _('Path') }}</th>
+            <th scope="col">{{ _('Views') }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in data %}
+        <tr>
+            <td><a class="d-block" href="" hx-get="{{ h.url_for('selftracking.selftracking_path_data', path=row[0]) }}" hx-target="#{{ type_machine }}-item-modal-content" hx-trigger="click" type="button" data-bs-toggle="modal" data-bs-target="#{{ type_machine }}-item-modal">{{ row[0] }}</a></td>
+            <td>{{ row[1] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

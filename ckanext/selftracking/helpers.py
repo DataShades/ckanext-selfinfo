@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from typing import Any
+from datetime import datetime, timedelta
 
 from ckanext.selftracking.model.selftracking import SelfTrackingModel
 import ckanext.selftracking.utils as tracking_utils
@@ -22,6 +23,17 @@ def selftracking_get_data() -> dict[str, Any]:
     }
 
 
-def selftracking_get_view_data(type: str) -> list[Any]:
-    view_data = SelfTrackingModel.get_tracks_per_type(type)
+def selftracking_get_view_data(
+    type: str, from_date: datetime | None = None, to_date: datetime | None = None
+) -> list[Any]:
+    view_data = SelfTrackingModel.get_tracks_per_type(type, from_date, to_date)
     return view_data
+
+
+def selftracking_get_date(minus_days: int =0):
+    date = datetime.utcnow()
+
+    if minus_days:
+        date = date - timedelta(days=minus_days)
+
+    return date
