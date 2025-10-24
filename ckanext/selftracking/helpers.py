@@ -30,7 +30,7 @@ def selftracking_get_view_data(
     return view_data
 
 
-def selftracking_get_date(minus_days: int =0):
+def selftracking_get_date(minus_days: int = 0):
     date = datetime.utcnow()
 
     if minus_days:
