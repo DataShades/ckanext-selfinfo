@@ -93,7 +93,7 @@ def selftracking_views_query() -> Any | str:
 
     from_date = None
     to_date = None
-
+    view_type = data_dict.get("type", "")
     if data_dict.get("from_date"):
         try:
             from_date = datetime.strptime(data_dict.get("from_date", ""), "%Y-%m-%d")
@@ -106,11 +106,13 @@ def selftracking_views_query() -> Any | str:
         except ValueError:
             pass
 
-    view_data = SelfTrackingModel.get_tracks_per_type(
-        data_dict.get("type", ""), from_date, to_date
-    )
+    view_data = SelfTrackingModel.get_tracks_per_type(view_type, from_date, to_date)
 
     return tk.render(
         "/selftracking/results/selftracking_type_views_table.html",
-        extra_vars={"data": view_data},
+        extra_vars={
+            "data": view_data,
+            "type": view_type,
+            "type_machine": view_type.replace(" ", "-"),
+        },
     )

@@ -33,3 +33,11 @@
 .header-image .logo img {
   min-height: 50px;
 }
+
+.htmx-indicator {
+  display: none;
+}
+
+.htmx-indicator.htmx-request {
+  display: block;
+}

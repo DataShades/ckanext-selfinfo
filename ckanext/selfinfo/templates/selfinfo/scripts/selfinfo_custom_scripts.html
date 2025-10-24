@@ -94,12 +94,26 @@
     });
 
     document.body.addEventListener('htmx:afterRequest', function () {
-    const openModals = document.querySelectorAll('.selftools-modal-confirmation.modal.show');
-    openModals.forEach(modalEl => {
-      const modalInstance = bootstrap.Modal.getInstance(modalEl);
-      if (modalInstance) {
-        modalInstance.hide();
-      }
+        const openModals = document.querySelectorAll('.selftools-modal-confirmation.modal.show');
+        openModals.forEach(modalEl => {
+        const modalInstance = bootstrap.Modal.getInstance(modalEl);
+        if (modalInstance) {
+            modalInstance.hide();
+        }
+        });
     });
-  });
+
+    document.body.addEventListener("htmx:beforeRequest", (evt) => {
+        const el = evt.target;
+        if (!el.classList.contains("htmx-pretty-load")) return;
+
+        const targetSelector = el.getAttribute("hx-target");
+        if (!targetSelector) return;
+
+        const targetEl = document.querySelector(targetSelector);
+        if (!targetEl) return;
+
+        targetEl.innerHTML = '';
+    });
+
 </script>
