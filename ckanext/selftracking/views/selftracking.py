@@ -86,27 +86,40 @@ def selftracking_views_query() -> Any | str:
 
     try:
         data_dict = logic.clean_dict(
-            dict_fns.unflatten(logic.tuplize_dict(logic.parse_params(request.form)))
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
         )
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
 
     from_date = None
     to_date = None
+    username = data_dict.get("username")
     view_type = data_dict.get("type", "")
     if data_dict.get("from_date"):
         try:
-            from_date = datetime.strptime(data_dict.get("from_date", ""), "%Y-%m-%d")
+            from_date = datetime.strptime(
+                data_dict.get("from_date", ""), "%Y-%m-%d"
+            )
         except ValueError:
             pass
 
     if data_dict.get("to_date"):
         try:
-            to_date = datetime.strptime(data_dict.get("to_date", ""), "%Y-%m-%d")
+            to_date = datetime.strptime(
+                data_dict.get("to_date", ""), "%Y-%m-%d"
+            )
         except ValueError:
             pass
 
-    view_data = SelfTrackingModel.get_tracks_per_type(view_type, from_date, to_date)
+    options = {
+        "from_date": from_date,
+        "to_date": to_date,
+        "username": username,
+    }
+
+    view_data = SelfTrackingModel.get_tracks_per_type(view_type, options)
 
     return tk.render(
         "/selftracking/results/selftracking_type_views_table.html",

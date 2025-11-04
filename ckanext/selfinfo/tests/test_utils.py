@@ -27,7 +27,9 @@ class TestUTILS:
         assert lib_data["info"]["name"] == "ckan"
 
     def test_get_lib_latest_version(self):
-        lib_data_latest_version: str | None = utils.get_lib_latest_version("ckan")
+        lib_data_latest_version: str | None = utils.get_lib_latest_version(
+            "ckan"
+        )
 
         assert isinstance(lib_data_latest_version, str)
 

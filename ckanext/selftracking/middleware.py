@@ -35,8 +35,9 @@ def track_activity(response: types.Response) -> types.Response:
 
             selftracking_add_track_to_redis(data)
 
-    elif response.content_type == "application/json;charset=utf-8" and path.startswith(
-        "/api/action/"
+    elif (
+        response.content_type == "application/json;charset=utf-8"
+        and path.startswith("/api/action/")
     ):
         user = tk.current_user
         data = {

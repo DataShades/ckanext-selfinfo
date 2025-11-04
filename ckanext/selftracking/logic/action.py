@@ -12,7 +12,9 @@ import ckanext.selftracking.utils as s_utils
 log = logging.getLogger(__name__)
 
 
-def selftracking_store_tracks(context: types.Context, data_dict: types.DataDict):
+def selftracking_store_tracks(
+    context: types.Context, data_dict: types.DataDict
+):
     tk.check_access("selftracking_store_tracks", context, data_dict)
 
     s_utils.selftracking_store_tracks_in_db()

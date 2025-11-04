@@ -38,7 +38,9 @@ def selftools_solr_query() -> Any | str:
 
     try:
         data_dict = logic.clean_dict(
-            dict_fns.unflatten(logic.tuplize_dict(logic.parse_params(request.form)))
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
         )
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
@@ -69,7 +71,9 @@ def selftools_solr_delete() -> Any | str:
 
     try:
         data_dict = logic.clean_dict(
-            dict_fns.unflatten(logic.tuplize_dict(logic.parse_params(request.form)))
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
         )
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
@@ -77,7 +81,11 @@ def selftools_solr_delete() -> Any | str:
     resp = tk.get_action("selftools_solr_delete")(context, data_dict)
 
     if not resp.get("success"):
-        return resp["message"] if resp.get("message") else _("Couldn't delete index.")
+        return (
+            resp["message"]
+            if resp.get("message")
+            else _("Couldn't delete index.")
+        )
     else:
         return _("Deleted.")
 
@@ -99,7 +107,9 @@ def selftools_solr_index() -> Any | str:
 
     try:
         data_dict = logic.clean_dict(
-            dict_fns.unflatten(logic.tuplize_dict(logic.parse_params(request.form)))
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
         )
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
@@ -133,7 +143,9 @@ def selftools_db_query() -> Any | str:
 
     try:
         data_dict = logic.clean_dict(
-            dict_fns.unflatten(logic.tuplize_dict(logic.parse_params(request.form)))
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
         )
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
@@ -141,7 +153,11 @@ def selftools_db_query() -> Any | str:
     resp = tk.get_action("selftools_db_query")(context, data_dict)
 
     if not resp.get("success"):
-        return resp["message"] if resp.get("message") else _("Something went wrong...")
+        return (
+            resp["message"]
+            if resp.get("message")
+            else _("Something went wrong...")
+        )
     else:
         return tk.render(
             "/selftools/results/db_results.html", extra_vars={"data": resp}
@@ -165,7 +181,9 @@ def selftools_db_update() -> Any | str:
 
     try:
         data_dict = logic.clean_dict(
-            dict_fns.unflatten(logic.tuplize_dict(logic.parse_params(request.form)))
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
         )
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
@@ -173,7 +191,11 @@ def selftools_db_update() -> Any | str:
     resp = tk.get_action("selftools_db_update")(context, data_dict)
 
     if not resp.get("success"):
-        return resp["message"] if resp.get("message") else _("Something went wrong...")
+        return (
+            resp["message"]
+            if resp.get("message")
+            else _("Something went wrong...")
+        )
     else:
         return tk.render(
             "/selftools/results/db_effected.html", extra_vars={"data": resp}
@@ -197,7 +219,9 @@ def selftools_redis_query() -> Any | str:
 
     try:
         data_dict = logic.clean_dict(
-            dict_fns.unflatten(logic.tuplize_dict(logic.parse_params(request.form)))
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
         )
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
@@ -205,7 +229,11 @@ def selftools_redis_query() -> Any | str:
     resp = tk.get_action("selftools_redis_query")(context, data_dict)
 
     if not resp.get("success"):
-        return resp["message"] if resp.get("message") else _("Something went wrong...")
+        return (
+            resp["message"]
+            if resp.get("message")
+            else _("Something went wrong...")
+        )
     else:
         return tk.render(
             "/selftools/results/redis_results.html", extra_vars={"data": resp}
@@ -229,7 +257,9 @@ def selftools_redis_update() -> Any | str:
 
     try:
         data_dict = logic.clean_dict(
-            dict_fns.unflatten(logic.tuplize_dict(logic.parse_params(request.form)))
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
         )
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
@@ -237,7 +267,11 @@ def selftools_redis_update() -> Any | str:
     resp = tk.get_action("selftools_redis_update")(context, data_dict)
 
     if not resp.get("success"):
-        return resp["message"] if resp.get("message") else _("Something went wrong...")
+        return (
+            resp["message"]
+            if resp.get("message")
+            else _("Something went wrong...")
+        )
     else:
         return _("Updated/Created.")
 
@@ -259,7 +293,9 @@ def selftools_redis_delete() -> Any | str:
 
     try:
         data_dict = logic.clean_dict(
-            dict_fns.unflatten(logic.tuplize_dict(logic.parse_params(request.form)))
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
         )
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
@@ -293,7 +329,9 @@ def selftools_config_query() -> Any | str:
 
     try:
         data_dict = logic.clean_dict(
-            dict_fns.unflatten(logic.tuplize_dict(logic.parse_params(request.form)))
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
         )
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
@@ -301,7 +339,11 @@ def selftools_config_query() -> Any | str:
     resp = tk.get_action("selftools_config_query")(context, data_dict)
 
     if not resp.get("success"):
-        return resp["message"] if resp.get("message") else _("Something went wrong...")
+        return (
+            resp["message"]
+            if resp.get("message")
+            else _("Something went wrong...")
+        )
     else:
         return tk.render(
             "/selftools/results/config_results.html", extra_vars={"data": resp}
@@ -325,7 +367,9 @@ def selftools_model_export() -> Any | str:
 
     try:
         data_dict = logic.clean_dict(
-            dict_fns.unflatten(logic.tuplize_dict(logic.parse_params(request.form)))
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
         )
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
@@ -333,7 +377,11 @@ def selftools_model_export() -> Any | str:
     resp = tk.get_action("selftools_model_export")(context, data_dict)
 
     if not resp.get("success"):
-        return resp["message"] if resp.get("message") else _("Something went wrong...")
+        return (
+            resp["message"]
+            if resp.get("message")
+            else _("Something went wrong...")
+        )
     else:
         r_length = len(resp["results"])
         show_100 = dict(list(resp["results"].items())[:100])
@@ -343,7 +391,8 @@ def selftools_model_export() -> Any | str:
         download_link = "?".join(
             [
                 tk.h.url_for(
-                    "selftools_htmx.selftools_model_export_download", _external=True
+                    "selftools_htmx.selftools_model_export_download",
+                    _external=True,
                 ),
                 query_string,
             ]
@@ -375,7 +424,9 @@ def selftools_model_export_download() -> Any | str:
         tk.abort(404)
 
     try:
-        data_dict = {k: v if len(v) > 1 else v[0] for k, v in request.args.lists()}
+        data_dict = {
+            k: v if len(v) > 1 else v[0] for k, v in request.args.lists()
+        }
 
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
@@ -383,7 +434,11 @@ def selftools_model_export_download() -> Any | str:
     resp = tk.get_action("selftools_model_export")(context, data_dict)
 
     if not resp.get("success"):
-        return resp["message"] if resp.get("message") else _("Something went wrong...")
+        return (
+            resp["message"]
+            if resp.get("message")
+            else _("Something went wrong...")
+        )
     else:
         json_bytes = json.dumps(resp["results"]).encode("utf-8")
         compressed = gzip.compress(json_bytes)
@@ -445,7 +500,9 @@ def selftools_model_import() -> Any | str:
 
     try:
         data_dict = logic.clean_dict(
-            dict_fns.unflatten(logic.tuplize_dict(logic.parse_params(request.form)))
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
         )
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
@@ -478,7 +535,9 @@ def selftools_model_import() -> Any | str:
 
         if not resp.get("success"):
             return (
-                resp["message"] if resp.get("message") else _("Something went wrong...")
+                resp["message"]
+                if resp.get("message")
+                else _("Something went wrong...")
             )
         else:
             return _("Finished.")

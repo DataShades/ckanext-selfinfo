@@ -32,7 +32,9 @@ class TestGET:
         }
 
         with pytest.raises(tk.NotAuthorized):
-            call_action(config.selfinfo_get_main_action_name(), context=context)
+            call_action(
+                config.selfinfo_get_main_action_name(), context=context
+            )
 
         context["user"] = sysadmin["name"]
 
@@ -44,4 +46,7 @@ class TestGET:
 
         assert len(selfinfo.keys()) >= 4, selfinfo.keys()
 
-        assert selfinfo["platform_info"]["python_version"] == platform.python_version()
+        assert (
+            selfinfo["platform_info"]["python_version"]
+            == platform.python_version()
+        )

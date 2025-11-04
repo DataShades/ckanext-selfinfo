@@ -86,7 +86,9 @@ def get_selftracking_categories() -> list[dict[str, Any]]:
     categories = s_config.selftracking_get_categories_list()
 
     categories_list = [
-        category for category in get_categories_list() if category["key"] in categories
+        category
+        for category in get_categories_list()
+        if category["key"] in categories
     ]
 
     return categories_list

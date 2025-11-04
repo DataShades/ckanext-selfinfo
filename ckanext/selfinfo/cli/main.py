@@ -118,7 +118,9 @@ def write_selfinfo_duplicated_env():
 
     redis: Redis = connect_to_redis()
     selfinfo_key = (
-        redis_prefix + "selfinfo_duplicated_env_" + internal_ip.replace(".", "_")
+        redis_prefix
+        + "selfinfo_duplicated_env_"
+        + internal_ip.replace(".", "_")
     )
 
     if expire_time:

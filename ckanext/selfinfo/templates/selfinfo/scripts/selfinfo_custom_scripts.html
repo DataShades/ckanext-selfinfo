@@ -116,4 +116,9 @@
         targetEl.innerHTML = '';
     });
 
+    function clearAutocomplete(target) {
+        const input = $(target);
+        input.val('').trigger('change');
+    }
+
 </script>

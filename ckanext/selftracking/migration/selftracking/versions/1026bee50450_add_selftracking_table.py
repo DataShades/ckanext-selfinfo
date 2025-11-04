@@ -21,15 +21,21 @@ depends_on = None
 def upgrade():
     op.create_table(
         "selftracking",
-        sa.Column("id", sa.Integer, primary_key=True, unique=True, autoincrement=True),
+        sa.Column(
+            "id", sa.Integer, primary_key=True, unique=True, autoincrement=True
+        ),
         sa.Column("path", sa.String, nullable=False),
         sa.Column("user", sa.String, nullable=True),
         sa.Column("type", sa.String, nullable=False),
         sa.Column("track_time", sa.DateTime, default=sa.TIMESTAMP),
-        sa.Column("extras", postgresql.JSONB(astext_type=sa.Text()), nullable=True),
+        sa.Column(
+            "extras", postgresql.JSONB(astext_type=sa.Text()), nullable=True
+        ),
     )
     op.create_index("idx_selftracking_path", "selftracking", ["path"])
-    op.create_index("idx_selftracking_track_time", "selftracking", ["track_time"])
+    op.create_index(
+        "idx_selftracking_track_time", "selftracking", ["track_time"]
+    )
 
 
 def downgrade():

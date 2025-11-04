@@ -5,7 +5,7 @@ import json
 import sqlalchemy as sa
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.ext.mutable import MutableDict
-from typing import Any, List
+from typing import Any, List, Optional
 import hashlib
 
 import ckan.model as model
@@ -25,11 +25,15 @@ class SelfTrackingModel(tk.BaseModel):  # type: ignore
     extras = sa.Column(MutableDict.as_mutable(JSONB))
 
     @classmethod
-    def get_by_id(cls: type[SelfTrackingModel], id: str) -> SelfTrackingModel | None:
+    def get_by_id(
+        cls: type[SelfTrackingModel], id: str
+    ) -> SelfTrackingModel | None:
         return model.Session.query(cls).filter(cls.id == id).first()
 
     @classmethod
-    def get_by_path(cls: type[SelfTrackingModel], path: str) -> list[SelfTrackingModel]:
+    def get_by_path(
+        cls: type[SelfTrackingModel], path: str
+    ) -> list[SelfTrackingModel]:
         return (
             model.Session.query(cls)
             .filter(cls.path == path)
@@ -38,7 +42,9 @@ class SelfTrackingModel(tk.BaseModel):  # type: ignore
         )
 
     @classmethod
-    def get_by_type(cls: type[SelfTrackingModel], type: str) -> list[SelfTrackingModel]:
+    def get_by_type(
+        cls: type[SelfTrackingModel], type: str
+    ) -> list[SelfTrackingModel]:
         return (
             model.Session.query(cls)
             .filter(cls.type == type)
@@ -82,7 +88,9 @@ class SelfTrackingModel(tk.BaseModel):  # type: ignore
         return color
 
     @classmethod
-    def get_tracks_by_types(cls: type[SelfTrackingModel]) -> list[dict[str, Any]]:
+    def get_tracks_by_types(
+        cls: type[SelfTrackingModel],
+    ) -> list[dict[str, Any]]:
         results = (
             model.Session.query(cls.type, sa.func.count(cls.id))
             .group_by(cls.type)
@@ -155,19 +163,26 @@ class SelfTrackingModel(tk.BaseModel):  # type: ignore
     def get_tracks_per_type(
         cls: type[SelfTrackingModel],
         type: str,
-        from_date: datetime | None = None,
-        to_date: datetime | None = None,
+        data_dict: Optional[dict[str, Any]] = None,
     ) -> List[Any]:
+        if not data_dict:
+            data_dict = {}
 
-        q = model.Session.query(cls.path, sa.func.count().label("count")).filter(
-            cls.type == type
-        )
+        from_date = data_dict.get("from_date")
+        to_date = data_dict.get("to_date")
+        username = data_dict.get("username")
+
+        q = model.Session.query(
+            cls.path, sa.func.count().label("count")
+        ).filter(cls.type == type)
 
         if from_date and to_date:
             q = q.filter(
                 cls.track_time.between(
                     from_date,
-                    to_date.replace(hour=23, minute=59, second=59, microsecond=999999),
+                    to_date.replace(
+                        hour=23, minute=59, second=59, microsecond=999999
+                    ),
                 )
             )
         elif from_date:
@@ -175,16 +190,26 @@ class SelfTrackingModel(tk.BaseModel):  # type: ignore
         elif to_date:
             q = q.filter(
                 cls.track_time
-                <= to_date.replace(hour=23, minute=59, second=59, microsecond=999999)
+                <= to_date.replace(
+                    hour=23, minute=59, second=59, microsecond=999999
+                )
             )
+
+        if username:
+            if user := model.User.get(username):
+                q = q.filter(cls.user == user.id)
 
         q = q.group_by(cls.path).order_by(sa.func.count().desc()).all()
 
         return q
 
     @classmethod
-    def get_tracks_for_last_24_hours(cls: type[SelfTrackingModel]) -> dict[str, Any]:
-        end_time = datetime.now(timezone.utc).replace(minute=0, second=0, microsecond=0)
+    def get_tracks_for_last_24_hours(
+        cls: type[SelfTrackingModel],
+    ) -> dict[str, Any]:
+        end_time = datetime.now(timezone.utc).replace(
+            minute=0, second=0, microsecond=0
+        )
         start_time = end_time - timedelta(hours=23)
         results = (
             model.Session.query(
@@ -230,9 +255,9 @@ class SelfTrackingModel(tk.BaseModel):  # type: ignore
         from_date = data.get("from_date")
         to_date = data.get("to_date")
 
-        results = model.Session.query(cls.path, sa.func.count().label("count")).filter(
-            cls.type == type
-        )
+        results = model.Session.query(
+            cls.path, sa.func.count().label("count")
+        ).filter(cls.type == type)
 
         if from_date:
             results = results.filter(cls.track_time >= from_date)

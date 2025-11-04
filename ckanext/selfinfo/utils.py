@@ -38,7 +38,11 @@ def get_redis_key(name: str) -> str:
     """
     Generate a Redis key by combining a prefix, the provided name, and a suffix.
     """
-    return config.selfinfo_get_redis_prefix() + name + config.SELFINFO_REDIS_SUFFIX
+    return (
+        config.selfinfo_get_redis_prefix()
+        + name
+        + config.SELFINFO_REDIS_SUFFIX
+    )
 
 
 def get_python_modules_info(force_reset: bool = False) -> dict[str, Any]:
@@ -47,7 +51,9 @@ def get_python_modules_info(force_reset: bool = False) -> dict[str, Any]:
 
     groups: dict[str, Any] = {"ckan": {}, "ckanext": {}, "other": {}}
     pdistribs: Mapping[str, Any] = imetadata.packages_distributions()
-    modules: dict[str, Any] = {p.name: p.version for p in imetadata.distributions()}
+    modules: dict[str, Any] = {
+        p.name: p.version for p in imetadata.distributions()
+    }
 
     for i, p in pdistribs.items():
         for module in p:
@@ -79,7 +85,9 @@ def get_python_modules_info(force_reset: bool = False) -> dict[str, Any]:
                     data["latest_version"] = get_lib_latest_version(module)
                     for key in data:
                         if data[key] != redis.hget(redis_module_key, key):
-                            redis.hset(redis_module_key, key=key, value=data[key])
+                            redis.hset(
+                                redis_module_key, key=key, value=data[key]
+                            )
 
                 groups[group][module] = {
                     k.decode("utf-8"): v.decode("utf-8")
@@ -88,7 +96,9 @@ def get_python_modules_info(force_reset: bool = False) -> dict[str, Any]:
 
                 # Convert the updated timestamp to a human-readable format
                 groups[group][module]["updated"] = str(
-                    datetime.fromtimestamp(float(groups[group][module]["updated"]))
+                    datetime.fromtimestamp(
+                        float(groups[group][module]["updated"])
+                    )
                 )
 
     # Sort specific groups alphabetically by module name
@@ -227,7 +237,8 @@ def gather_git_info() -> dict[str, "dict[str, Any]|list[dict[str, Any]]"]:
                 elif repo.head.is_detached and branch.startswith("tags/"):
                     on = "tag"
                 elif repo.head.is_detached and (
-                    not branch.startswith("tags/") and not branch.startswith("remotes/")
+                    not branch.startswith("tags/")
+                    and not branch.startswith("remotes/")
                 ):
                     branch = short_sha
                     on = "commit"
@@ -378,7 +389,9 @@ def get_ckan_registered_cli() -> list[Any]:
     data = []
     if ckan_commands and ckan_commands.commands:
 
-        def _get_command_info(cmd: click.Group | click.Command) -> dict[str, Any]:
+        def _get_command_info(
+            cmd: click.Group | click.Command,
+        ) -> dict[str, Any]:
             info = {
                 "name": cmd.name,
                 "help": cmd.help or "",
@@ -456,12 +469,16 @@ def get_solr_schema() -> dict[str, str]:
 
             data["schema"] = schema_response.text
         except requests.exceptions.HTTPError:
-            log.exception("Solr Schema: Please re-check the filename you provided.")
+            log.exception(
+                "Solr Schema: Please re-check the filename you provided."
+            )
 
     return data
 
 
-def retrieve_additionals_redis_keys_info(key: str) -> dict[str, dict[str, Any]]:
+def retrieve_additionals_redis_keys_info(
+    key: str,
+) -> dict[str, dict[str, Any]]:
     redis: Redis = connect_to_redis()
     data = {}
     try:
@@ -470,14 +487,18 @@ def retrieve_additionals_redis_keys_info(key: str) -> dict[str, dict[str, Any]]:
         if raw is not None:
             data = json.loads(raw.decode("utf-8"))  # type: ignore is syncronous
         if data.get("provided_on"):
-            data["provided_on"] = str(datetime.fromtimestamp(data["provided_on"]))
+            data["provided_on"] = str(
+                datetime.fromtimestamp(data["provided_on"])
+            )
     except TypeError:
         log.error("Cannot retrieve data using '%s' from Redis.", key)
 
     return data
 
 
-def retrieve_additional_selfinfo_by_keys(key: str) -> dict[str, dict[str, Any]]:
+def retrieve_additional_selfinfo_by_keys(
+    key: str,
+) -> dict[str, dict[str, Any]]:
     redis: Redis = connect_to_redis()
     try:
         selfinfo_key = key
@@ -488,14 +509,18 @@ def retrieve_additional_selfinfo_by_keys(key: str) -> dict[str, dict[str, Any]]:
             data = {}
 
         if data.get("provided_on"):
-            data["provided_on"] = str(datetime.fromtimestamp(data["provided_on"]))
+            data["provided_on"] = str(
+                datetime.fromtimestamp(data["provided_on"])
+            )
     except TypeError:
         data = {}
         log.error("Cannot retrieve data using '%s' from Redis.", key)
 
     if config.selfinfo_get_dulicated_envs_mode():
         keys = selfinfo_internal_ip_keys()
-        shared_categories = config.selfinfo_get_dulicated_envs_shared_categories()
+        shared_categories = (
+            config.selfinfo_get_dulicated_envs_shared_categories()
+        )
         glob_categories = utils.CATEGORIES
         if shared_categories and key in keys:
             for category in shared_categories:

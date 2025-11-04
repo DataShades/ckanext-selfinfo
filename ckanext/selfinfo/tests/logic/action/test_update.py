@@ -34,17 +34,21 @@ class TestUPDATE:
         }
 
         with pytest.raises(tk.NotAuthorized):
-            call_action(config.selfinfo_get_main_action_name(), context=context)
+            call_action(
+                config.selfinfo_get_main_action_name(), context=context
+            )
 
         context["user"] = sysadmin["name"]
         selfinfo: dict[str, Any] = tk.get_action(
             config.selfinfo_get_main_action_name()
         )(context, {})
         assert "python_modules" in selfinfo, selfinfo.keys()
-        assert "ckan" in selfinfo["python_modules"], selfinfo["python_modules"].keys()
-        assert "ckan" in selfinfo["python_modules"]["ckan"], selfinfo["python_modules"][
-            "ckan"
+        assert "ckan" in selfinfo["python_modules"], selfinfo[
+            "python_modules"
         ].keys()
+        assert "ckan" in selfinfo["python_modules"]["ckan"], selfinfo[
+            "python_modules"
+        ]["ckan"].keys()
 
         ckan_info = selfinfo["python_modules"]["ckan"]["ckan"]
 

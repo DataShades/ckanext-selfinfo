@@ -52,7 +52,10 @@ class SelfinfoView(MethodView):
             additional_keys.extend(utils.selfinfo_internal_ip_keys())
 
         additional_keys.extend(
-            ["selfinfo_" + key for key in config.selfinfo_get_additional_redis_keys()]
+            [
+                "selfinfo_" + key
+                for key in config.selfinfo_get_additional_redis_keys()
+            ]
         )
 
         if additional_keys:
@@ -139,7 +142,9 @@ def selfinfo_delete_profile():
         if deleted:
             return "Deleted. After page reload it wont be shown."
         else:
-            return "Couldn't delete the profile, please check if such key exists."
+            return (
+                "Couldn't delete the profile, please check if such key exists."
+            )
 
     return "Missing Profile key, restart the page to view the content."
 

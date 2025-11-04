@@ -53,7 +53,9 @@ def selftools_solr_delete(
 ) -> dict[str, Any]:
     tk.check_access("sysadmin", context, data_dict)
 
-    if not utils.selftools_verify_operations_pwd(data_dict.get("selftools_pwd")):
+    if not utils.selftools_verify_operations_pwd(
+        data_dict.get("selftools_pwd")
+    ):
         return {"success": False, "message": "Unauthorized action."}
 
     # Really need to check? It can be not only Datasets
@@ -89,7 +91,10 @@ def selftools_solr_index(
         )
         commit()
     except Exception:
-        return {"success": False, "message": "An Error appeared while indexing."}
+        return {
+            "success": False,
+            "message": "An Error appeared while indexing.",
+        }
     return {"success": True}
 
 
@@ -106,18 +111,23 @@ def selftools_db_query(
     order_by = data_dict.get("order_by")
     if q_model:
         model_fields_blacklist = [
-            b.strip().split(".") for b in config.selftools_get_model_fields_blacklist()
+            b.strip().split(".")
+            for b in config.selftools_get_model_fields_blacklist()
         ]
         combained_blacklist = [
             *model_fields_blacklist,
             *[["User", "password"], ["User", "apikey"]],
         ]
 
-        def _get_db_row_values(row: Any, columns: Any, model_name: str) -> list[Any]:
+        def _get_db_row_values(
+            row: Any, columns: Any, model_name: str
+        ) -> list[Any]:
             values = []
             for col in columns:
                 if [
-                    b for b in combained_blacklist if b[0] == model_name and col == b[1]
+                    b
+                    for b in combained_blacklist
+                    if b[0] == model_name and col == b[1]
                 ]:
                     value = "SECURE"
                 else:
@@ -177,7 +187,9 @@ def selftools_db_update(
 ) -> dict[str, Any]:
     tk.check_access("sysadmin", context, data_dict)
 
-    if not utils.selftools_verify_operations_pwd(data_dict.get("selftools_pwd")):
+    if not utils.selftools_verify_operations_pwd(
+        data_dict.get("selftools_pwd")
+    ):
         return {"success": False, "message": "Unauthorized action."}
 
     q_model = data_dict.get("model")
@@ -209,7 +221,9 @@ def selftools_db_update(
                 q = model.Session.query(primary_key)
 
                 if where_field and where_value:
-                    q = q.filter(getattr(model_class, where_field) == where_value)
+                    q = q.filter(
+                        getattr(model_class, where_field) == where_value
+                    )
 
                 if limit:
                     q = q.limit(int(limit))
@@ -232,7 +246,10 @@ def selftools_db_update(
                         "effected_json": json.dumps(ids, indent=2),
                     }
                 else:
-                    return {"success": False, "message": "Provide the WHERE condition"}
+                    return {
+                        "success": False,
+                        "message": "Provide the WHERE condition",
+                    }
             except AttributeError:
                 return {
                     "success": False,
@@ -258,7 +275,10 @@ def selftools_redis_query(
             elif key_type == "list":
                 length = redis_conn.llen(key)
                 val = str(
-                    [item.decode("utf-8") for item in redis_conn.lrange(key, 0, 24)]
+                    [
+                        item.decode("utf-8")
+                        for item in redis_conn.lrange(key, 0, 24)
+                    ]
                 )
                 if length > 25:
                     val += f" showing only first 25 elements, current number of elements is {length}"
@@ -303,7 +323,9 @@ def selftools_redis_update(
 ) -> dict[str, Any]:
     tk.check_access("sysadmin", context, data_dict)
 
-    if not utils.selftools_verify_operations_pwd(data_dict.get("selftools_pwd")):
+    if not utils.selftools_verify_operations_pwd(
+        data_dict.get("selftools_pwd")
+    ):
         return {"success": False, "message": "Unauthorized action."}
 
     key = data_dict.get("redis_key")
@@ -321,7 +343,9 @@ def selftools_redis_delete(
 ) -> dict[str, Any]:
     tk.check_access("sysadmin", context, data_dict)
 
-    if not utils.selftools_verify_operations_pwd(data_dict.get("selftools_pwd")):
+    if not utils.selftools_verify_operations_pwd(
+        data_dict.get("selftools_pwd")
+    ):
         return {"success": False, "message": "Unauthorized action."}
 
     key = data_dict.get("redis_key")
@@ -339,7 +363,9 @@ def selftools_config_query(
 ) -> dict[str, Any]:
     tk.check_access("sysadmin", context, data_dict)
 
-    if not utils.selftools_verify_operations_pwd(data_dict.get("selftools_pwd")):
+    if not utils.selftools_verify_operations_pwd(
+        data_dict.get("selftools_pwd")
+    ):
         return {"success": False, "message": "Unauthorized action."}
 
     key = data_dict.get("q")
@@ -361,7 +387,9 @@ def selftools_config_query(
             k for k in config_keys if k not in [*default_blacklist, *blacklist]
         ]
         config_results = [
-            {"key": ck, "value": tk.config.get(ck)} for ck in config_keys if key in ck
+            {"key": ck, "value": tk.config.get(ck)}
+            for ck in config_keys
+            if key in ck
         ]
         return {"success": True, "results": config_results}
 
@@ -373,7 +401,9 @@ def selftools_model_export(
 ) -> dict[str, Any] | Literal[False]:
     tk.check_access("sysadmin", context, data_dict)
 
-    if not utils.selftools_verify_operations_pwd(data_dict.get("selftools_pwd")):
+    if not utils.selftools_verify_operations_pwd(
+        data_dict.get("selftools_pwd")
+    ):
         return {"success": False, "message": "Unauthorized action."}
 
     q_model = data_dict.get("model")
@@ -413,7 +443,9 @@ def selftools_model_export(
         "default_value_condition_set_field[]",
         "default_value_condition_set_value[]",
     ]
-    columns = map(lambda key: data_dict.get(key, []), default_value_conditions_field)
+    columns = map(
+        lambda key: data_dict.get(key, []), default_value_conditions_field
+    )
     default_value_conditions = list(zip(*columns))
 
     if q_model:
@@ -483,16 +515,25 @@ def selftools_model_export(
                         if rows:
                             [
                                 _collect(
-                                    row, rel.mapper.class_, collector, default_models
+                                    row,
+                                    rel.mapper.class_,
+                                    collector,
+                                    default_models,
                                 )
                                 for row in rows
                             ]
 
             if c_r := [
-                i for i in custom_relationships if i["local_model"] == model_name
+                i
+                for i in custom_relationships
+                if i["local_model"] == model_name
             ]:
                 for r in c_r:
-                    r_m = [m for m in default_models if m["label"] == r["remote_model"]]
+                    r_m = [
+                        m
+                        for m in default_models
+                        if m["label"] == r["remote_model"]
+                    ]
                     if r_m and r["local_field"] in values:
                         remote_model = r_m[0]["model"]
                         class_field = getattr(remote_model, r["remote_field"])
@@ -504,7 +545,12 @@ def selftools_model_export(
                         )
                         if rows:
                             [
-                                _collect(row, remote_model, collector, default_models)
+                                _collect(
+                                    row,
+                                    remote_model,
+                                    collector,
+                                    default_models,
+                                )
                                 for row in rows
                             ]
 
@@ -563,7 +609,9 @@ def selftools_model_import(
 
     tk.check_access("sysadmin", context, data_dict)
 
-    if not utils.selftools_verify_operations_pwd(data_dict.get("selftools_pwd")):
+    if not utils.selftools_verify_operations_pwd(
+        data_dict.get("selftools_pwd")
+    ):
         return {"success": False, "message": "Unauthorized action."}
 
     default_models = utils.get_db_models()
@@ -646,7 +694,11 @@ def selftools_model_import(
         session = model.Session()
 
         obj_id = values.get(primary_name)
-        r_obj = model.Session.query(model_class).filter(primary_key == obj_id).first()
+        r_obj = (
+            model.Session.query(model_class)
+            .filter(primary_key == obj_id)
+            .first()
+        )
 
         if not r_obj:
             r_obj = model_class()

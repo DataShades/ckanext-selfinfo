@@ -43,7 +43,9 @@ def update_last_module_check(
         }
 
         # Convert the updated timestamp to a human-readable format
-        result["updated"] = str(datetime.fromtimestamp(float(result["updated"])))
+        result["updated"] = str(
+            datetime.fromtimestamp(float(result["updated"]))
+        )
 
         return result
     return {}

@@ -1,0 +1,41 @@
+{% import 'macros/form.html' as form %}
+
+<form class="form-control border-0 shadow-none p-3 htmx-pretty-load" hx-post="{{ h.url_for('selftracking.selftracking_views_query') }}" hx-trigger="submit" hx-target="#selftracking-views-type-table-{{ type_machine }}" hx-swap="innerHTML" hx-indicator="#htmx-loader-{{ type_machine }}">
+    <div class="row">
+        <div class="col-lg-6">
+            {{ form.input(
+                'from_date',
+                id=type_machine ~ '-from-date',
+                label=_('From'),
+                error='',
+                attrs={'data-module': 'datepicker', 'class': 'form-control'},
+                value=h.render_datetime(from_date, date_format='%Y-%m-%d')
+            ) }}
+        </div>
+        <div class="col-lg-6">
+            {{ form.input(
+                'to_date',
+                id=type_machine ~ '-to-date',
+                label=_('To'),
+                error='',
+                attrs={'data-module': 'datepicker', 'class': 'form-control'},
+                value=h.render_datetime(to_date, date_format='%Y-%m-%d')
+            ) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" for="username">{{ _('User') }}</label>
+        <div class="controls position-relative">
+            {% set username_key = type_machine ~ '-username' %}
+            <input id="{{ username_key }}" type="text" name="username" placeholder="{{ _('Username') }}"
+            value="" class="control-medium" data-module="autocomplete"
+            data-module-source="/api/2/util/user/autocomplete?ignore_self=true&q=?">
+            <button type="button" class="btn-close position-absolute" aria-label="Close" onclick="clearAutocomplete('#{{ username_key }}')" style="top: 2px; right: 22px;"></button>
+        </div>
+    </div>
+
+    <input type="hidden" name="type" value="{{ type }}">
+
+    <button type="submit" class="btn btn-dark mt-2">Submit</button>
+</form>

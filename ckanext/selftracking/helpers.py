@@ -24,9 +24,15 @@ def selftracking_get_data() -> dict[str, Any]:
 
 
 def selftracking_get_view_data(
-    type: str, from_date: datetime | None = None, to_date: datetime | None = None
+    type: str,
+    from_date: datetime | None = None,
+    to_date: datetime | None = None,
 ) -> list[Any]:
-    view_data = SelfTrackingModel.get_tracks_per_type(type, from_date, to_date)
+    options = {
+        "from_date": from_date,
+        "to_date": to_date,
+    }
+    view_data = SelfTrackingModel.get_tracks_per_type(type, options)
     return view_data
 
 
