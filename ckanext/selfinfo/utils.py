@@ -17,11 +17,7 @@ import functools
 import types
 import socket
 import click
-
-try:
-    from importlib.metadata import packages_distributions, distributions  # type: ignore[attr-defined]
-except ImportError:
-    from importlib_metadata import packages_distributions, distributions  # type: ignore[reportMissingImports]
+from importlib.metadata import packages_distributions, distributions  # type: ignore[attr-defined]
 
 from ckan.lib.redis import connect_to_redis, Redis
 import ckan.plugins.toolkit as tk

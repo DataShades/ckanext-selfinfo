@@ -2,11 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Mapping
 from datetime import datetime
-
-try:
-    from importlib.metadata import version as m_version
-except ImportError:
-    from importlib_metadata import version as m_version  # type: ignore[reportMissingImports]
+from importlib.metadata import version as m_version
 
 from ckan import types
 from ckan.lib.redis import connect_to_redis, Redis
