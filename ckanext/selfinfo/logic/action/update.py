@@ -2,7 +2,11 @@ from __future__ import annotations
 
 from typing import Any, Mapping
 from datetime import datetime
-import importlib_metadata as imetadata
+
+try:
+    from importlib.metadata import version as m_version
+except ImportError:
+    from importlib_metadata import version as m_version  # type: ignore
 
 from ckan import types
 from ckan.lib.redis import connect_to_redis, Redis
@@ -27,7 +31,7 @@ def update_last_module_check(
 
         data: Mapping[str, Any] = {
             "name": module,
-            "current_version": imetadata.version(module),
+            "current_version": m_version(module),
             "updated": now,
             "latest_version": utils.get_lib_latest_version(module),
         }

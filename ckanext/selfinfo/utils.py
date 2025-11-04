@@ -9,7 +9,6 @@ import platform
 import git
 from git.exc import InvalidGitRepositoryError, NoSuchPathError
 from datetime import datetime
-import importlib_metadata as imetadata
 import logging
 import json
 import distro
@@ -18,6 +17,11 @@ import functools
 import types
 import socket
 import click
+
+try:
+    from importlib.metadata import packages_distributions, distributions  # type: ignore[attr-defined]
+except ImportError:
+    from importlib_metadata import packages_distributions, distributions  # type: ignore
 
 from ckan.lib.redis import connect_to_redis, Redis
 import ckan.plugins.toolkit as tk
@@ -50,9 +54,10 @@ def get_python_modules_info(force_reset: bool = False) -> dict[str, Any]:
     now: float = datetime.utcnow().timestamp()
 
     groups: dict[str, Any] = {"ckan": {}, "ckanext": {}, "other": {}}
-    pdistribs: Mapping[str, Any] = imetadata.packages_distributions()
+    pdistribs: Mapping[str, Any] = packages_distributions()
     modules: dict[str, Any] = {
-        p.name: p.version for p in imetadata.distributions()
+        getattr(p, "name", ""): getattr(p, "version", "")
+        for p in distributions()
     }
 
     for i, p in pdistribs.items():
