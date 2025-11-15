@@ -107,6 +107,7 @@ SELFTOOLS_TOOLS = [
 
 def get_db_models() -> list[dict[str, Any]]:
     try:
+        exclude = ["System"]
         ckan_core_models = DomainObject.__subclasses__()
         custom_ckan_models = BaseModel.__subclasses__()
         models = ckan_core_models if ckan_core_models else []
@@ -116,7 +117,11 @@ def get_db_models() -> list[dict[str, Any]]:
         for item in p.PluginImplementations(interfaces.ISelftools):
             item.selftools_db_models(models)
 
-        return [{"label": model.__name__, "model": model} for model in models]
+        return [
+            {"label": m.__name__, "model": m}
+            for m in models
+            if m.__name__ not in exclude
+        ]
     except Exception:
         log.error("Cannot retrieve DB Models.")
 

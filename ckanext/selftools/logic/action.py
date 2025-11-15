@@ -174,7 +174,11 @@ def selftools_db_query(
                     "results": structured_results,
                     "fields": columns,
                 }
-            except (AttributeError, sql_exceptions.CompileError) as e:
+            except (
+                AttributeError,
+                sql_exceptions.CompileError,
+                sql_exceptions.ArgumentError,
+            ) as e:
                 return {
                     "success": False,
                     "message": str(e),
