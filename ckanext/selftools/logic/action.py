@@ -3,7 +3,7 @@ from __future__ import annotations
 import requests
 import logging
 import json
-from sqlalchemy import desc, exc as sql_exceptions
+from sqlalchemy import desc, exc as sql_exceptions, text
 from sqlalchemy.inspection import inspect
 import redis
 from typing import Any, Literal
@@ -20,6 +20,15 @@ from ckan.lib.search import clear, rebuild, commit
 from ckan.lib.redis import connect_to_redis, Redis
 
 from ckanext.selftools import utils, config
+
+# Import datastore backend functions for proper connection handling
+try:
+    from ckanext.datastore.backend.postgres import get_read_engine
+
+    datastore_available = True
+except ImportError:
+    datastore_available = False
+    get_read_engine = None
 
 log = logging.getLogger(__name__)
 
@@ -728,3 +737,355 @@ def selftools_model_import(
             "message": str(e),
         }
     return {"success": True}
+
+
+def selftools_datastore_query(
+    context: types.Context, data_dict: dict[str, Any]
+) -> dict[str, Any] | Literal[False]:
+    """Query Datastore database to get list of resource IDs (table names)"""
+    tk.check_access("sysadmin", context, data_dict)
+
+    if not datastore_available:
+        return {
+            "success": False,
+            "message": "Datastore plugin is not available",
+        }
+
+    search_query = data_dict.get("q", "").strip()
+    orphaned_only = tk.asbool(data_dict.get("orphaned_only", False))
+    limit = int(data_dict.get("limit", 100))
+    batch_size = 1000
+
+    try:
+        if get_read_engine is None:
+            return {
+                "success": False,
+                "message": "Datastore plugin is not available",
+            }
+
+        engine = get_read_engine()
+
+        with engine.connect() as connection:
+            tables_with_counts = []
+
+            if orphaned_only:
+                offset = 0
+
+                while len(tables_with_counts) < limit:
+                    # Get next batch of tables
+                    if search_query:
+                        query = text(
+                            """
+                            SELECT table_name
+                            FROM information_schema.tables
+                            WHERE table_schema = 'public'
+                            AND table_type = 'BASE TABLE'
+                            AND table_name NOT LIKE '\\_%'
+                            AND table_name LIKE :search_pattern
+                            ORDER BY table_name
+                            LIMIT :batch_size OFFSET :offset
+                        """
+                        )
+                        result = connection.execute(
+                            query,
+                            {
+                                "search_pattern": f"%{search_query}%",
+                                "batch_size": batch_size,
+                                "offset": offset,
+                            },
+                        )
+                    else:
+                        query = text(
+                            """
+                            SELECT table_name
+                            FROM information_schema.tables
+                            WHERE table_schema = 'public'
+                            AND table_type = 'BASE TABLE'
+                            AND table_name NOT LIKE '\\_%'
+                            ORDER BY table_name
+                            LIMIT :batch_size OFFSET :offset
+                        """
+                        )
+                        result = connection.execute(
+                            query, {"batch_size": batch_size, "offset": offset}
+                        )
+
+                    batch_tables = [row[0] for row in result]
+
+                    if not batch_tables:
+                        break
+
+                    for table in batch_tables:
+                        if len(tables_with_counts) >= limit:
+                            break
+
+                        try:
+                            resource = model.Resource.get(table)
+                            resource_exists = bool(resource)
+
+                            if resource_exists:
+                                continue
+
+                            count_query = text(
+                                f'SELECT COUNT(*) FROM "{table}"'
+                            )
+                            count_result = connection.execute(count_query)
+                            record_count = count_result.scalar()
+
+                            tables_with_counts.append(
+                                {
+                                    "table_name": table,
+                                    "record_count": record_count,
+                                    "resource_exists": False,
+                                }
+                            )
+                        except Exception as e:
+                            log.warning(
+                                "Error processing table %s: %s", table, repr(e)
+                            )
+
+                    offset += batch_size
+
+                    if len(tables_with_counts) >= limit:
+                        break
+            else:
+                # Normal mode - simple limit query
+                if search_query:
+                    query = text(
+                        """
+                        SELECT table_name
+                        FROM information_schema.tables
+                        WHERE table_schema = 'public'
+                        AND table_type = 'BASE TABLE'
+                        AND table_name NOT LIKE '\\_%'
+                        AND table_name LIKE :search_pattern
+                        ORDER BY table_name
+                        LIMIT :limit
+                    """
+                    )
+                    result = connection.execute(
+                        query,
+                        {
+                            "search_pattern": f"%{search_query}%",
+                            "limit": limit,
+                        },
+                    )
+                else:
+                    query = text(
+                        """
+                        SELECT table_name
+                        FROM information_schema.tables
+                        WHERE table_schema = 'public'
+                        AND table_type = 'BASE TABLE'
+                        AND table_name NOT LIKE '\\_%'
+                        ORDER BY table_name
+                        LIMIT :limit
+                    """
+                    )
+                    result = connection.execute(query, {"limit": limit})
+
+                tables = [row[0] for row in result]
+
+                # Get record count and check resource existence
+                for table in tables:
+                    try:
+                        count_query = text(f'SELECT COUNT(*) FROM "{table}"')
+                        count_result = connection.execute(count_query)
+                        record_count = count_result.scalar()
+
+                        # Check if resource exists in CKAN
+                        resource = model.Resource.get(table)
+                        resource_exists = bool(resource)
+
+                        tables_with_counts.append(
+                            {
+                                "table_name": table,
+                                "record_count": record_count,
+                                "resource_exists": resource_exists,
+                            }
+                        )
+                    except Exception as e:
+                        log.warning(
+                            "Error counting records in table %s: %s",
+                            table,
+                            repr(e),
+                        )
+                        tables_with_counts.append(
+                            {
+                                "table_name": table,
+                                "record_count": 0,
+                                "resource_exists": False,
+                            }
+                        )
+
+            return {
+                "success": True,
+                "total_tables": len(tables_with_counts),
+                "tables": tables_with_counts,
+                "search_query": search_query if search_query else None,
+                "orphaned_only": orphaned_only,
+            }
+    except Exception as e:
+        log.error("Datastore query error: %s", repr(e))
+        return {
+            "success": False,
+            "message": str(e),
+        }
+
+
+def selftools_datastore_table_data(
+    context: types.Context, data_dict: dict[str, Any]
+) -> dict[str, Any] | Literal[False]:
+    """Get data from specific Datastore table"""
+    tk.check_access("sysadmin", context, data_dict)
+
+    if not datastore_available:
+        return {
+            "success": False,
+            "message": "Datastore plugin is not available",
+        }
+
+    table_id = data_dict.get("table_id", "").strip()
+    limit = int(data_dict.get("limit", 1000))
+    filter_column = data_dict.get("filter_column", "").strip()
+    filter_value = data_dict.get("filter_value", "").strip()
+
+    if not table_id:
+        return {
+            "success": False,
+            "message": "Table ID is required",
+        }
+
+    try:
+        if get_read_engine is None:
+            return {
+                "success": False,
+                "message": "Datastore plugin is not available",
+            }
+
+        engine = get_read_engine()
+
+        with engine.connect() as connection:
+            # Get column names and types
+            columns_query = text(
+                """
+                SELECT column_name, data_type
+                FROM information_schema.columns
+                WHERE table_schema = 'public'
+                AND table_name = :table_name
+                ORDER BY ordinal_position
+            """
+            )
+            columns_result = connection.execute(
+                columns_query, {"table_name": table_id}
+            )
+
+            columns = []
+            column_types = {}
+            for row in columns_result:
+                col_name = row[0]
+                col_type = row[1]
+                columns.append(col_name)
+                column_types[col_name] = col_type
+
+            if filter_column and filter_value and filter_column in columns:
+                data_query = text(
+                    f'SELECT * FROM "{table_id}" WHERE "{filter_column}" = :filter_value LIMIT :limit'
+                )
+                data_result = connection.execute(
+                    data_query, {"filter_value": filter_value, "limit": limit}
+                )
+            else:
+                data_query = text(f'SELECT * FROM "{table_id}" LIMIT :limit')
+                data_result = connection.execute(data_query, {"limit": limit})
+
+            results = []
+            for row in data_result:
+                row_values = []
+                for col in columns:
+                    value = row._mapping.get(col)
+                    if value is not None:
+                        row_values.append(value)
+                    else:
+                        row_values.append("")
+                results.append(row_values)
+
+            # Try to get resource info from CKAN
+            resource_url = None
+            resource_name = None
+            try:
+                resource = model.Resource.get(table_id)
+                if resource:
+                    resource_url = tk.h.url_for(
+                        "resource.read",
+                        id=resource.package_id,
+                        resource_id=table_id,
+                        _external=True,
+                    )
+                    resource_name = resource.name
+            except Exception:
+                pass
+
+            return {
+                "success": True,
+                "table_id": table_id,
+                "resource_url": resource_url,
+                "resource_name": resource_name,
+                "fields": columns,
+                "field_types": column_types,
+                "results": results,
+                "total_records": limit,
+                "filter_column": (
+                    filter_column
+                    if filter_column and filter_column in columns
+                    else None
+                ),
+                "filter_value": (
+                    filter_value
+                    if filter_column and filter_column in columns
+                    else None
+                ),
+            }
+    except Exception as e:
+        log.error("Datastore table data error: %s", repr(e))
+        return {
+            "success": False,
+            "message": str(e),
+        }
+
+
+def selftools_datastore_delete(
+    context: types.Context, data_dict: dict[str, Any]
+) -> dict[str, Any]:
+    """Delete a table from Datastore"""
+    tk.check_access("sysadmin", context, data_dict)
+
+    if not utils.selftools_verify_operations_pwd(
+        data_dict.get("selftools_pwd")
+    ):
+        return {"success": False, "message": "Unauthorized action."}
+
+    table_id = data_dict.get("table_id", "").strip()
+
+    if not table_id:
+        return {
+            "success": False,
+            "message": "Table ID is required",
+        }
+
+    try:
+        tk.get_action("datastore_delete")(
+            context, {"resource_id": table_id, "force": True}
+        )
+
+        return {
+            "success": True,
+            "message": f"Table {table_id} deleted successfully",
+            "deleted_table": table_id,
+        }
+    except Exception as e:
+        log.error("Datastore delete error: %s", repr(e))
+        return {
+            "success": False,
+            "message": str(e),
+        }
