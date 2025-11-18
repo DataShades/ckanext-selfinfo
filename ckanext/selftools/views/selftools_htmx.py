@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 from typing import cast, Any
-from flask import Blueprint, Response
+from flask import Blueprint, Response, jsonify
 from urllib.parse import urlencode
 from cryptography.fernet import Fernet, InvalidToken
 import gzip
@@ -545,3 +545,111 @@ def selftools_model_import() -> Any | str:
         return _("Cannot decrypt the file.")
     except Exception as e:
         return str(e)
+
+
+@selftools_htmx.route("/selftools/datastore-query", methods=["POST"])
+def selftools_datastore_query() -> Any | str:
+    context: types.Context = cast(
+        types.Context,
+        {
+            "model": model,
+            "user": tk.current_user.name,
+            "auth_user_obj": tk.current_user,
+        },
+    )
+    try:
+        tk.check_access("sysadmin", context)
+    except tk.NotAuthorized:
+        tk.abort(404)
+
+    try:
+        data_dict = logic.clean_dict(
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
+        )
+    except dict_fns.DataError:
+        return tk.base.abort(400, _("Integrity Error"))
+
+    resp = tk.get_action("selftools_datastore_query")(context, data_dict)
+
+    if not resp.get("success"):
+        return (
+            resp["message"]
+            if resp.get("message")
+            else _("Something went wrong...")
+        )
+    else:
+        return tk.render(
+            "/selftools/results/datastore_results.html",
+            extra_vars={"data": resp},
+        )
+
+
+@selftools_htmx.route("/selftools/datastore-table-data", methods=["POST"])
+def selftools_datastore_table_data() -> Any | str:
+    context: types.Context = cast(
+        types.Context,
+        {
+            "model": model,
+            "user": tk.current_user.name,
+            "auth_user_obj": tk.current_user,
+        },
+    )
+    try:
+        tk.check_access("sysadmin", context)
+    except tk.NotAuthorized:
+        tk.abort(404)
+
+    try:
+        data_dict = logic.clean_dict(
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
+        )
+    except dict_fns.DataError:
+        return tk.base.abort(400, _("Integrity Error"))
+
+    resp = tk.get_action("selftools_datastore_table_data")(context, data_dict)
+
+    if not resp.get("success"):
+        return (
+            resp["message"]
+            if resp.get("message")
+            else _("Something went wrong...")
+        )
+    else:
+        return tk.render(
+            "/selftools/results/datastore_table_data.html",
+            extra_vars={"data": resp},
+        )
+
+
+@selftools_htmx.route("/selftools/datastore-delete", methods=["POST"])
+def selftools_datastore_delete() -> Any | str:
+    context: types.Context = cast(
+        types.Context,
+        {
+            "model": model,
+            "user": tk.current_user.name,
+            "auth_user_obj": tk.current_user,
+        },
+    )
+    try:
+        tk.check_access("sysadmin", context)
+    except tk.NotAuthorized:
+        tk.abort(404)
+
+    try:
+        data_dict = logic.clean_dict(
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
+        )
+    except dict_fns.DataError:
+        return tk.base.abort(400, _("Integrity Error"))
+
+    resp = tk.get_action("selftools_datastore_delete")(context, data_dict)
+
+    # Return JSON response for HTMX
+    return jsonify(resp)

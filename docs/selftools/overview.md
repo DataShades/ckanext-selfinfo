@@ -24,6 +24,8 @@ Categories:
 * **Model**
     - Export
     - Import
+* **Datastore**
+    - Data
 
 Those categories can be used an many cases when quick fix is required on remote Environments or for investigation in combination with Selfinfo Errors category.
 

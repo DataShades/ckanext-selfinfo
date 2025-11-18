@@ -1,0 +1,173 @@
+<div class="datastore-results">
+    <div class="d-flex justify-content-between mb-3 align-items-center">
+        <div class="fw-bold fs-3">
+            <span class="me-2">{{ _('Total Tables Found') }}: {{ data.total_tables }}</span>
+        </div>
+        {% if data.search_query %}
+        <div class="alert alert-info mb-0 py-2">
+            <i class="fa fa-search"></i>
+            {{ _('Search') }}: <strong>{{ data.search_query }}</strong>
+        </div>
+        {% endif %}
+    </div>
+
+    {% if data.tables %}
+    <div class="row">
+        <div class="col-lg-3 col-md-3">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">{{ _('Tables') }}</h5>
+                </div>
+                <div class="card-body p-0" style="max-height: 600px; overflow-y: auto;">
+                    <div class="list-group list-group-flush">
+                        {% for table in data.tables %}
+                        <div class="list-group-item p-0 border-0 {% if not table.resource_exists %}orphan-table{% endif %}" data-table-name="{{ table.table_name }}">
+                            <div class="d-flex align-items-center">
+                                <a href="#" 
+                                   class="flex-grow-1 datastore-table-link p-3" 
+                                   data-table-id="{{ table.table_name }}"
+                                   hx-post="{{ h.url_for('selftools_htmx.selftools_datastore_table_data') }}"
+                                   hx-vals='{"table_id": "{{ table.table_name }}"}'
+                                   hx-target="#datastore-table-data"
+                                   hx-swap="innerHTML">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center flex-grow-1">
+                                            {% if not table.resource_exists %}
+                                            <i class="fa fa-exclamation-triangle text-warning me-2" title="{{ _('Resource not found - orphaned data') }}"></i>
+                                            {% endif %}
+                                            <code class="text-primary small">{{ table.table_name }}</code>
+                                        </div>
+                                        <span class="px-2 py-1 rounded bg-secondary text-white text-center ms-2">{{ table.record_count }}</span>
+                                    </div>
+                                </a>
+                                <button type="button" 
+                                        class="btn btn-sm btn-danger ms-2 me-2 datastore-delete-btn" 
+                                        data-table-id="{{ table.table_name }}"
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#datastoreDeleteModal"
+                                        onclick="setDeleteTableId('{{ table.table_name }}')"
+                                        title="{{ _('Delete table') }}">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-9 col-md-9">
+            <div id="datastore-table-data" class="bg-light p-4 border rounded" style="min-height: 400px;">
+                <div class="text-center text-muted">
+                    <i class="fa fa-hand-pointer-o fa-3x mb-3"></i>
+                    <p>{{ _('Select a table from the list to view its data') }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-warning">
+        <i class="fa fa-exclamation-triangle"></i>
+        {{ _('No tables found') }}{% if data.search_query %} {{ _('matching') }}: <strong>{{ data.search_query }}</strong>{% endif %}
+    </div>
+    {% endif %}
+</div>
+
+{% set pwd_set = h.check_operations_pwd_set() %}
+<div class="modal fade" id="datastoreDeleteModal" tabindex="-1" aria-labelledby="datastoreDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="datastoreDeleteModalLabel">{{ _('Confirm Deletion') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="datastoreDeleteForm" 
+                  hx-post="{{ h.url_for('selftools_htmx.selftools_datastore_delete') }}"
+                  hx-swap="none"
+                  hx-on::after-request="handleDeleteSuccess(event)">
+                <div class="modal-body">
+                    <p>{{ _('Are you sure you want to delete this Datastore table?') }}</p>
+                    <div class="alert alert-warning">
+                        <i class="fa fa-exclamation-triangle"></i>
+                        <strong>{{ _('Table') }}:</strong> <code id="deleteTableName"></code>
+                    </div>
+                    <div class="mb-3">
+                        {% if not pwd_set %}
+                        <p class="text-danger">{{ _('Operations password is not set, any value will be accepted.') }}</p>
+                        {% endif %}
+                        <label for="datastore-delete-pwd" class="form-label">{{ _('Enter operations password to confirm') }}</label>
+                        <input type="password" name="selftools_pwd" class="form-control" id="datastore-delete-pwd" placeholder="Password" required>
+                    </div>
+                    <input type="hidden" name="table_id" id="deleteTableId" value="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Cancel') }}</button>
+                    <button type="submit" class="btn btn-danger">{{ _('Yes, Delete') }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function setDeleteTableId(tableId) {
+    document.getElementById('deleteTableId').value = tableId;
+    document.getElementById('deleteTableName').textContent = tableId;
+    document.getElementById('datastore-delete-pwd').value = '';
+}
+
+function handleDeleteSuccess(event) {
+    if (event.detail.successful) {
+        try {
+            // Parse the response
+            var response = JSON.parse(event.detail.xhr.response);
+            
+            // Check if deletion was actually successful
+            if (response.success) {
+                // Close modal
+                var modal = bootstrap.Modal.getInstance(document.getElementById('datastoreDeleteModal'));
+                if (modal) {
+                    modal.hide();
+                }
+                
+                // Remove table from list
+                var tableId = document.getElementById('deleteTableId').value;
+                var tableElement = document.querySelector('[data-table-name="' + tableId + '"]');
+                if (tableElement) {
+                    tableElement.remove();
+                    
+                    // Update total count
+                    var totalCountElement = document.querySelector('.datastore-results .fw-bold.fs-3 span');
+                    if (totalCountElement) {
+                        var match = totalCountElement.textContent.match(/\d+/);
+                        if (match) {
+                            var currentCount = parseInt(match[0]);
+                            totalCountElement.textContent = 'Total Tables Found: ' + (currentCount - 1);
+                        }
+                    }
+                }
+            } else {
+                // Show error message
+                alert('Error: ' + (response.message || 'Failed to delete table'));
+            }
+        } catch (e) {
+            console.error('Error parsing delete response:', e);
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle table selection
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.datastore-table-link')) {
+            // Remove active class from all links
+            document.querySelectorAll('.datastore-table-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            // Add active class to clicked link
+            e.target.closest('.datastore-table-link').classList.add('active');
+        }
+    });
+});
+</script>

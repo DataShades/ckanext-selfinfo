@@ -102,6 +102,17 @@ SELFTOOLS_TOOLS = [
             },
         ],
     },
+    {
+        "key": "datastore",
+        "label": "Datastore",
+        "tools": [
+            {
+                "key": "datastore_query",
+                "label": "Data",
+                "snippet": "/selftools/tools/datastore/datastore_query.html",
+            },
+        ],
+    },
 ]
 
 
