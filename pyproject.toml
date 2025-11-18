@@ -41,6 +41,9 @@ maintainers = [
 file = "README.md"
 content-type = "text/markdown"
 
+[project.license]
+text = "MIT"
+
 [project.urls]
 Homepage = "https://github.com/DataShades/ckanext-selfinfo"
 
