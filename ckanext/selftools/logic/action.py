@@ -946,7 +946,7 @@ def selftools_datastore_table_data(
         }
 
     table_id = data_dict.get("table_id", "").strip()
-    limit = int(data_dict.get("limit", 1000))
+    limit = int(data_dict.get("limit", 100))
     filter_column = data_dict.get("filter_column", "").strip()
     filter_value = data_dict.get("filter_value", "").strip()
 
