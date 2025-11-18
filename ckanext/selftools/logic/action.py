@@ -929,7 +929,7 @@ def selftools_datastore_query(
         log.error("Datastore query error: %s", repr(e))
         return {
             "success": False,
-            "message": str(e),
+            "message": "Error: " + str(e),
         }
 
 
