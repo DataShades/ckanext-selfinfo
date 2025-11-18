@@ -28,7 +28,7 @@
                                 <tr>
                                     <td>{{ data.platform_info.platform }}</td>
                                     <td>{{ data.platform_info.distro }}</td>
-                                    <td>{{ data.platform_info.python_version }}</td>
+                                    <td>{{ data.platform_info.python_version }} {% if data.platform_info.python_prefix %} ({{data.platform_info.python_prefix}}) {% endif %}</td>
                                 </tr>
                             </tbody>
                         </table>

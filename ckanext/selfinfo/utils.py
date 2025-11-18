@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import sys
 from typing import Any, Mapping, Optional, MutableMapping
 import requests
 import psutil
@@ -199,6 +200,7 @@ def get_platform_info() -> dict[str, Any]:
         "distro": distro.name() + " " + distro.version(),
         "python_version": platform.python_version(),
         "platform": platform.platform(),
+        "python_prefix": sys.prefix,
     }
 
 
