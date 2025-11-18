@@ -2,126 +2,130 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/cli/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/config_settings/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/configuration/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/installation/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/requirements/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/configuration/categories/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/configuration/errors/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/configuration/git_info/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/configuration/secure_url_and_action/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/configuration/solr_schema/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/configuration/unique_redis_key_per_portal_instance/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/extending/overview/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/profiles/duplicated_env/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/profiles/overview/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/profiles/redis_key/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/profiles/shared_categories/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/selftools/config_settings/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/selftools/configuration/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/selftools/extending_selftools/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/selftools/overview/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/selftools/categories/config/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
+    </url>
+    <url>
+         <loc>https://datashades.github.io/ckanext-selfinfo/selftools/categories/datastore/</loc>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/selftools/categories/db/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/selftools/categories/model/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/selftools/categories/redis/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/selftools/categories/solr/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/selftracking/categories/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/selftracking/config_settings/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/selftracking/configuration/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/selftracking/custom_tracks/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
          <loc>https://datashades.github.io/ckanext-selfinfo/selftracking/overview/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
 </urlset>
