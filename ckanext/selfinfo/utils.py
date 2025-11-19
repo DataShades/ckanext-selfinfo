@@ -293,19 +293,61 @@ def retrieve_errors() -> list[dict[str, Any]]:
 def ckan_actions() -> list[dict[str, Any]]:
     from ckan.logic import _actions
 
+    site_url = tk.config.get("ckan.site_url", "http://localhost:5000")
+    root_path = tk.config.get("ckan.root_path", "")
+    apitoken_header_name = tk.config.get(
+        "apitoken_header_name", "Authorization"
+    )
+
+    site_url = site_url.rstrip("/")
+    if root_path:
+        root_path = root_path.replace("{{LANG}}", "").strip("/")
+        if root_path:
+            root_path = "/" + root_path
+
+    api_base_url = f"{site_url}{root_path}/api/3/action"
+
     data = []
     for n, f in _actions.items():
         chained = False
-        # For chained items
         if hasattr(f, "__closure__") and f.__closure__ and len(f.__closure__):
             if isinstance(f.__closure__[0].cell_contents, functools.partial):
                 chained = True
+
+        is_side_effect_free = getattr(f, "side_effect_free", False)
+        allowed_methods = ["GET", "POST"] if is_side_effect_free else ["POST"]
+
+        curl_examples = []
+        action_url = f"{api_base_url}/{n}"
+
+        if "GET" in allowed_methods:
+            curl_get = (
+                f'curl -X GET "{action_url}" \\\n'
+                f'  -H "{apitoken_header_name}: YOUR_API_TOKEN"'
+            )
+            curl_examples.append({"method": "GET", "curl": curl_get})
+
+        if "POST" in allowed_methods:
+            curl_post = (
+                f'curl -X POST "{action_url}" \\\n'
+                f'  -H "{apitoken_header_name}: YOUR_API_TOKEN" \\\n'
+                f'  -H "Content-Type: application/json" \\\n'
+                f'  -d \'{{"key": "value"}}\''
+            )
+            curl_examples.append({"method": "POST", "curl": curl_post})
 
         data.append(
             {
                 "func_name": n,
                 "docstring": inspect.getdoc(f),
                 "chained": chained,
+                "allowed_methods": allowed_methods,
+                "side_effect_free": is_side_effect_free,
+                "curl_examples": curl_examples,
+                "api_url": action_url,
+                "site_url": site_url,
+                "root_path": root_path,
+                "apitoken_header_name": apitoken_header_name,
             }
         )
 
@@ -437,7 +479,12 @@ def get_ckan_registered_cli() -> list[Any]:
 
 
 def get_status_show() -> Any:
-    return tk.get_action("status_show")({}, {})
+    status_data = tk.get_action("status_show")({}, {})
+
+    status_data["apitoken_header_name"] = tk.config.get(
+        "apitoken_header_name", "Authorization"
+    )
+    return status_data
 
 
 def get_ckan_queues() -> dict[str, dict[str, "str|list[dict[str, Any]]"]]:
