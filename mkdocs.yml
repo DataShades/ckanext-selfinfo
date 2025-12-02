@@ -8,6 +8,9 @@ theme:
   features:
     - content.code.copy
 
+plugins:
+  - glightbox
+
 nav:
   - Home: index.md
   - Requirements: requirements.md
@@ -57,3 +60,5 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  - attr_list
+  - md_in_html
