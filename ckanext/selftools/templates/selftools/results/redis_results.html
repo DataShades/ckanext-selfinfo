@@ -1,11 +1,11 @@
-<div class="table-responsive">
+<div class="table-responsive scollable-table-container">
     <div class="d-flex justify-content-between mb-3 align-items-center">
         <div class="fw-bold fs-3">
             <span class="me-2">{{ _('Items') }} : {{ data.results | length }}</span>
             <input type="text" id="selftools-redis-query-table-search" class="form-control" placeholder="Search..."
                 data-module="search-through-table" data-module-target-table="selftools-redis-query-results-rows">
         </div>
-        <button class="btn btn-dark" onclick="copyTableJsonToClipboard('selftools-redis-query-results-rows')">
+        <button class="btn selfiinfo-button-main-color-bg text-white" onclick="copyTableJsonToClipboard('selftools-redis-query-results-rows')">
             Copy as JSON
         </button>
     </div>

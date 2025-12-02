@@ -8,6 +8,7 @@ selfinfo-js:
     - js/search-through-content.js
     - js/search-through-table.js
     - js/datepicker.js
+    - script.js
   extra:
     preload:
       - base/main

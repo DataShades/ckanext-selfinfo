@@ -18,16 +18,19 @@ SELFTRACKING_DEFAULT_CATEGORIES = [
         "key": "main",
         "label": "Main",
         "snippet": "/selftracking/snippets/selftracking_main.html",
+        "icon": "fas fa-chart-bar",
     },
     {
         "key": "page_view",
         "label": "Page View",
         "snippet": "/selftracking/snippets/selftracking_page_view.html",
+        "icon": "fas fa-file-alt",
     },
     {
         "key": "api_view",
         "label": "API View",
         "snippet": "/selftracking/snippets/selftracking_api_view.html",
+        "icon": "fas fa-code",
     },
 ]
 log = logging.getLogger(__name__)

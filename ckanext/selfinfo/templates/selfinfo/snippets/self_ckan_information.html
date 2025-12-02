@@ -1,63 +1,57 @@
-<h2 class="m-3 text-center">
-    CKAN Information
-    <button class="text-primary bg-transparent box-shadow-none border-0" onclick='copyElementContent("{{ id }}-anchor")'>
-        <i class="fa fa-link fs-3" aria-hidden="true"></i>
-    </button>
-    <div id="{{ id }}-anchor" class="hidden d-none">
-        {{ full_url ~ '#' ~ id }}
+{% snippet 'selfinfo/snippets/selfinfo_content_header.html', icon_class='fas fa-cube me-2', label=_('CKAN Information') %}
+<div class="p-3">
+    <nav>
+        <div class="nav nav-pills nav-fill selfinfo-main-color-bg rounded selfinfo-ckan-pills" id="nav-tab" role="tablist">
+        {% if data.status_show %}
+            <button class="nav-link px-3 py-2 active" id="nav-ckan-tab-basic-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-basic-{{profile}}" role="tab" aria-controls="nav-ckan-tab-basic-{{profile}}" aria-selected="true">Basic Info</button>
+            {% endif %}
+            {% if data.actions %}
+            <button class="nav-link px-3 py-2" id="nav-ckan-tab-actions-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-actions-{{profile}}" role="tab" aria-controls="nav-ckan-tab-actions-{{profile}}" aria-selected="false">Actions</button>
+            {% endif %}
+            {% if data.auth_actions %}
+            <button class="nav-link px-3 py-2" id="nav-ckan-tab-auths-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-auths-{{profile}}" role="tab" aria-controls="nav-ckan-tab-auths-{{profile}}" aria-selected="false">Auth</button>
+            {% endif %}
+            {% if data.helpers %}
+            <button class="nav-link px-3 py-2" id="nav-ckan-tab-helpers-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-helpers-{{profile}}" role="tab" aria-controls="nav-ckan-tab-helpers-{{profile}}" aria-selected="false">Helpers</button>
+            {% endif %}
+            {% if data.blueprints %}
+            <button class="nav-link px-3 py-2" id="nav-ckan-tab-blueprints-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-blueprints-{{profile}}" role="tab" aria-controls="nav-ckan-tab-blueprints-{{profile}}" aria-selected="false">Blueprints</button>
+            {% endif %}
+            {% if data.ckan_cli_commands %}
+            <button class="nav-link px-3 py-2" id="nav-ckan-tab-ckan_cli_commands-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-ckan_cli_commands-{{profile}}" role="tab" aria-controls="nav-ckan-tab-ckan_cli_commands-{{profile}}" aria-selected="false">CLI Commands</button>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="tab-content d-block">
+        {% if data.status_show %}
+        <div class="tab-pane fade show active" id="nav-ckan-tab-basic-{{profile}}" role="tabpanel" aria-labelledby="nav-ckan-tab-basic-tab-{{profile}}">
+            {% snippet 'selfinfo/snippets/self_basic_info.html', data=data %}
+        </div>
+        {% endif %}
+        {% if data.actions %}
+        <div class="tab-pane fade" id="nav-ckan-tab-actions-{{profile}}" role="tabpanel" aria-labelledby="nav-ckan-tab-actions-tab-{{profile}}">
+            {% snippet 'selfinfo/snippets/self_actions.html', data=data %}
+        </div>
+        {% endif %}
+        {% if data.auth_actions %}
+        <div class="tab-pane fade" id="nav-ckan-tab-auths-{{profile}}" role="tabpanel" aria-labelledby="nav-ckan-tab-auths-tab-{{profile}}">
+            {% snippet 'selfinfo/snippets/self_auth_actions.html', data=data %}
+        </div>
+        {% endif %}
+        {% if data.helpers %}
+        <div class="tab-pane fade" id="nav-ckan-tab-helpers-{{profile}}" role="tabpanel" aria-labelledby="nav-ckan-tab-helpers-tab-{{profile}}">
+            {% snippet 'selfinfo/snippets/self_helpers.html', data=data %}
+        </div>
+        {% endif %}
+        {% if data.blueprints %}
+        <div class="tab-pane fade" id="nav-ckan-tab-blueprints-{{profile}}" role="tabpanel" aria-labelledby="nav-ckan-tab-blueprints-tab-{{profile}}">
+            {% snippet 'selfinfo/snippets/self_blueprints.html', data=data %}
+        </div>
+        {% endif %}
+        {% if data.ckan_cli_commands %}
+        <div class="tab-pane fade" id="nav-ckan-tab-ckan_cli_commands-{{profile}}" role="tabpanel" aria-labelledby="nav-ckan-tab-ckan_cli_commands-tab-{{profile}}">
+            {% snippet 'selfinfo/snippets/self_ckan_cli_commands.html', data=data %}
+        </div>
+        {% endif %}
     </div>
-</h2>
-<nav>
-    <div class="nav nav-pills nav-fill border border-dark rounded bg-dark" id="nav-tab" role="tablist">
-    {% if data.status_show %}
-    <button class="nav-link rounded-0 fw-bold active" id="nav-ckan-tab-basic-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-basic-{{profile}}" role="tab" aria-controls="nav-ckan-tab-basic-{{profile}}" aria-selected="true">Basic Info</button>
-    {% endif %}
-    {% if data.actions %}
-    <button class="nav-link rounded-0 fw-bold" id="nav-ckan-tab-actions-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-actions-{{profile}}" role="tab" aria-controls="nav-ckan-tab-actions-{{profile}}" aria-selected="false">Actions</button>
-    {% endif %}
-    {% if data.auth_actions %}
-    <button class="nav-link rounded-0 fw-bold" id="nav-ckan-tab-auths-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-auths-{{profile}}" role="tab" aria-controls="nav-ckan-tab-auths-{{profile}}" aria-selected="false">Auth</button>
-    {% endif %}
-    {% if data.helpers %}
-    <button class="nav-link rounded-0 fw-bold" id="nav-ckan-tab-helpers-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-helpers-{{profile}}" role="tab" aria-controls="nav-ckan-tab-helpers-{{profile}}" aria-selected="false">Helpers</button>
-    {% endif %}
-    {% if data.blueprints %}
-    <button class="nav-link rounded-0 fw-bold" id="nav-ckan-tab-blueprints-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-blueprints-{{profile}}" role="tab" aria-controls="nav-ckan-tab-blueprints-{{profile}}" aria-selected="false">Blueprints</button>
-    {% endif %}
-    {% if data.ckan_cli_commands %}
-    <button class="nav-link rounded-0 fw-bold" id="nav-ckan-tab-ckan_cli_commands-tab-{{profile}}" data-bs-toggle="tab" data-bs-target="#nav-ckan-tab-ckan_cli_commands-{{profile}}" role="tab" aria-controls="nav-ckan-tab-ckan_cli_commands-{{profile}}" aria-selected="false">CLI Commands</button>
-    {% endif %}
-    </div>
-</nav>
-<div class="tab-content d-block">
-    {% if data.status_show %}
-    <div class="tab-pane fade show active" id="nav-ckan-tab-basic-{{profile}}" role="tabpanel" aria-labelledby="nav-ckan-tab-basic-tab-{{profile}}">
-        {% snippet 'selfinfo/snippets/self_basic_info.html', data=data %}
-    </div>
-    {% endif %}
-    {% if data.actions %}
-    <div class="tab-pane fade" id="nav-ckan-tab-actions-{{profile}}" role="tabpanel" aria-labelledby="nav-ckan-tab-actions-tab-{{profile}}">
-        {% snippet 'selfinfo/snippets/self_actions.html', data=data %}
-    </div>
-    {% endif %}
-    {% if data.auth_actions %}
-    <div class="tab-pane fade" id="nav-ckan-tab-auths-{{profile}}" role="tabpanel" aria-labelledby="nav-ckan-tab-auths-tab-{{profile}}">
-        {% snippet 'selfinfo/snippets/self_auth_actions.html', data=data %}
-    </div>
-    {% endif %}
-    {% if data.helpers %}
-    <div class="tab-pane fade" id="nav-ckan-tab-helpers-{{profile}}" role="tabpanel" aria-labelledby="nav-ckan-tab-helpers-tab-{{profile}}">
-        {% snippet 'selfinfo/snippets/self_helpers.html', data=data %}
-    </div>
-    {% endif %}
-    {% if data.blueprints %}
-    <div class="tab-pane fade" id="nav-ckan-tab-blueprints-{{profile}}" role="tabpanel" aria-labelledby="nav-ckan-tab-blueprints-tab-{{profile}}">
-        {% snippet 'selfinfo/snippets/self_blueprints.html', data=data %}
-    </div>
-    {% endif %}
-    {% if data.ckan_cli_commands %}
-    <div class="tab-pane fade" id="nav-ckan-tab-ckan_cli_commands-{{profile}}" role="tabpanel" aria-labelledby="nav-ckan-tab-ckan_cli_commands-tab-{{profile}}">
-        {% snippet 'selfinfo/snippets/self_ckan_cli_commands.html', data=data %}
-    </div>
-    {% endif %}
 </div>

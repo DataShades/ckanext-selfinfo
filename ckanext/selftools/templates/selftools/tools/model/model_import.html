@@ -1,33 +1,37 @@
 {% import 'macros/form.html' as form %}
 
-<div class="d-flex mb-3">
-    <a href="https://datashades.github.io/ckanext-selfinfo/selftools/categories/model/">
-        {{ _('Documentation') }}
-    </a>
-</div>
+{% snippet 'selfinfo/snippets/selfinfo_content_header.html', icon_class='fas fa-file-import me-2', label=_('Model - Import') %}
 
-<div class="">
-    <form class="form-control border-0 shadow-none p-0" hx-post="{{ h.url_for('selftools_htmx.selftools_model_import') }}" hx-trigger="submit" hx-target="#model-import-resp" hx-swap="innerHTML" enctype="multipart/form-data">
-        <label for="file">Upload File</label>
-        <div class="mb-3">
-            <input type="file" name="file" id="file" required />
-        </div>
-
-        <div class="mb-3">
-            <label for="decryption_key" class="form-label">{{ _('(Optional) External Decryption Key') }}</label>
-            <input class="form-control" type="text" id="decryption_key" name="decryption_key">
-            <div class="info-block mb-2">
-                <i class="fa fa-info-circle"></i>
-                {{ _("Provide it only if the File has extensin '.bin' and your local encryption key cannot decrypt the file.") }}
+<div class="p-3">
+    <div class="d-flex mb-3">
+        <a href="https://datashades.github.io/ckanext-selfinfo/selftools/categories/model/">
+            {{ _('Documentation') }}
+        </a>
+    </div>
+    
+    <div class="">
+        <form class="form-control border-0 shadow-none p-0" hx-post="{{ h.url_for('selftools_htmx.selftools_model_import') }}" hx-trigger="submit" hx-target="#model-import-resp" hx-swap="innerHTML" enctype="multipart/form-data">
+            <label for="file">Upload File</label>
+            <div class="mb-3">
+                <input type="file" name="file" id="file" required />
             </div>
-        </div>
-
-        <button type="button" class="btn btn-dark mt-2" data-bs-toggle="modal" data-bs-target="#model-import-confirmation">
-            Import
-        </button>
-
-        {% snippet "selftools/snippets/confirmation.html", modal_id='model-import-confirmation', modal_label_id='model-import-label-id' %}
-    </form>
+    
+            <div class="mb-3">
+                <label for="decryption_key" class="form-label">{{ _('(Optional) External Decryption Key') }}</label>
+                <input class="form-control" type="text" id="decryption_key" name="decryption_key">
+                <div class="info-block mb-2">
+                    <i class="fa fa-info-circle"></i>
+                    {{ _("Provide it only if the File has extensin '.bin' and your local encryption key cannot decrypt the file.") }}
+                </div>
+            </div>
+    
+            <button type="button" class="btn selfiinfo-button-main-color-bg text-white mt-2" data-bs-toggle="modal" data-bs-target="#model-import-confirmation">
+                Import
+            </button>
+    
+            {% snippet "selftools/snippets/confirmation.html", modal_id='model-import-confirmation', modal_label_id='model-import-label-id' %}
+        </form>
+    </div>
+    
+    <div id="model-import-resp" class="bg-light p-3 border rounded mt-3">Output here...</div>
 </div>
-
-<div id="model-import-resp" class="bg-light p-3 border rounded mt-3">Output here...</div>

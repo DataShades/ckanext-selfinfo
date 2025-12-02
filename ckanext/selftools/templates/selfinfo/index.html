@@ -1,0 +1,54 @@
+{% ckan_extends %}
+
+{% block selfinfo_plugin_sidebar_plugins %}
+    {{ super() }}
+    <a class="selfinfo-plugin-link" data-plugin="selftools" type="button" role="tab">
+        <i class="fas fa-tools"></i>
+        <span>Selftools</span>
+    </a>
+{% endblock %}
+
+{% block selfinfo_navigations %}
+    {{ super() }}
+    <div class="selfinfo-navigation selfinfo-navigation-selftools">
+        {% set selftools_categories = h.selftools_categories() %}
+        <div class="selfinfo-nav-section-title">Categories</div>
+        <div class="nav nav-pills flex-column" id="selftools-tab" role="tablist">
+            {% for category in selftools_categories %}
+                <a class="selfinfo-navigation-link {% if loop.index == 1 %} active {% endif %}" data-plugin="selftools" data-category="{{ category.key }}" type="button" role="tab">
+                    {%if category.icon %}
+                        <i class="{{ category.icon }} me-2"></i>
+                    {% endif %}
+                    {{ category.label }}
+                </a>
+
+                <div class="selfinfo-category-navigation selfinfo-category-{{ category.key }}-navigation {% if loop.index == 1 %} active {% endif %}">
+                    <div class="selfinfo-nav-section-title">{{ _('Tools') }}</div>
+                    <div class="nav nav-pills flex-column">
+                        {% for tool in category.tools %}
+                            <a class="selfinfo-navigation-link-sub-item {% if loop.index == 1 %} active {% endif %}" id="{{category.key}}-{{tool.key}}-tab" data-bs-toggle="pill" data-bs-target="#{{category.key}}-{{tool.key}}-content" type="button" role="tab">
+                                {% if tool.icon %}
+                                    <i class="{{ tool.icon }} me-2"></i>
+                                {% endif %}
+                                {{ tool.label }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block selfinfo_plugin_tabs_content %}
+    {% set selftools_categories = h.selftools_categories() %}
+    {{ super() }}
+    <div class="selfinfo-content-wrapper selfinfo-content-selftools-wrapper">
+        {% for category in selftools_categories %}
+            <div class="selfinfo-category-content selfinfo-category-{{ category.key }}-content {% if loop.index == 1 %} active {% endif %}" id="selfinfo-{{ category.key }}-tab-content">
+                {% set extras = {} %}
+                {% snippet "selftools/snippets/selftools_{}.html".format(category.key), category=category, extras=extras %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,29 +1,31 @@
 {% extends "header.html" %}
 
 {% block header_wrapper %} {% block header_account %}
-<div class="selfinfo-account-masthead account-masthead bg-dark bg-gradient">
+<div class="selfinfo-account-masthead account-masthead selfinfo-header-blue-bg">
   <div class="px-3">
     {% block header_account_container_content %} {{ super() }} {% endblock %}
   </div>
 </div>
 {% endblock %}
-<header class="bg-dark selfinfo-masthead">
+<header class="selfinfo-masthead">
   <div class="p-3">
     {% block header_debug %} {{ super() }} {% endblock %}
     <nav class="navbar navbar-expand-lg navbar-light p-0">
       <hgroup class="{{ g.header_class }} navbar-left d-flex align-items-center">
 
       {% block header_logo %}
-        {{ super() }}
-        <a class="logo ms-3" target="_blank" href="https://github.com/DataShades/">
-            <img src="{{ h.url_for('/images/datashades_logo.png') }}" alt="CKAN" title="CKAN">
+        <a href="https://ckan.org" class="logo selfinfo-main-logo">
+          <img src="{{ h.url_for('/images/ckan-logo.svg') }}" alt="CKAN" title="CKAN">
+        </a>
+        <a class="logo selfinfo-datashades-logo ms-3" target="_blank" href="https://github.com/DataShades/">
+            <img src="{{ h.url_for('/images/datashades-logo.svg') }}" alt="DataShades" title="DataShades">
         </a>
       {% endblock %}
 
        </hgroup>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-navigation-toggle"
         aria-controls="main-navigation-toggle" aria-expanded="false" aria-label="{{ _('Toggle navigation') }}">
-        <span class="fa fa-bars text-white"></span>
+        <span class="fa fa-bars selfinfo-main-color-text"></span>
       </button>
 
       <div class="main-navbar collapse navbar-collapse" id="main-navigation-toggle">

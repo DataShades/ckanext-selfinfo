@@ -20,142 +20,165 @@
     {% endblock -%}
     {% block page_header %}
     {% endblock %}
-    <div id="selfinfo-layout">
+    <div id="selfinfo-layout" class="pb-5">
         {% block primary %}
-            <div class="bg-dark px-3 py-2">
-                <ul class="nav nav-pills nav-fill border border-primary rounded border-light" id="pills-tab" role="tablist">
-                    <li class="nav-item fs-4" role="presentation">
-                    <button class="nav-link rounded-0 fw-bold active" id="selfinfo-plugin-tab" data-bs-toggle="pill" data-bs-target="#selfinfo-plugin" type="button" role="tab">
-                        {{ _('Selfinfo') }}
-                    </button>
-                    </li>
-                    {% snippet 'selfinfo/snippets/selfinfo_plugin_tabs.html', full_url=full_url %}
-                </ul>
-            </div>
-            <div class="primary col-md-12 col-xs-12" role="main">
-                <div class="module">
-                    {% if self.page_primary_action() | trim %}
-                    <div class="page_primary_action">
-                        {% block page_primary_action %}{{ super() }}{% endblock %}
+        <div class="selfinfo-container position-relative d-flex mx-3">
+            <aside class="selfinfo-sidebar">
+                    <button class="sidebar-mobile-close sidebar-mobile text-white"><i class="fa-solid fa-angle-left"></i></button>
+                    <div class="selfinfo-sidebar-header">
+                        <h3>
+                            <i class="fas fa-chart-line"></i>
+                            Selfinfo Dashboard
+                        </h3>
                     </div>
-                    {% endif %}
-                    {% set full_url = h.full_current_url() %}
-                    <div class="tab-content d-block">
-                        <div class="tab-pane fade show active" id="selfinfo-plugin" role="tabpanel" aria-labelledby="selfinfo-plugin-tab">
-                            <div class="px-3 py-2 bg-dark">
-                                <ul class="nav nav-pills nav-fill border border-primary rounded border-light" id="pills-tab" role="tablist">
-                                    {% for profile, data in profiles.items() %}
-                                        <li class="nav-item" role="presentation">
-                                        <button href="#pills-selfinfo-{{ profile }}" class="nav-link rounded-0 fw-bold {% if loop.index == 1 %} active {% endif %}" id="pills-selfinfo-{{ profile }}-tab" data-bs-toggle="pill" data-bs-target="#pills-selfinfo-{{ profile }}" role="tab" aria-controls="pills-selfinfo-{{ profile }}" aria-selected="true">
-                                            {% if "label" in data %}
-                                                {{ data.label }}
-                                            {% else %}
-                                                {{ profile }}
-                                            {% endif %}
-                                            {% if data.provided_on and h.selfinfo_is_profile_old(data.provided_on) %}
-                                                <i class="fa fa-triangle-exclamation text-danger" aria-hidden="true"></i>
-                                            {% endif %}
-                                        </button>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                            <div class="tab-content d-block" id="pills-tabContent">
+
+                    <div class="selfinfo-plugin-selector">
+                        <div class="selfinfo-nav-section-title">Switch Plugin</div>
+                        <div class="flex-column">
+                            {% block selfinfo_plugin_sidebar_plugins %}
+                                <a class="selfinfo-plugin-link active" data-plugin="selfinfo" type="button" role="tab">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span>Selfinfo</span>
+                                </a>
+                            {% endblock %}
+                        </div>
+                    </div>
+
+                    {% block selfinfo_navigations %}
+                        <div class="selfinfo-navigation active selfinfo-navigation-selfinfo">
+                            <div class="selfinfo-nav-section-title">Profiles</div>
+                            <div class="nav nav-pills flex-column">                                       
                                 {% for profile, data in profiles.items() %}
-                                <div class="tab-pane fade {% if loop.index == 1 %} show active {% endif %}" id="pills-selfinfo-{{ profile }}" role="tabpanel" aria-labelledby="pills-selfinfo-{{ profile }}-tab">
-                                    {% if data.provided_on %}
-                                        <div class="d-flex justify-content-between align-items-center px-3 py-2 bg-dark text-white">
-                                            <div class="d-flex align-items-center">
-                                                <div class="p-2 rounded bg-success me-3">
-                                                    Provided on: {{ h.render_datetime(data.provided_on, date_format='%d/%m/%y %H:%M') }}
-                                                </div>
-                                                <div class="bg-white text-dark p-2 rounded">
-                                                    Redis key: {{ profile }}
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <button class="btn btn-danger p-2 rounded" title="Delete Profile" hx-post="/selfinfo/delete-profile" hx-trigger="click" hx-swap="innerHTML" hx-target="#selfinfo-{{ profile }}-tab-content" hx-vals='{"profile": "{{profile}}"}'>
-                                                    {{ _('Delete Profile') }}
-                                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                    <div id="selfinfo-{{ profile }}-tab-content">
-                                        <nav class="px-3 pt-2 pb-3 bg-dark">
-                                            <div class="nav nav-pills nav-fill border border-primary rounded border-light" id="nav-tab" role="tablist">
-                                                <button href="#nav-system-{{ profile }}" class="nav-link rounded-0 fw-bold active" id="nav-system-{{ profile }}-tab" data-bs-toggle="tab" data-bs-target="#nav-system-{{ profile }}" role="tab" aria-controls="nav-system-{{ profile }}" aria-selected="true">System Info</button>
-                                                <button href="#nav-ckan-{{ profile }}" class="nav-link rounded-0 fw-bold" id="nav-ckan-{{ profile }}-tab" data-bs-toggle="tab" data-bs-target="#nav-ckan-{{ profile }}" role="tab" aria-controls="nav-ckan-{{ profile }}" aria-selected="false">CKAN Info</button>
-                                                {% if data.git_info %}
-                                                    <button href="#nav-git-{{ profile }}" class="nav-link rounded-0 fw-bold" id="nav-git-{{ profile }}-tab" data-bs-toggle="tab" data-bs-target="#nav-git-{{ profile }}" role="tab" aria-controls="nav-git-{{ profile }}" aria-selected="false">GIT Info</button>
-                                                {% endif %}
-                                                {% if data.python_modules %}
-                                                    <button href="#nav-python-{{ profile }}" class="nav-link rounded-0 fw-bold" id="nav-python-{{ profile }}-tab" data-bs-toggle="tab" data-bs-target="#nav-python-{{ profile }}" role="tab" aria-controls="nav-python-{{ profile }}" aria-selected="false">Python Info</button>
-                                                {% endif %}
-                                                {% if data.freeze %}
-                                                    <button href="#nav-freeze-{{ profile }}" class="nav-link rounded-0 fw-bold" id="nav-freeze-{{ profile }}-tab" data-bs-toggle="tab" data-bs-target="#nav-freeze-{{ profile }}" role="tab" aria-controls="nav-freeze-{{ profile }}" aria-selected="false">PIP Freeze</button>
-                                                {% endif %}
-                                                {% if data.ckan_queues %}
-                                                    <button href="#nav-ckan_queues-{{ profile }}" class="nav-link rounded-0 fw-bold" id="nav-ckan_queues-{{ profile }}-tab" data-bs-toggle="tab" data-bs-target="#nav-ckan_queues-{{ profile }}" role="tab" aria-controls="nav-ckan_queues-{{ profile }}" aria-selected="false">CKAN Queues</button>
-                                                {% endif %}
-                                                {% if data.ckan_solr_schema %}
-                                                    <button href="#nav-ckan_solr_schema-{{ profile }}" class="nav-link rounded-0 fw-bold" id="nav-ckan_solr_schema-{{ profile }}-tab" data-bs-toggle="tab" data-bs-target="#nav-ckan_solr_schema-{{ profile }}" role="tab" aria-controls="nav-ckan_solr_schema-{{ profile }}" aria-selected="false">Solr Schema</button>
-                                                {% endif %}
-                                                {% if 'errors' in data %}
-                                                    <button href="#nav-errors-{{ profile }}" class="nav-link rounded-0 fw-bold" id="nav-errors-{{ profile }}-tab" data-bs-toggle="tab" data-bs-target="#nav-errors-{{ profile }}" role="tab" aria-controls="nav-errors-{{ profile }}" aria-selected="false">Errors</button>
-                                                {% endif %}
-                
-                                                {% snippet 'selfinfo/snippets/additional_navigation_tabs.html', profile=profile, data=data, full_url=full_url %}
-                
-                                            </div>
-                                        </nav>
-                                        <div class="tab-content d-block p-3" id="nav-data-{{ profile }}">
-                                            <div class="tab-pane fade show active" id="nav-system-{{ profile }}" role="tabpanel" aria-labelledby="nav-system-tab">
-                                                {% snippet 'selfinfo/snippets/self_system_info.html', profile=profile, data=data, full_url=full_url, id='nav-system-' ~ profile %}
-                                            </div>
-                                            <div class="tab-pane fade" id="nav-ckan-{{ profile }}" role="tabpanel" aria-labelledby="nav-ckan-tab">
-                                                {% snippet 'selfinfo/snippets/self_ckan_information.html', profile=profile, data=data, full_url=full_url, id='nav-ckan-' ~ profile %}
-                                            </div>
-                                            <div class="tab-pane fade" id="nav-git-{{ profile }}" role="tabpanel" aria-labelledby="nav-git-tab">
-                                                {% snippet 'selfinfo/snippets/self_git_info.html', profile=profile, data=data, full_url=full_url, id='nav-git-' ~ profile %}
-                                            </div>
+                                    <a class="selfinfo-navigation-link {% if loop.index == 1 %} active {% endif %}" data-plugin="selfinfo" data-category="{{ profile }}" type="button" role="tab">
+                                        {% if "label" in data %}
+                                            {{ data.label }}
+                                        {% else %}
+                                            {{ profile }}
+                                        {% endif %}
+                                        {% if data.provided_on and h.selfinfo_is_profile_old(data.provided_on) %}
+                                            <i class="fa fa-triangle-exclamation seflinfo-alert-text" aria-hidden="true"></i>
+                                        {% endif %}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                            <div class="nav nav-pills flex-column">
+                                {% for profile, data in profiles.items() %}
+                                    <div class="selfinfo-category-navigation selfinfo-category-{{ profile }}-navigation {% if loop.index == 1 %} active {% endif %}">
+                                        <div class="selfinfo-nav-section-title">{{ _('Tools') }}</div>
+                                        <div class="nav nav-pills flex-column">
+                                            <a class="selfinfo-navigation-link active" id="nav-system-{{ profile }}-tab" data-bs-toggle="tab" data-bs-target="#nav-system-{{ profile }}" role="tab" aria-controls="nav-system-{{ profile }}" aria-selected="true">
+                                                <i class="fas fa-server"></i>
+                                                {{ _('System Info') }}</a>
+                                            <a class="selfinfo-navigation-link" id="nav-ckan-{{ profile }}-tab" data-bs-toggle="tab" data-bs-target="#nav-ckan-{{ profile }}" role="tab" aria-controls="nav-ckan-{{ profile }}" aria-selected="false">
+                                                <i class="fas fa-cube"></i>
+                                                {{ _('CKAN Info') }}</a>
+                                            {% if data.git_info %}
+                                                <a class="selfinfo-navigation-link" id="nav-git-{{ profile }}-tab" data-bs-toggle="tab" data-bs-target="#nav-git-{{ profile }}" role="tab" aria-controls="nav-git-{{ profile }}" aria-selected="false">
+                                                    <i class="fab fa-git-alt"></i>
+                                                    {{ _('GIT Info') }}</a>
+                                            {% endif %}
                                             {% if data.python_modules %}
-                                            <div class="tab-pane fade" id="nav-python-{{ profile }}" role="tabpanel" aria-labelledby="nav-python-tab">
-                                                {% snippet 'selfinfo/snippets/self_python_packages.html', profile=profile, data=data, full_url=full_url, id='nav-python-' ~ profile %}
-                                            </div>
+                                                <a class="selfinfo-navigation-link" id="nav-python-{{ profile }}-tab" data-bs-toggle="tab" data-bs-target="#nav-python-{{ profile }}" role="tab" aria-controls="nav-python-{{ profile }}" aria-selected="false">
+                                                    <i class="fab fa-python"></i>
+                                                    {{ _('Python Info') }}</a>
                                             {% endif %}
                                             {% if data.freeze %}
-                                            <div class="tab-pane fade mt-3" id="nav-freeze-{{ profile }}" role="tabpanel" aria-labelledby="nav-freeze-tab">
-                                                {% snippet 'selfinfo/snippets/self_freeze.html', profile=profile, data=data, full_url=full_url, id='nav-freeze-' ~ profile %}
-                                            </div>
+                                                <a class="selfinfo-navigation-link" id="nav-freeze-{{ profile }}-tab" data-bs-toggle="tab" data-bs-target="#nav-freeze-{{ profile }}" role="tab" aria-controls="nav-freeze-{{ profile }}" aria-selected="false"><i class="fas fa-snowflake"></i>{{ _('PIP Freeze') }}</a>
                                             {% endif %}
                                             {% if data.ckan_queues %}
-                                            <div class="tab-pane fade mt-3" id="nav-ckan_queues-{{ profile }}" role="tabpanel" aria-labelledby="nav-ckan_queues-tab">
-                                                {% snippet 'selfinfo/snippets/ckan_queues.html', profile=profile, data=data, full_url=full_url, id='nav-ckan_queues-' ~ profile %}
-                                            </div>
+                                                <a class="selfinfo-navigation-link" id="nav-ckan_queues-{{ profile }}-tab" data-bs-toggle="tab" data-bs-target="#nav-ckan_queues-{{ profile }}" role="tab" aria-controls="nav-ckan_queues-{{ profile }}" aria-selected="false"><i class="fas fa-tasks"></i>{{ _('CKAN Queues') }}</a>
                                             {% endif %}
                                             {% if data.ckan_solr_schema %}
-                                            <div class="tab-pane fade mt-3" id="nav-ckan_solr_schema-{{ profile }}" role="tabpanel" aria-labelledby="nav-ckan_solr_schema-tab">
-                                                {% snippet 'selfinfo/snippets/self_ckan_solr_schema.html', profile=profile, data=data, full_url=full_url, id='nav-ckan_solr_schema-' ~ profile %}
-                                            </div>
+                                                <a class="selfinfo-navigation-link" id="nav-ckan_solr_schema-{{ profile }}-tab" data-bs-toggle="tab" data-bs-target="#nav-ckan_solr_schema-{{ profile }}" role="tab" aria-controls="nav-ckan_solr_schema-{{ profile }}" aria-selected="false"><i class="fas fa-search"></i>{{ _('Solr Schema') }}</a>
                                             {% endif %}
                                             {% if 'errors' in data %}
-                                            <div class="tab-pane fade mt-3" id="nav-errors-{{ profile }}" role="tabpanel" aria-labelledby="nav-errors-tab">
-                                                {% snippet 'selfinfo/snippets/self_errors.html', profile=profile, data=data, full_url=full_url, id='nav-errors-' ~ profile %}
-                                            </div>
+                                                <a class="selfinfo-navigation-link" id="nav-errors-{{ profile }}-tab" data-bs-toggle="tab" data-bs-target="#nav-errors-{{ profile }}" role="tab" aria-controls="nav-errors-{{ profile }}" aria-selected="false">
+                                                    <i class="fas fa-exclamation-triangle"></i>
+                                                    <span>{{ _('Errors') }}</span>
+                                                    <span class="badge seflinfo-alert-bg" id="errors-count">{{ data.errors|length }} </span>
+                                                </a>
                                             {% endif %}
-                
-                                            {% snippet 'selfinfo/snippets/additional_content_tabs.html', profile=profile, data=data, full_url=full_url %}
+            
+                                            {% snippet 'selfinfo/snippets/additional_navigation_tabs.html', profile=profile, data=data %}
                                         </div>
                                     </div>
-                                </div>
                                 {% endfor %}
                             </div>
                         </div>
-                        {% snippet 'selfinfo/snippets/selfinfo_plugin_tabs_content.html', full_url=full_url %}
+                    {% endblock %}
+            </aside>
+
+            <main class="selfinfo-content position-relative flex-grow-1 bg-white w-100 overflow-auto bg-white">
+                {% block selfinfo_plugin_tabs_content %}
+                    {% set full_url = h.full_current_url() %}
+                    <div class="selfinfo-content-wrapper selfinfo-content-selfinfo-wrapper active">                        
+                        {% for profile, data in profiles.items() %}
+                            <div class="selfinfo-category-content selfinfo-category-{{ profile }}-content {% if loop.index == 1 %} active {% endif %}" id="selfinfo-{{ profile }}-tab-content">
+                                {% if data.provided_on %}
+                                    <div class="d-flex justify-content-between align-items-center px-3 py-2 selfinfo-custom-profile-header">
+                                        <div class="d-flex align-items-center">
+                                            <div class="p-2 rounded fw-bold selfinfo-dark-blue-bg me-3">
+                                                Provided on: {{ h.render_datetime(data.provided_on, date_format='%d/%m/%y %H:%M') }}
+                                            </div>
+                                            <div class="p-2 rounded fw-bold selfinfo-blue-bg">
+                                                Redis key: {{ profile }}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-danger p-2 rounded selfinfo-red-bg" title="Delete Profile" hx-post="/selfinfo/delete-profile" hx-trigger="click" hx-swap="innerHTML" hx-target="#selfinfo-{{ profile }}-tab-content" hx-vals='{"profile": "{{profile}}"}'>
+                                                {{ _('Delete Profile') }}
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <div id="selfinfo-{{ profile }}-tab-content">
+                                    <div class="tab-content d-block" id="nav-data-{{ profile }}">
+                                        <div class="tab-pane fade show active" id="nav-system-{{ profile }}" role="tabpanel" aria-labelledby="nav-system-tab">
+                                            {% snippet 'selfinfo/snippets/self_system_info.html', profile=profile, data=data, full_url=full_url, id='nav-system-' ~ profile %}
+                                        </div>
+                                        <div class="tab-pane fade" id="nav-ckan-{{ profile }}" role="tabpanel" aria-labelledby="nav-ckan-tab">
+                                            {% snippet 'selfinfo/snippets/self_ckan_information.html', profile=profile, data=data, full_url=full_url, id='nav-ckan-' ~ profile %}
+                                        </div>
+                                        <div class="tab-pane fade" id="nav-git-{{ profile }}" role="tabpanel" aria-labelledby="nav-git-tab">
+                                            {% snippet 'selfinfo/snippets/self_git_info.html', profile=profile, data=data, full_url=full_url, id='nav-git-' ~ profile %}
+                                        </div>
+                                        {% if data.python_modules %}
+                                        <div class="tab-pane fade" id="nav-python-{{ profile }}" role="tabpanel" aria-labelledby="nav-python-tab">
+                                            {% snippet 'selfinfo/snippets/self_python_packages.html', profile=profile, data=data, full_url=full_url, id='nav-python-' ~ profile %}
+                                        </div>
+                                        {% endif %}
+                                        {% if data.freeze %}
+                                        <div class="tab-pane fade" id="nav-freeze-{{ profile }}" role="tabpanel" aria-labelledby="nav-freeze-tab">
+                                            {% snippet 'selfinfo/snippets/self_freeze.html', profile=profile, data=data, full_url=full_url, id='nav-freeze-' ~ profile %}
+                                        </div>
+                                        {% endif %}
+                                        {% if data.ckan_queues %}
+                                        <div class="tab-pane fade" id="nav-ckan_queues-{{ profile }}" role="tabpanel" aria-labelledby="nav-ckan_queues-tab">
+                                            {% snippet 'selfinfo/snippets/ckan_queues.html', profile=profile, data=data, full_url=full_url, id='nav-ckan_queues-' ~ profile %}
+                                        </div>
+                                        {% endif %}
+                                        {% if data.ckan_solr_schema %}
+                                        <div class="tab-pane fade" id="nav-ckan_solr_schema-{{ profile }}" role="tabpanel" aria-labelledby="nav-ckan_solr_schema-tab">
+                                            {% snippet 'selfinfo/snippets/self_ckan_solr_schema.html', profile=profile, data=data, full_url=full_url, id='nav-ckan_solr_schema-' ~ profile %}
+                                        </div>
+                                        {% endif %}
+                                        {% if 'errors' in data %}
+                                        <div class="tab-pane fade" id="nav-errors-{{ profile }}" role="tabpanel" aria-labelledby="nav-errors-tab">
+                                            {% snippet 'selfinfo/snippets/self_errors.html', profile=profile, data=data, full_url=full_url, id='nav-errors-' ~ profile %}
+                                        </div>
+                                        {% endif %}
+            
+                                        {% snippet 'selfinfo/snippets/additional_content_tabs.html', profile=profile, data=data, full_url=full_url %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
-                </div>
-            </div>
+                {% endblock %}
+            </main>
+
+        </div>
         {% endblock %}
     </div>
 {% endblock %}

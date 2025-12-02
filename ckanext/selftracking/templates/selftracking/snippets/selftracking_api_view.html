@@ -4,12 +4,14 @@
 {% set data = h.selftracking_get_view_data(type, from_date, to_date) %}
 {% set type_machine = type|replace(' ', '-') %}
 
+{% snippet 'selfinfo/snippets/selfinfo_content_header.html', icon_class='fas fa-code me-2', label=_('Selftracking - API Views') %}
+
 {% snippet 'selftracking/snippets/forms/selftracking_views_search.html', data=data, type=type, type_machine=type_machine, from_date=from_date, to_date=to_date  %}
 
 <div class="p-3 mt-4">
-    <div class="table-responsive">
+    <div class="table-responsive scollable-table-container">
         <div class="d-flex justify-content-between mb-3 align-items-center">
-          <button class="btn btn-dark" onclick="copyTableJsonToClipboard('selftracking-api-views-path')">
+          <button class="btn selfiinfo-button-main-color-bg text-white" onclick="copyTableJsonToClipboard('selftracking-api-views-path')">
             Copy as JSON
           </button>
         </div>

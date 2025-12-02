@@ -1,47 +1,60 @@
-<div class="card border-dark mb-4 mt-3">
-	<div class="card-header bg-dark text-white fw-bold">
-		{{ _('CKAN Version and Plugins') }}
-	</div>
-	<div class="card-body">
-		<table class="table table-borderless">
-			<thead>
-				<tr>
-					<th scope="col">Site Title</th>
-					<th scope="col">CKAN Version</th>
-					<th scope="col">Default Language</th>
-					<th scope="col">API Token Header</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>{{ data.status_show.site_title }}</td>
-					<td>{{ data.status_show.ckan_version }}</td>
-					<td>{{ data.status_show.locale_default }}</td>
-					<td>{{ data.status_show.apitoken_header_name }}</td>
-				</tr>
-			</tbody>
-		</table>
+<section class="ckan-info-card mb-4 mt-3">
+	<header class="ckan-info-header d-flex align-items-center justify-content-between p-3 rounded-top">
+		<div class="d-flex align-items-center gap-3">
+			<i class="fas fa-cube fa-2x text-white"></i>
+			<div>
+				<h5 class="mb-0 text-white">{{ _('CKAN Version and Plugins') }}</h5>
+				<small class="text-white">{{ _('Site metadata and installed extensions') }}</small>
+			</div>
+		</div>
+	</header>
 
-		<div class="accordion">
-			<div class="accordion-item mb-3">
-				<h2 class="accordion-header" id="extensions-heading">
-					<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-						data-bs-target="#extensionsCollapse" aria-expanded="false" aria-controls="extensionsCollapse">
-						{{ _('Extensions') }}
-					</button>
-				</h2>
-				<div id="extensionsCollapse" class="accordion-collapse collapse" aria-labelledby="extensions-heading">
-					<div class="accordion-body">
-						<ul class="list-group">
-							{% for extension in data.status_show.extensions %}
-							<li class="list-group-item">
-								{{ extension }}
-							</li>
-							{% endfor %}
-						</ul>
+	<div class="ckan-info-body p-3 bg-transparent">
+		<div class="row g-3 mb-3">
+			<div class="col-12 col-md-6 col-lg-3">
+				<div class="info-tile p-3 rounded d-flex flex-column">
+					<small class="text-muted">{{ _('Site Title') }}</small>
+					<div class="fw-bold">{{ data.status_show.site_title }}</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-md-6 col-lg-3">
+				<div class="info-tile p-3 rounded d-flex flex-column">
+					<small class="text-muted">{{ _('CKAN Version') }}</small>
+					<div class="d-flex align-items-center gap-2">
+						<span class="fw-bold">{{ data.status_show.ckan_version }}</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-md-6 col-lg-3">
+				<div class="info-tile p-3 rounded d-flex flex-column">
+					<small class="text-muted">{{ _('Default Language') }}</small>
+					<div class="fw-bold">{{ data.status_show.locale_default }}</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-md-6 col-lg-3">
+				<div class="info-tile p-3 rounded d-flex flex-column">
+					<small class="text-muted">{{ _('API Token Header') }}</small>
+					<div class="d-flex align-items-center gap-2">
+						<span class="fw-bold">{{ data.status_show.apitoken_header_name }}</span>
 					</div>
 				</div>
 			</div>
 		</div>
+
+		<div class="extensions-section mt-2">
+					<div class="mb-2">
+						<h6 class="mb-0">{{ _('Extensions') }}</h6>
+					</div>
+
+					<div class="ext-chips d-flex flex-wrap gap-2">
+						{% for extension in data.status_show.extensions %}
+							<span class="p-1" data-ext="{{ extension }}">{{ extension }}</span>
+						{% endfor %}
+					</div>
+		</div>
+
 	</div>
-</div>
+</section>

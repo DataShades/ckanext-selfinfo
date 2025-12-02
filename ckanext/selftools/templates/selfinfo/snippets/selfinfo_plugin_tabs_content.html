@@ -1,8 +1,0 @@
-{% ckan_extends %}
-
-{% block selfinfo_plugin_tabs_content %}
-    {{ super() }}
-    <div class="tab-pane fade" id="selftools-plugin" role="tabpanel" aria-labelledby="selftools-plugin-tab">
-        {% snippet 'selftools/index.html', full_url=full_url %}
-    </div>
-{% endblock %}

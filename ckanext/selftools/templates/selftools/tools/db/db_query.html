@@ -1,6 +1,8 @@
 {% import 'macros/form.html' as form %}
 
-<div class="">
+{% snippet 'selfinfo/snippets/selfinfo_content_header.html', icon_class='fas fa-search me-2', label=_('Database - Query') %}
+
+<div class="p-3">
     <form class="form-control border-0 shadow-none p-0" hx-post="{{ h.url_for('selftools_htmx.selftools_db_query') }}" hx-trigger="submit" hx-target="#db-query-resp" hx-swap="innerHTML">
         <div>
             {{ form.select('model', label=_('Model'), options=extras.model_options, error='', attrs={'class': 'select2', 'data-module': 'autocomplete'}) }}
@@ -17,7 +19,7 @@
 
         <fieldset class="border p-3 mb-3">
             <legend class="w-auto">
-                <a class="btn btn-dark" data-bs-toggle="collapse" href="#db_q_order_collapse" role="button" aria-expanded="false" aria-controls="db_q_order_collapse">
+                <a class="btn selfiinfo-button-main-color-bg text-white" data-bs-toggle="collapse" href="#db_q_order_collapse" role="button" aria-expanded="false" aria-controls="db_q_order_collapse">
                     Results Order
                 </a>
             </legend>
@@ -35,7 +37,7 @@
             <label for="limit">Limit</label>
             <input type="number" name="limit" min="1" max="{{ h.get_operations_limit() }}" step="1" value="{{ h.get_operations_limit() }}" class=""  required />
         </div>
-        <button type="submit" class="btn btn-dark mt-2">Submit</button>
+        <button type="submit" class="btn selfiinfo-button-main-color-bg text-white mt-2">Submit</button>
     </form>
 </div>
 

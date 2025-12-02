@@ -1,62 +1,53 @@
-<div class="d-flex justify-content-between">
-    <h2 class="m-3 text-center">
-        Python Packages
-        <button class="text-primary bg-transparent box-shadow-none border-0" onclick='copyElementContent("{{ id }}-anchor")'>
-            <i class="fa fa-link fs-3" aria-hidden="true"></i>
-        </button>
-        <div id="{{ id }}-anchor" class="hidden d-none">
-            {{ full_url ~ '#' ~ id }}
-        </div>
-    </h2>
-</div>
-
-{% for group in data.python_modules %}
-<div class="accordion">
-    <div class="accordion-item mb-3">
-      <h2 class="accordion-header" id="{{group}}-headinginfo">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{group}}-collapseinfo" aria-expanded="false" aria-controls="{{group}}-collapseinfo">
-            {{ group|upper }}
-        </button>
-      </h2>
-      <div id="{{group}}-collapseinfo" class="accordion-collapse collapse" aria-labelledby="{{group}}-headinginfo">
-        <div class="accordion-body">
-            <table class="table" data-module="reset-module-last-check">
-                <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Current Version</th>
-                        <th scope="col">Possible Version</th>
-                        <th scope="col">Last Checked</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for module in data.python_modules[group] %}
-                        {% set values = data.python_modules[group][module] %}
-                        {% if values.name %}
-                            <tr>
-                                <td class="td-{{ values.name }}-selfinfo-name">
-                                    {{ values.name }}
-                                </td>
-                                <td class="td-{{ values.name }}-selfinfo-curVersion">{{ values.current_version }}</td>
-                                <td class="td-{{ values.name }}-selfinfo-latestVersion">
-                                    {{ values.latest_version }}
-                                    {% if values.current_version != values.latest_version %}
-                                        <i class="fas fa-exclamation-triangle text-warning"></i>
-                                    {% endif %}
-                                </td>
-                                <td class="td-{{ values.name }}-selfinfo-updated">
-                                    {{ h.render_datetime(values.updated) }}
-                                    <button name="force-reset" data-target="{{ values.name }}" class="force-reset-selfinfo btn btn-dark">
-                                        <i class="fas fa-sync-alt"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        {% endif %}
-                    {% endfor %}
-                </tbody>
-            </table>
+{% snippet 'selfinfo/snippets/selfinfo_content_header.html', icon_class='fab fa-python me-2', label=_('Python Packages') %}
+<div class="p-3">
+    {% for group in data.python_modules %}
+    <div class="accordion">
+        <div class="accordion-item mb-3">
+          <h2 class="accordion-header" id="{{group}}-headinginfo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{group}}-collapseinfo" aria-expanded="false" aria-controls="{{group}}-collapseinfo">
+                {{ group|upper }}
+            </button>
+          </h2>
+          <div id="{{group}}-collapseinfo" class="accordion-collapse collapse" aria-labelledby="{{group}}-headinginfo">
+            <div class="accordion-body">
+                <table class="table" data-module="reset-module-last-check">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Current Version</th>
+                            <th scope="col">Possible Version</th>
+                            <th scope="col">Last Checked</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for module in data.python_modules[group] %}
+                            {% set values = data.python_modules[group][module] %}
+                            {% if values.name %}
+                                <tr>
+                                    <td class="td-{{ values.name }}-selfinfo-name">
+                                        {{ values.name }}
+                                    </td>
+                                    <td class="td-{{ values.name }}-selfinfo-curVersion">{{ values.current_version }}</td>
+                                    <td class="td-{{ values.name }}-selfinfo-latestVersion">
+                                        {{ values.latest_version }}
+                                        {% if values.current_version != values.latest_version %}
+                                            <i class="fas fa-exclamation-triangle text-warning"></i>
+                                        {% endif %}
+                                    </td>
+                                    <td class="td-{{ values.name }}-selfinfo-updated">
+                                        {{ h.render_datetime(values.updated) }}
+                                        <button name="force-reset" data-target="{{ values.name }}" class="force-reset-selfinfo btn selfiinfo-button-main-color-bg text-white">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-{% endfor %}
+    {% endfor %}
+</div>

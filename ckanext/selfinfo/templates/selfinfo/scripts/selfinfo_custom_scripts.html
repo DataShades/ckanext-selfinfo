@@ -121,4 +121,34 @@
         input.val('').trigger('change');
     }
 
+    const profileLinks = document.querySelectorAll('[id^="pills-selfinfo-"][id$="-tab"]');
+    
+    profileLinks.forEach(link => {
+        link.addEventListener('shown.bs.tab', function(event) {
+            // Получаем data-bs-target из ссылки (например: #pills-selfinfo-default)
+            const target = event.target.getAttribute('data-bs-target');
+            
+            if (target) {
+                // Добавляем "-category-nav" к target ID
+                const categoryNavId = target + '-category-nav';
+                const categoryNavElement = document.querySelector(categoryNavId);
+                
+                if (categoryNavElement) {
+                    // Находим родительский элемент
+                    const parentTabContent = categoryNavElement.closest('.tab-content');
+                    
+                    if (parentTabContent) {
+                        // Убираем "show active" у всех siblings tab-pane
+                        parentTabContent.querySelectorAll('.tab-pane').forEach(pane => {
+                            pane.classList.remove('show', 'active');
+                        });
+                    }
+                    
+                    // Добавляем "show active" к найденному элементу
+                    categoryNavElement.classList.add('show', 'active');
+                }
+            }
+        });
+    });
+
 </script>
