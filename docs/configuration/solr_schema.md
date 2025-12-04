@@ -1,7 +1,15 @@
 ## Enable Solr Schema
 
-![Enabled GIT Info](../assets/solr_schema.png)
+![Enabled Solr Schema](../assets/solr_schema.png)
 
-In order to enable Solr Schema you need to add `ckan.selfinfo.solr_schema_filename`, which is the filename that Solr uses for your schema. In different Solr settings this file can be named `managed-schema` or `schema.xml`, you can find which one Solr is using in your Solr Core directory -> conf folder.
+To enable Solr schema display, add the `ckan.selfinfo.solr_schema_filename` configuration parameter with the filename that Solr uses for your schema.
 
-If `ckan.selfinfo.solr_schema_filename` is not set, the tab will be missing.
+Depending on your Solr configuration, the schema file may be named:
+
+- `managed-schema` (modern Solr versions)
+- `schema.xml` (legacy configurations)
+
+You can find the correct filename in your Solr Core directory under the `conf/` folder.
+
+!!! info "Configuration Required"
+    If `ckan.selfinfo.solr_schema_filename` is not configured, the Solr Schema tab will not appear in the interface.

@@ -1,12 +1,18 @@
-## Setup secure URL and Action name
+## Secure URL and Action Name
 
-Out of the box, Selfinfo page registered under `/ckan-admin/selfinfo` URL, which can is only protected by Sysadmin access check.
+By default, the Selfinfo page is registered at `/ckan-admin/selfinfo` and is protected only by sysadmin access verification.
 
-To add an additional layer of protection, provide an custom path that will modify the original path, so other wont know under what URL it is actually registered. This can be done by adding `ckan.selfinfo.page_url` to CKAN config, where that value is your custom URL.
+### Custom Page URL
 
-![Modifeid Main Selfinfo URL](../assets/modified_url.png)
+To add an additional layer of security through obscurity, you can customize the page URL using `ckan.selfinfo.page_url`. This prevents unauthorized users from discovering the Selfinfo interface location.
 
+![Modified Main Selfinfo URL](../assets/modified_url.png)
 
-Same goes for main Selfinfo endpoint that provides same information, but in API format. By default it uses `get_selfinfo` endpoint and to modify it using `ckan.selfinfo.main_action_name` CKAN config, where that value is the new action name.
+### Custom API Action Name
 
-![Modifeid Main Selfinfo Action](../assets/modified_action_name.png)
+Similarly, you can customize the API action name for the Selfinfo endpoint. By default, it uses `get_selfinfo`, but you can change it with `ckan.selfinfo.main_action_name`.
+
+![Modified Main Selfinfo Action](../assets/modified_action_name.png)
+
+!!! note "Security by Obscurity"
+    While custom URLs and action names add a layer of protection, they should not be considered a replacement for proper authentication and authorization mechanisms.

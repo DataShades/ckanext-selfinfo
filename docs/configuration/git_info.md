@@ -1,9 +1,10 @@
-## Enable GIT Info
+## Enable Git Information
 
-![Enabled GIT Info](../assets/git.png)
+![Enabled Git Information](../assets/git.png)
 
-In order to enable GIT Info you need to add the `ckan.selfinfo.ckan_repos_path`, which is the path to your folder, where all extensions stored.
+To enable Git information tracking, add the `ckan.selfinfo.ckan_repos_path` configuration parameter. This should point to the directory where your CKAN extensions are stored.
 
-Keep in mind, that ownership for those folders should be accessible for the User that runs the CKAN APP, if not, on GIT Info tab under **Repos with errors**, errors will be shown regarding ownership.
+!!! warning "File Permissions"
+    The user running the CKAN application must have read access to the repository directories. If permissions are insufficient, errors will be displayed under **Repos with errors** on the Git Info tab.
 
-Additionally you can specify using `ckan.selfinfo.ckan_repos`, which repos you want to track from this folder, as by default it will try to read all of them.
+Optionally, you can use `ckan.selfinfo.ckan_repos` to specify which repositories to track. By default, Selfinfo will attempt to read all repositories in the configured directory.

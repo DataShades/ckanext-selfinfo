@@ -16,13 +16,13 @@ nav:
   - Requirements: requirements.md
   - Installation: installation.md
   - Config Settings: config_settings.md
+  - Categories: categories.md
   - Configuration:
     - Secure URL and Action: configuration/secure_url_and_action.md
     - Unique Redis key: configuration/unique_redis_key_per_portal_instance.md
     - Enable Errors: configuration/errors.md
     - GIT Info: configuration/git_info.md
     - Solr Schema: configuration/solr_schema.md
-    - Categories: configuration/categories.md
   - CLI: cli.md
   - Profiles:
     - Overview: profiles/overview.md
@@ -53,6 +53,8 @@ nav:
 
 
 markdown_extensions:
+  - admonition
+  - pymdownx.details
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span

@@ -1,35 +1,235 @@
-**`ckan.selfinfo.redis_prefix_key`** - This configuration is needed, when you use Redis with multiple CKAN apps. In order to have a unique key per portal, this configuration can be used. Example `ckan_test` will be used as `ckan_test_errors_selinfo`.
+# Configuration Settings
 
-**`ckan.selfinfo.page_url`** - (Recommended to use) Used to provide alternative URL to Selfinfo Admin Page. By default it is set to `/ckan-admin/selfinfo`.
+## Core Settings
 
-**`ckan.selfinfo.main_action_name`** - (Recommended to use) Used to provide an alternative name for the main action of selfinfo. By default it is set to `get_selfinfo`.
+### `ckan.selfinfo.redis_prefix_key`
 
-**`ckan.selfinfo.partitions`** - (Optional) Used for representing disk space. The value is comma separated paths. By default the value is `/`, which is usually the root.
+**Type:** `string`
+**Required:** Recommended for multi-instance setups
 
-Example: `/path/to/partition /path/to/partition2 /path/to/partition3`
+This configuration is needed when you use Redis with multiple CKAN applications. It provides a unique key per portal instance.
 
-**`ckan.selfinfo.errors_limit`** - (Optional) Limit used to specify how much errors will be stored in Redis. By default this value is `40`.
+**Example:**
 
-**`ckan.selfinfo.ckan_repos_path`** - (Optional) Path to the src folder where CKAN and CKAN Extensions stored at the environment. While provided, additional GIT Infromation will be granted. Make sure that there no other folders and files that are not related to CKAN are stored there. Example: `/usr/lib/ckan/default/src`
+```ini
+ckan.selfinfo.redis_prefix_key = ckan_test
+```
 
-**`ckan.selfinfo.ckan_repos`** - (Optional) List of CKAN Extension folders separated by space (ckanext-scheming ckanext-spatial ckanext-xloader). By default, if `ckan.selfinfo.ckan_repos_path` is provided, it will look into the directory and gather the extensions from there.
+This will be used as `ckan_test_errors_selfinfo` in Redis.
 
-#### NOTE!
-For Linux, keep in mind that the added folder in `ckan.selfinfo.ckan_repos_path` should have the same owner as the one that runs the application (e.g. if the application runs from `ckan` User in the system, then ckanext-scheming folder owner should be `ckan`), otherwise there will be an error related to ownership of the repository.
+---
 
-Errors for GIT now being stored below the original Table on GIT Info tab.
+### `ckan.selfinfo.page_url`
 
-**`ckan.selfinfo.solr_schema_filename`** - (Optional) Used to specify the filename that Solr uses for CKAN schema. Mentioned in [Enable Solr Schema](configuration/solr_schema.md).
+**Type:** `string`
+**Default:** `/ckan-admin/selfinfo`
+**Required:** Recommended
 
-**`ckan.selfinfo.additional_profiles_using_redis_keys`** - (Optional) Retrieves selfinfo data on page from external sources that store selfinfo data using `write-selfinfo` cli command under unique Redis key. The stored data should be under same Redis connection as per the "default" profile.
+Provides an alternative URL to the Selfinfo admin page.
 
-Example: `unique_redis_key_1 unique_redis_key_2`
+**Example:**
 
-**`ckan.selfinfo.additional_profiles_expire_time`** - (Optional) How long the additional profiles will exists, afterwards it will be deleted automatically. Should be an positive integer number, the lifetime should be provided in seconds (e.g. 3600 is 1 hour).
+```ini
+ckan.selfinfo.page_url = /admin/system-info
+```
 
-**`ckan.selfinfo.categories_list`** - (Optional) List of categories that should only be shown on Selfinfo Page or Returned using API. Example of usage `ckan.selfinfo.categories_list = errors ram_usage disk_usage`.
-By default, if not set, selfinfo will show all categories available.
+---
 
-**`ckan.selfinfo.duplicated_envs.mode`** - (Optional) By enabling, removes `default` profile and replaces it by duplicated Envs mentioned in [Selfinfo under Redis internal env IP key](profiles/duplicated_env.md) section. By default set to `False`.
+### `ckan.selfinfo.main_action_name`
 
-**`ckan.selfinfo.categories_list`** - (Optional) Used in combination with ckan.selfinfo.duplicated_envs.mode to specify, which categories are going to be shared between the duplicated Envs. Mentioned in [Shared categories](profiles/shared_categories.md).
+**Type:** `string`
+**Default:** `get_selfinfo`
+**Required:** Recommended
+
+Provides an alternative name for the main action of Selfinfo.
+
+**Example:**
+
+```ini
+ckan.selfinfo.main_action_name = system_info
+```
+
+---
+
+## Categories and Display
+
+### `ckan.selfinfo.categories_list`
+
+**Type:** `space-separated list`
+**Default:** `platform_info`
+**Required:** Optional
+
+List of categories that should be shown on the Selfinfo page or returned using the API.
+
+Check the full list of available [Categories](configuration/categories.md).
+
+**Example:**
+
+```ini
+ckan.selfinfo.categories_list = platform_info errors ram_usage disk_usage
+```
+
+---
+
+## Storage and Limits
+
+### `ckan.selfinfo.partitions`
+
+**Type:** `space-separated paths`
+**Default:** `/`
+**Required:** Optional
+
+Specifies paths for disk space monitoring. The value is a space-separated list of partition paths. Required only for `disk_usage` category.
+
+**Example:**
+
+```ini
+ckan.selfinfo.partitions = /path/to/partition /path/to/partition2 /path/to/partition3
+```
+
+---
+
+### `ckan.selfinfo.errors_limit`
+
+**Type:** `integer`
+**Default:** `40`
+**Required:** Optional
+
+Limits how many errors will be stored in Redis.
+
+**Example:**
+
+```ini
+ckan.selfinfo.errors_limit = 100
+```
+
+---
+
+## Git Repository Information
+
+### `ckan.selfinfo.ckan_repos_path`
+
+**Type:** `path`  
+**Required:** Optional
+
+Path to the source folder where CKAN and CKAN extensions are stored in the environment. When provided, additional Git information will be available. Required for `git_info` category.
+
+!!! warning "Important"
+    Ensure that only CKAN-related folders are stored in this path. Other files and folders may cause errors.
+
+**Example:**
+
+```ini
+ckan.selfinfo.ckan_repos_path = /usr/lib/ckan/default/src
+```
+
+---
+
+### `ckan.selfinfo.ckan_repos`
+
+**Type:** `space-separated list`  
+**Required:** Optional
+
+List of CKAN extension folder names. By default, if `ckan.selfinfo.ckan_repos_path` is provided, it will automatically discover extensions from that directory.
+
+**Example:**
+
+```ini
+ckan.selfinfo.ckan_repos = ckanext-scheming ckanext-spatial ckanext-xloader
+```
+
+!!! note "Linux Permissions"
+    For Linux systems, ensure that folders in `ckan.selfinfo.ckan_repos_path` have the same owner as the user running the application.
+
+    For example, if the application runs as the `ckan` user, then the `ckanext-scheming` folder owner should also be `ckan`. Otherwise, you may encounter repository ownership errors.
+
+    Git-related errors are displayed below the repository table on the Git Info tab.
+
+---
+
+## Solr Configuration
+
+### `ckan.selfinfo.solr_schema_filename`
+
+**Type:** `string`
+**Required:** Optional
+
+Specifies the filename that Solr uses for the CKAN schema. Required for `ckan_solr_schema` category.
+
+See [Enable Solr Schema](configuration/solr_schema.md) for more details.
+
+**Example:**
+
+```ini
+ckan.selfinfo.solr_schema_filename = schema.xml
+```
+
+---
+
+## Additional Profiles
+
+### `ckan.selfinfo.additional_profiles_using_redis_keys`
+
+**Type:** `space-separated list`  
+**Required:** Optional
+
+Retrieves Selfinfo data from external sources that store data using the `write-selfinfo` CLI command under unique Redis keys. The stored data must use the same Redis connection as the "default" profile.
+
+**Example:**
+
+```ini
+ckan.selfinfo.additional_profiles_using_redis_keys = unique_redis_key_1 unique_redis_key_2
+```
+
+---
+
+### `ckan.selfinfo.additional_profiles_expire_time`
+
+**Type:** `integer` (seconds)
+**Required:** Optional
+
+Defines how long additional profiles will exist before being automatically deleted. Must be a positive integer representing lifetime in seconds.
+
+**Example:**
+
+```ini
+# 1 hour = 3600 seconds
+ckan.selfinfo.additional_profiles_expire_time = 3600
+```
+
+---
+
+## Duplicated Environments
+
+### `ckan.selfinfo.duplicated_envs.mode`
+
+**Type:** `boolean`
+**Default:** `False`
+**Required:** Optional
+
+When enabled, removes the `default` profile and replaces it with duplicated environments.
+
+See [Selfinfo under Redis internal env IP key](profiles/duplicated_env.md) for more details.
+
+**Example:**
+
+```ini
+ckan.selfinfo.duplicated_envs.mode = True
+```
+
+---
+
+### `ckan.selfinfo.shared_categories_list`
+
+**Type:** `space-separated list`  
+**Required:** Optional
+
+Used in combination with `ckan.selfinfo.duplicated_envs.mode` to specify which categories are shared between duplicated environments.
+
+See [Shared categories](profiles/shared_categories.md) for more details.
+
+**Example:**
+
+```ini
+ckan.selfinfo.shared_categories_list = platform_info ckan_information
+```

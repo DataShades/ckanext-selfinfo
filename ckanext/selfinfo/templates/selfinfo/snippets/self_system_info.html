@@ -37,7 +37,7 @@
             </div>
         {% endif %}
 
-        {% if data.platform_info.python_prefix %}
+        {% if data.platform_info and data.platform_info.python_prefix %}
             <div class="col-lg-4 mb-4">
                 <div class="selfinfo-stat-card selfinfo-ocean-blue-bg">
                     <div class="selfinfo-stat-icon">
@@ -76,7 +76,7 @@
         {% endif %}
     </div>
 
-    {% if data.ram_usage.processes %}
+    {% if data.ram_usage and data.ram_usage.processes %}
         <section class="top-processes my-4">
             <div class="d-flex align-items-center mb-3">
                 <div>
