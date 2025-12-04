@@ -6,8 +6,7 @@ from datetime import datetime
 try:
     from importlib.metadata import version as m_version
 except ImportError:  # For Python<3.8
-    from importlib_metadata import version as m_version  # type: ignore[import]
-
+    from importlib_metadata import version as m_version
 from ckan import types
 from ckan.lib.redis import connect_to_redis, Redis
 import ckan.plugins.toolkit as tk

@@ -22,7 +22,7 @@ import click
 try:
     from importlib.metadata import packages_distributions, distributions  # type: ignore[attr-defined]
 except ImportError:  # For Python<3.8
-    from importlib_metadata import (  # type: ignore[import]
+    from importlib_metadata import (
         packages_distributions,
         distributions,
     )
