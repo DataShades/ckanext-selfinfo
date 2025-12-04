@@ -21,6 +21,7 @@ updated_path: str = "/".join(current_path)
 
 @pytest.mark.ckan_config("ckan.plugins", "selfinfo")
 @pytest.mark.usefixtures("with_plugins", "clean_db")
+@pytest.mark.ckan_config("ckan.selfinfo.categories_list", "python_modules platform_info git_info")
 @pytest.mark.ckan_config("ckan.selfinfo.ckan_repos_path", updated_path)
 @pytest.mark.ckan_config("ckan.selfinfo.ckan_repos", "ckan ckanext-selfinfo")
 class TestUPDATE:
