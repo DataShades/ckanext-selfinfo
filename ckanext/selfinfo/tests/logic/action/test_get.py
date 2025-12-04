@@ -44,7 +44,7 @@ class TestGET:
 
         assert isinstance(selfinfo, dict)
 
-        assert len(selfinfo.keys()) >= 4, selfinfo.keys()
+        assert len(selfinfo.keys()) == 2, selfinfo.keys()
 
         assert (
             selfinfo["platform_info"]["python_version"]

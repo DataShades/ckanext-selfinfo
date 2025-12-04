@@ -7,10 +7,11 @@ import ckan.types as types
 
 from .middleware import track_activity
 from .cli import get_commands
+from .logic import get_actions
 
 
 @tk.blanket.config_declarations
-@tk.blanket.actions
+@tk.blanket.actions(get_actions)
 @tk.blanket.auth_functions
 @tk.blanket.cli(get_commands)
 @tk.blanket.helpers

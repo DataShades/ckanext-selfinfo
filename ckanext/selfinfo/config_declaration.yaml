@@ -12,6 +12,9 @@ groups:
           - key: ckan.selfinfo.main_action_name
             example: get_selfinfo_random
             default: get_selfinfo
+          - key: ckan.selfinfo.actions_prefix
+            example: selfinfo_random
+            default: ''
           - key: ckan.selfinfo.partitions
             type: list
             default: '/'

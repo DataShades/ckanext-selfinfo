@@ -16,6 +16,7 @@ import ckan.plugins.toolkit as tk
 from ckan.common import _, request
 
 import ckanext.selftools.config as selftools_config
+from ckanext.selfinfo import helpers
 
 
 selftools_htmx = Blueprint("selftools_htmx", __name__)
@@ -45,7 +46,9 @@ def selftools_solr_query() -> Any | str:
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
 
-    resp = tk.get_action("selftools_solr_query")(context, data_dict)
+    resp = tk.get_action(helpers.selfinfo_action_name("selftools_solr_query"))(
+        context, data_dict
+    )
 
     pretty_json = json.dumps(resp, indent=2)
 
@@ -78,7 +81,9 @@ def selftools_solr_delete() -> Any | str:
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
 
-    resp = tk.get_action("selftools_solr_delete")(context, data_dict)
+    resp = tk.get_action(
+        helpers.selfinfo_action_name("selftools_solr_delete")
+    )(context, data_dict)
 
     if not resp.get("success"):
         return (
@@ -114,7 +119,9 @@ def selftools_solr_index() -> Any | str:
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
 
-    resp = tk.get_action("selftools_solr_index")(context, data_dict)
+    resp = tk.get_action(helpers.selfinfo_action_name("selftools_solr_index"))(
+        context, data_dict
+    )
 
     if not resp.get("success"):
         return (
@@ -150,7 +157,9 @@ def selftools_db_query() -> Any | str:
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
 
-    resp = tk.get_action("selftools_db_query")(context, data_dict)
+    resp = tk.get_action(helpers.selfinfo_action_name("selftools_db_query"))(
+        context, data_dict
+    )
 
     if not resp.get("success"):
         return (
@@ -188,7 +197,9 @@ def selftools_db_update() -> Any | str:
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
 
-    resp = tk.get_action("selftools_db_update")(context, data_dict)
+    resp = tk.get_action(helpers.selfinfo_action_name("selftools_db_update"))(
+        context, data_dict
+    )
 
     if not resp.get("success"):
         return (
@@ -226,7 +237,9 @@ def selftools_redis_query() -> Any | str:
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
 
-    resp = tk.get_action("selftools_redis_query")(context, data_dict)
+    resp = tk.get_action(
+        helpers.selfinfo_action_name("selftools_redis_query")
+    )(context, data_dict)
 
     if not resp.get("success"):
         return (
@@ -264,7 +277,9 @@ def selftools_redis_update() -> Any | str:
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
 
-    resp = tk.get_action("selftools_redis_update")(context, data_dict)
+    resp = tk.get_action(
+        helpers.selfinfo_action_name("selftools_redis_update")
+    )(context, data_dict)
 
     if not resp.get("success"):
         return (
@@ -300,7 +315,9 @@ def selftools_redis_delete() -> Any | str:
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
 
-    resp = tk.get_action("selftools_redis_delete")(context, data_dict)
+    resp = tk.get_action(
+        helpers.selfinfo_action_name("selftools_redis_delete")
+    )(context, data_dict)
 
     if not resp.get("success"):
         return (
@@ -336,7 +353,9 @@ def selftools_config_query() -> Any | str:
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
 
-    resp = tk.get_action("selftools_config_query")(context, data_dict)
+    resp = tk.get_action(
+        helpers.selfinfo_action_name("selftools_config_query")
+    )(context, data_dict)
 
     if not resp.get("success"):
         return (
@@ -374,7 +393,9 @@ def selftools_model_export() -> Any | str:
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
 
-    resp = tk.get_action("selftools_model_export")(context, data_dict)
+    resp = tk.get_action(
+        helpers.selfinfo_action_name("selftools_model_export")
+    )(context, data_dict)
 
     if not resp.get("success"):
         return (
@@ -431,7 +452,9 @@ def selftools_model_export_download() -> Any | str:
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
 
-    resp = tk.get_action("selftools_model_export")(context, data_dict)
+    resp = tk.get_action(
+        helpers.selfinfo_action_name("selftools_model_export")
+    )(context, data_dict)
 
     if not resp.get("success"):
         return (
@@ -531,7 +554,9 @@ def selftools_model_import() -> Any | str:
 
         data_dict["models_data"] = json.loads(decompressed)
 
-        resp = tk.get_action("selftools_model_import")(context, data_dict)
+        resp = tk.get_action(
+            helpers.selfinfo_action_name("selftools_model_import")
+        )(context, data_dict)
 
         if not resp.get("success"):
             return (
@@ -571,7 +596,9 @@ def selftools_datastore_query() -> Any | str:
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
 
-    resp = tk.get_action("selftools_datastore_query")(context, data_dict)
+    resp = tk.get_action(
+        helpers.selfinfo_action_name("selftools_datastore_query")
+    )(context, data_dict)
 
     if not resp.get("success"):
         return (
@@ -610,7 +637,9 @@ def selftools_datastore_table_data() -> Any | str:
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
 
-    resp = tk.get_action("selftools_datastore_table_data")(context, data_dict)
+    resp = tk.get_action(
+        helpers.selfinfo_action_name("selftools_datastore_table_data")
+    )(context, data_dict)
 
     if not resp.get("success"):
         return (
@@ -649,7 +678,9 @@ def selftools_datastore_delete() -> Any | str:
     except dict_fns.DataError:
         return tk.base.abort(400, _("Integrity Error"))
 
-    resp = tk.get_action("selftools_datastore_delete")(context, data_dict)
+    resp = tk.get_action(
+        helpers.selfinfo_action_name("selftools_datastore_delete")
+    )(context, data_dict)
 
     # Return JSON response for HTMX
     return jsonify(resp)

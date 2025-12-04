@@ -10,7 +10,7 @@ from ckan import types
 import ckan.model as model
 import ckan.plugins.toolkit as tk
 from ckan.lib.redis import connect_to_redis, Redis
-from ckanext.selfinfo import config, utils
+from ckanext.selfinfo import config, utils, helpers
 
 selfinfo = Blueprint("selfinfo", __name__)
 
@@ -88,7 +88,9 @@ def selfinfo_get_ram():
     except tk.NotAuthorized:
         tk.abort(404)
 
-    ram = tk.get_action("selfinfo_get_ram")(context, {})
+    ram = tk.get_action(helpers.selfinfo_action_name("selfinfo_get_ram"))(
+        context, {}
+    )
 
     html = "<tr>"
     html += "<td>" + str(ram["precent_usage"]) + "%</td>"
@@ -135,9 +137,9 @@ def selfinfo_delete_profile():
         except tk.NotAuthorized:
             tk.abort(404)
 
-        deleted = tk.get_action("selfinfo_delete_profile")(
-            context, {"profile": profile}
-        )
+        deleted = tk.get_action(
+            helpers.selfinfo_action_name("selfinfo_delete_profile")
+        )(context, {"profile": profile})
 
         if deleted:
             return "Deleted. After page reload it wont be shown."

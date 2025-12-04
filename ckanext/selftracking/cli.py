@@ -1,6 +1,7 @@
 import click
 
 import ckan.plugins.toolkit as tk
+from ckanext.selfinfo import helpers
 
 
 def get_commands():
@@ -15,4 +16,6 @@ def selftracking():
 @selftracking.command()
 def store_tracking():
     """Store tracking that being gathered in Redis"""
-    tk.get_action("selftracking_store_tracks")({"ignore_auth": True}, {})
+    tk.get_action(helpers.selfinfo_action_name("selftracking_store_tracks"))(
+        {"ignore_auth": True}, {}
+    )

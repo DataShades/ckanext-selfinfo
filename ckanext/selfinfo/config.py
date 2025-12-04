@@ -8,6 +8,7 @@ import ckan.plugins.toolkit as tk
 SELLFINFO_SET_URL = "ckan.selfinfo.page_url"
 SELLFINFO_DEFAULT_URL = "/ckan-admin/selfinfo"
 SELLFINFO_SET_MAIN_ACTION_NAME = "ckan.selfinfo.main_action_name"
+SELFINFO_ACTIONS_PREFIX = "ckan.selfinfo.actions_prefix"
 SELFINFO_REDIS_PREFIX = "ckan.selfinfo.redis_prefix_key"
 SELFINFO_ERRORS_LIMIT = "ckan.selfinfo.errors_limit"
 SELFINFO_REPOS_PATH = "ckan.selfinfo.ckan_repos_path"
@@ -42,6 +43,11 @@ def selfinfo_get_main_action_name() -> Any:
 def selfinfo_get_redis_prefix() -> Any:
     prefix = tk.config.get(SELFINFO_REDIS_PREFIX)
     return prefix + "_" if prefix else prefix
+
+
+def selfinfo_get_actions_prefix() -> str:
+    prefix = tk.config.get(SELFINFO_ACTIONS_PREFIX, "")
+    return prefix + "_" if prefix else ""
 
 
 def selfinfo_get_errors_limit() -> Any:

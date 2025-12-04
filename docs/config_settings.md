@@ -51,6 +51,45 @@ ckan.selfinfo.main_action_name = system_info
 
 ---
 
+### `ckan.selfinfo.actions_prefix`
+
+**Type:** `string`
+**Default:** Empty (no prefix)
+**Required:** Optional
+
+Adds a custom prefix to all registered API actions from Selfinfo, Selftools, and Selftracking extensions. This provides an additional security layer by obscuring action names, making them harder to discover.
+
+!!! note "Scope"
+    This prefix applies to **all three extensions**:
+
+    - **Selfinfo** actions (except `get_selfinfo` which uses `ckan.selfinfo.main_action_name`)
+    - **Selftools** actions
+    - **Selftracking** actions
+
+!!! warning "Important"
+    When using a prefix, you must use the helper function `h.selfinfo_action_name()` in templates and code to construct the correct action name.
+
+**Example:**
+
+```ini
+# Add "custom" prefix to all actions
+ckan.selfinfo.actions_prefix = custom
+```
+
+**Usage in code:**
+
+```python
+from ckanext.selfinfo import helpers
+
+# Instead of calling the action directly:
+# tk.get_action("selfinfo_get_ram")(context, {})
+
+# Use the helper to get the prefixed name:
+tk.get_action(helpers.selfinfo_action_name("selfinfo_get_ram"))(context, {})
+```
+
+---
+
 ## Categories and Display
 
 ### `ckan.selfinfo.categories_list`

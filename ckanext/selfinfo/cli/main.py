@@ -10,14 +10,14 @@ from datetime import datetime
 from ckan.lib.redis import connect_to_redis, Redis
 import ckan.plugins.toolkit as tk
 
-from ckanext.selfinfo import config, utils
+from ckanext.selfinfo import config, utils, helpers
 
 log = logging.getLogger(__name__)
 
 
 @click.argument("module", required=True)
 def update_module_info(module: str):
-    tk.get_action("update_last_module_check")(
+    tk.get_action(helpers.selfinfo_action_name("update_last_module_check"))(
         {"ignore_auth": True},
         {
             "module": module,

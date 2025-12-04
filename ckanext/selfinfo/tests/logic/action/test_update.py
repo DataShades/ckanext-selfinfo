@@ -10,7 +10,7 @@ import ckan.plugins.toolkit as tk
 from ckan.tests.helpers import call_action
 from ckan.tests import factories
 
-from ckanext.selfinfo import config
+from ckanext.selfinfo import config, helpers
 
 log = logging.getLogger(__name__)
 
@@ -52,9 +52,9 @@ class TestUPDATE:
 
         ckan_info = selfinfo["python_modules"]["ckan"]["ckan"]
 
-        updated: dict[str, Any] = tk.get_action("update_last_module_check")(
-            context, {"module": "ckan"}
-        )
+        updated: dict[str, Any] = tk.get_action(
+            helpers.selfinfo_action_name("update_last_module_check")
+        )(context, {"module": "ckan"})
 
         assert ckan_info != updated
         before_updated = datetime.fromisoformat(ckan_info["updated"])
