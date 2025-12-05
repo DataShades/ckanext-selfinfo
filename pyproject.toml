@@ -60,7 +60,7 @@ docs = [
     "mkdocs",
     "mkdocs-material",
     "mkdocstrings[python]",
-    "mkdocs-glightbox"
+    "mkdocs-glightbox==0.4.0"
 ]
 test = [
     "pytest-ckan",
