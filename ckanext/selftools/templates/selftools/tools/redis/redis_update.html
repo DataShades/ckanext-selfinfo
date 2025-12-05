@@ -1,6 +1,6 @@
 {% import 'macros/form.html' as form %}
-
-<div class="">
+{% snippet 'selfinfo/snippets/selfinfo_content_header.html', icon_class='fas fa-edit me-2', label=_('Redis - Update') %}
+<div class="p-3">
     <form class="form-control border-0 shadow-none p-0" hx-post="{{ h.url_for('selftools_htmx.selftools_redis_update') }}" hx-trigger="submit" hx-target="#redis-update-resp" hx-swap="innerHTML">
         <div class="mb-3">
             <div class="info-block mb-2">
@@ -18,7 +18,7 @@
                 <textarea id="redis_value_update" name="value" rows="5" class="form-control" required></textarea>              
             </div>
         </div>
-        <button type="button" class="btn btn-dark mt-2" data-bs-toggle="modal" data-bs-target="#redis-update-confirmation">
+        <button type="button" class="btn selfiinfo-button-main-color-bg text-white mt-2" data-bs-toggle="modal" data-bs-target="#redis-update-confirmation">
             Submit
         </button>
 

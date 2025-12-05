@@ -4,9 +4,11 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as tk
 from ckan.common import CKANConfig
 
+from .logic import get_actions
+
 
 @tk.blanket.config_declarations
-@tk.blanket.actions
+@tk.blanket.actions(get_actions)
 @tk.blanket.blueprints
 @tk.blanket.helpers
 class SelftoolsPlugin(plugins.SingletonPlugin):

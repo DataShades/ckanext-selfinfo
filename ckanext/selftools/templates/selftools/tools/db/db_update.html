@@ -1,6 +1,8 @@
 {% import 'macros/form.html' as form %}
 
-<div class="">
+{% snippet 'selfinfo/snippets/selfinfo_content_header.html', icon_class='fas fa-edit me-2', label=_('Database - Update') %}
+
+<div class="p-3">
     <form class="form-control border-0 shadow-none p-0" hx-post="{{ h.url_for('selftools_htmx.selftools_db_update') }}" hx-trigger="submit" hx-target="#db-update-resp" hx-swap="innerHTML">
         <div class="mb-3">
             <div class="info-block mb-2">
@@ -44,7 +46,7 @@
             <input type="number" name="limit" min="1" max="{{ h.get_operations_limit() }}" step="1" value="1" class=""  required />
         </div>
 
-        <button type="button" class="btn btn-dark mt-2" data-bs-toggle="modal" data-bs-target="#db-update-confirmation">
+        <button type="button" class="btn selfiinfo-button-main-color-bg text-white mt-2" data-bs-toggle="modal" data-bs-target="#db-update-confirmation">
             Submit
         </button>
 

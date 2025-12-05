@@ -15,7 +15,7 @@ This will store your custom track at Redis and will be stored in DB once `selftr
 
 2. Using javascript that will file on item click (e.g. links like Resource Download):
     ```
-    <a class="" href="{{ PATH }}" data-module="selftracking-track-click" data-module-activity="{{ TRACK_TYPE }}" data-module-path="{{ PATH }}">
+    <a class="" href="{{ PATH }}" data-module="selftracking-track-click" data-module-activity="{{ TRACK_TYPE }}" data-module-path="{{ PATH }}" data-module-action-name="{{ h.selfinfo_action_name('selftracking_send_track_for_queue') }}">
         <i class="fas fa-scroll" aria-hidden="true"></i>
     </a>
     ```

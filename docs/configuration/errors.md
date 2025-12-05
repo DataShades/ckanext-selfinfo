@@ -1,22 +1,22 @@
-## Enable Errors Saving
+## Enable Error Storage
 
-![Enabled Errors storing](../assets/errors.png)
+![Enabled Error Storage](../assets/errors.png)
 
-In CKAN INI file, need to add and modify few lines.
+To enable error tracking, add and modify the following sections in your CKAN INI file.
 
-After `handler_console` section add:
+After the `handler_console` section, add:
 
     [handler_selfinfoErrorHanlder]
     class = ckanext.selfinfo.handlers.SelfinfoErrorHandler
     level = ERROR
     formatter = generic
 
-In `handlers` modify the `keys`, example:
+In the `[handlers]` section, add `selfinfoErrorHanlder` to the keys:
 
     [handlers]
     keys = console, selfinfoErrorHanlder
 
-In `logger_ckan` modify `handlers`, example:
+In the `[logger_ckan]` section, add the handler:
 
     [logger_ckan]
     level = INFO
@@ -24,7 +24,7 @@ In `logger_ckan` modify `handlers`, example:
     qualname = ckan
     propagate = 0
 
-In `logger_ckanext` modify `handlers`, example:
+In the `[logger_ckanext]` section, add the handler:
 
     [logger_ckanext]
     level = DEBUG

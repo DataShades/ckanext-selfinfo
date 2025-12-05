@@ -24,6 +24,9 @@ def get_selfinfo(
 
     data_categories = utils.CATEGORIES
 
+    if "status_show" not in categories_to_show:
+        categories_to_show.append("status_show")
+
     log.debug("data_categories: %s", data_categories.keys())
     # If a list of categories is passed in, use that instead.
     if data_dict.get("categories"):

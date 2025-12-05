@@ -36,7 +36,7 @@ from ckan.lib.search.common import (
 )
 from ckan.cli.cli import ckan as ckan_commands
 
-from . import config, utils
+from . import config
 
 
 log = logging.getLogger(__name__)
@@ -578,7 +578,7 @@ def retrieve_additional_selfinfo_by_keys(
         shared_categories = (
             config.selfinfo_get_dulicated_envs_shared_categories()
         )
-        glob_categories = utils.CATEGORIES
+        glob_categories = CATEGORIES
         if shared_categories and key in keys:
             for category in shared_categories:
                 if category in glob_categories and category not in data:

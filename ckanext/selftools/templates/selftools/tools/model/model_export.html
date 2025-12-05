@@ -1,70 +1,74 @@
 {% import 'macros/form.html' as form %}
 
-<div class="d-flex mb-3">
-    <a href="https://datashades.github.io/ckanext-selfinfo/selftools/categories/model/">
-        {{ _('Documentation') }}
-    </a>
+{% snippet 'selfinfo/snippets/selfinfo_content_header.html', icon_class='fas fa-file-export me-2', label=_('Model - Export') %}
+
+<div class="p-3">
+    <div class="d-flex mb-3">
+        <a href="https://datashades.github.io/ckanext-selfinfo/selftools/categories/model/">
+            {{ _('Documentation') }}
+        </a>
+    </div>
+    
+    <div class="">
+        <form class="form-control border-0 shadow-none p-0" hx-post="{{ h.url_for('selftools_htmx.selftools_model_export') }}" hx-trigger="submit" hx-target="#model-export-resp" hx-swap="innerHTML">
+            <div>
+                {{ form.select('model', label=_('Model'), options=extras.model_options, error='',  attrs={'class': 'select2', 'data-module': 'autocomplete'}) }}
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    {{ form.input('field', label=_('Field'), error='') }}            
+                </div>
+                <div class="col-lg-6">
+                    {{ form.input('value', label=_('Value'), error='') }}           
+                </div>
+            </div>
+    
+            <fieldset class="border p-3 mb-3">
+                <legend class="w-auto">
+                    <a class="btn selfiinfo-button-main-color-bg text-white" data-bs-toggle="collapse" href="#model_custom_relationships_collapse" role="button" aria-expanded="false" aria-controls="model_custom_relationships_collapse">
+                        Custom Relationships
+                    </a>
+                </legend>
+                <div class="collapse" id="model_custom_relationships_collapse">
+                    <div>
+                        <button class="btn selfiinfo-button-main-color-bg text-white" title="Add Relationship" hx-post="{{ h.url_for('selftools_htmx.selftools_model_export_custom_relationships_fields') }}" hx-trigger="click" hx-target="#model_custom_relationships_collapse" hx-swap="beforeend">
+                            {{ _('Add Relationship') }}
+                        </button>  
+                    </div>
+                    <div class="custom-relationships-map">
+                    </div>
+                </div>
+            </fieldset>
+    
+            <fieldset class="border p-3 mb-3">
+                <legend class="w-auto">
+                    <a class="btn selfiinfo-button-main-color-bg text-white" data-bs-toggle="collapse" href="#model_custom_default_value_condition_collapse" role="button" aria-expanded="false" aria-controls="model_custom_default_value_condition_collapse">
+                        Default Value Condition
+                    </a>
+                </legend>
+                <div class="collapse" id="model_custom_default_value_condition_collapse">
+                    <div>
+                        <button class="btn selfiinfo-button-main-color-bg text-white" title="Add Condition" hx-post="{{ h.url_for('selftools_htmx.selftools_model_export_custom_default_value_condition') }}" hx-trigger="click" hx-target="#model_custom_default_value_condition_collapse" hx-swap="beforeend">
+                            {{ _('Add Condition') }}
+                        </button>  
+                    </div>
+                    <div class="custom-relationships-map">
+                    </div>
+                </div>
+            </fieldset>
+    
+            <div class="mt-3 mb-3">
+                <label for="limit">Limit</label>
+                <input type="number" name="limit" min="1" max="{{ h.get_operations_limit() }}" step="1" value="{{ h.get_operations_limit() }}" class=""  required />
+            </div>
+    
+            <button type="button" class="btn selfiinfo-button-main-color-bg text-white mt-2" data-bs-toggle="modal" data-bs-target="#model-export-confirmation">
+                Preview
+            </button>
+    
+            {% snippet "selftools/snippets/confirmation.html", modal_id='model-export-confirmation', modal_label_id='model-export-label-id' %}
+        </form>
+    </div>
+    
+    <div id="model-export-resp" class="bg-light p-3 border rounded mt-3">Output here...</div>
 </div>
-
-<div class="">
-    <form class="form-control border-0 shadow-none p-0" hx-post="{{ h.url_for('selftools_htmx.selftools_model_export') }}" hx-trigger="submit" hx-target="#model-export-resp" hx-swap="innerHTML">
-        <div>
-            {{ form.select('model', label=_('Model'), options=extras.model_options, error='',  attrs={'class': 'select2', 'data-module': 'autocomplete'}) }}
-        </div>
-        <div class="row">
-            <div class="col-lg-6">
-                {{ form.input('field', label=_('Field'), error='') }}            
-            </div>
-            <div class="col-lg-6">
-                {{ form.input('value', label=_('Value'), error='') }}           
-            </div>
-        </div>
-
-        <fieldset class="border p-3 mb-3">
-            <legend class="w-auto">
-                <a class="btn btn-dark" data-bs-toggle="collapse" href="#model_custom_relationships_collapse" role="button" aria-expanded="false" aria-controls="model_custom_relationships_collapse">
-                    Custom Relationships
-                </a>
-            </legend>
-            <div class="collapse" id="model_custom_relationships_collapse">
-                <div>
-                    <button class="btn btn-dark" title="Add Relationship" hx-post="{{ h.url_for('selftools_htmx.selftools_model_export_custom_relationships_fields') }}" hx-trigger="click" hx-target="#model_custom_relationships_collapse" hx-swap="beforeend">
-                        {{ _('Add Relationship') }}
-                    </button>  
-                </div>
-                <div class="custom-relationships-map">
-                </div>
-            </div>
-        </fieldset>
-
-        <fieldset class="border p-3 mb-3">
-            <legend class="w-auto">
-                <a class="btn btn-dark" data-bs-toggle="collapse" href="#model_custom_default_value_condition_collapse" role="button" aria-expanded="false" aria-controls="model_custom_default_value_condition_collapse">
-                    Default Value Condition
-                </a>
-            </legend>
-            <div class="collapse" id="model_custom_default_value_condition_collapse">
-                <div>
-                    <button class="btn btn-dark" title="Add Condition" hx-post="{{ h.url_for('selftools_htmx.selftools_model_export_custom_default_value_condition') }}" hx-trigger="click" hx-target="#model_custom_default_value_condition_collapse" hx-swap="beforeend">
-                        {{ _('Add Condition') }}
-                    </button>  
-                </div>
-                <div class="custom-relationships-map">
-                </div>
-            </div>
-        </fieldset>
-
-        <div class="mt-3 mb-3">
-            <label for="limit">Limit</label>
-            <input type="number" name="limit" min="1" max="{{ h.get_operations_limit() }}" step="1" value="{{ h.get_operations_limit() }}" class=""  required />
-        </div>
-
-        <button type="button" class="btn btn-dark mt-2" data-bs-toggle="modal" data-bs-target="#model-export-confirmation">
-            Preview
-        </button>
-
-        {% snippet "selftools/snippets/confirmation.html", modal_id='model-export-confirmation', modal_label_id='model-export-label-id' %}
-    </form>
-</div>
-
-<div id="model-export-resp" class="bg-light p-3 border rounded mt-3">Output here...</div>

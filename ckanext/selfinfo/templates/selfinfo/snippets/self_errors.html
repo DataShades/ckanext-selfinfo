@@ -1,51 +1,48 @@
-<div class="position-relative">
-    <h2 class="m-3 text-center">
-        {{ data.errors|length }} 
-        {% if data.errors|length == 1 %}
-            {{ _('Error') }}
-        {% else %}
-            {{ _('Errors') }}
-        {% endif %}
-        <button class="text-primary bg-transparent box-shadow-none border-0" onclick='copyElementContent("{{ id }}-anchor")'>
-            <i class="fa fa-link fs-3" aria-hidden="true"></i>
-        </button>
-        <div id="{{ id }}-anchor" class="hidden d-none">
-            {{ full_url ~ '#' ~ id }}
-        </div>
-    </h2>
-    <div class="position-absolute top-0 end-0">
-        {% if data.errors|length and profile == 'default' %}
-            <form action="">
-                <button class="btn btn-dark" type="submit" name="drop_errors" value="true">{{ _('Clear Errors') }}</button>
-            </form>
-        {% endif %}
-    </div>
-</div>
-{% if data.errors|length %}
-    <input type="text" class="form-control mb-3" placeholder="Search items..." data-module="search-through-content" data-module-target="#slf-errors-parent .list-group-item">
-    <div class="list-group" id="slf-errors-parent">
-        {% for error in data.errors|reverse %}
-            {% set even = loop.index % 2 == 0 %}
-            <div class="list-group-item p-3 {% if even %} list-group-item-secondary {% endif %} position-relative">
-                <button class="position-absolute end-0 top-0 m-3 btn btn-dark mb-3" onclick='copyElementContent("selfinfo-{{ loop.index }}-error")'>{{ _('Copy') }}</button>
-                {% if error.error_url %}
-                    <div class="mb-3">
-                        {% if error.error_url.startswith("http") %}
-                            <a class="fw-bold" href="{{ error.error_url }}" target="_blank">{{ error.error_url }}</a>
-                        {% else %}
-                            {{ error.error_url }}
-                        {% endif %}
-                    </div>
-                {% endif %}
-                <pre id="selfinfo-{{ loop.index }}-error" class="pb-3 mb-0">{{ error.error }}</pre>
-            </div>
-        {% endfor %}
-    </div>
-{% else %}
-    <p>
-        You don't have any errors yet.
-    </p>
-    <p>
-        If the error should be displayed, make sure that changes mentioned in <b>Enable Errors Saving</b> section are being applied.
-    </p>
+{% set label = data.errors|length ~ ' Error' %}
+
+{% if data.errors|length > 1 %}
+    {% set label = data.errors|length ~ ' Errors' %}
 {% endif %}
+
+{% snippet 'selfinfo/snippets/selfinfo_content_header.html', icon_class='fas fa-exclamation-triangle me-2', label=_(label) %}
+<div class="p-3">
+    {% if data.errors|length %}
+        <div>
+            <div class="d-flex justify-content-between gap-3">
+                <div>
+                    <input type="text" class="form-control mb-3" placeholder="Search items..." data-module="search-through-content" data-module-target="#self-errors-parent .list-group-item">
+                </div>
+                {% if data.errors|length and profile == 'default' %}
+                    <form action="">
+                        <button class="btn selfiinfo-button-main-color-bg text-white" type="submit" name="drop_errors" value="true">{{ _('Clear Errors') }}</button>
+                    </form>
+                {% endif %}
+            </div>
+            <div class="list-group" id="self-errors-parent">
+                {% for error in data.errors|reverse %}
+                {% set even = loop.index % 2 == 0 %}
+                    <div class="list-group-item p-3 {% if even %} list-group-item-secondary {% endif %} position-relative">
+                        <button class="position-absolute end-0 top-0 m-3 btn selfiinfo-button-main-color-bg text-white mb-3" onclick='copyElementContent("selfinfo-{{ loop.index }}-error")'>{{ _('Copy') }}</button>
+                        {% if error.error_url %}
+                            <div class="mb-3">
+                                {% if error.error_url.startswith("http") %}
+                                    <a class="fw-bold" href="{{ error.error_url }}" target="_blank">{{ error.error_url }}</a>
+                                {% else %}
+                                    {{ error.error_url }}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                        <pre id="selfinfo-{{ loop.index }}-error" class="pb-3 mb-0">{{ error.error }}</pre>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+        <p>
+            You don't have any errors yet.
+        </p>
+        <p>
+            If the error should be displayed, make sure that changes mentioned in <b>Enable Errors Saving</b> section are being applied.
+        </p>
+    {% endif %}
+</div>

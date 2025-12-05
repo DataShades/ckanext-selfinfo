@@ -1,0 +1,40 @@
+{% ckan_extends %}
+
+{% block selfinfo_plugin_sidebar_plugins %}
+    {{ super() }}
+    <a class="selfinfo-plugin-link" data-plugin="selftracking" type="button" role="tab" hx-get="{{ h.url_for('selftracking.index') }}"
+        hx-target="#selftracking-plugin"
+        hx-trigger="click once"
+        hx-swap="innerHTML">
+        <i class="fas fa-chart-bar"></i>
+        <span>Selftracking</span>
+    </a>
+{% endblock %}
+
+{% block selfinfo_navigations %}
+    {{ super() }}
+    <div class="selfinfo-navigation selfinfo-navigation-selftracking">
+        {% set selftracking_categories = h.selftracking_categories() %}
+        <div class="selfinfo-nav-section-title">Categories</div>
+        <div class="nav nav-pills flex-column" id="selftracking-tab" role="tablist">
+            {% for category in selftracking_categories %}
+                <a class="selfinfo-navigation-link {% if loop.index == 1 %} active {% endif %}" id="nav-{{ category.key }}-selftracking-tab" data-bs-toggle="tab" data-bs-target="#nav-{{ category.key }}-selftracking" role="tab" aria-controls="nav-{{ category.key }}-selftracking" aria-selected="true">
+                    {% if category.icon %}
+                        <i class="{{ category.icon }} me-2"></i>
+                    {% endif %}
+                    {{ category.label }}</a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block selfinfo_plugin_tabs_content %}
+    {% asset 'selftracking/selftracking-js' %}
+    {{ super() }}
+    <div class="selfinfo-content-wrapper selfinfo-content-selftracking-wrapper" id="selftracking-plugin">
+        <div class="text-center my-5 fs-3">
+            {{ _('Loading Data...') }}
+        </div>
+    </div>
+{% endblock %}

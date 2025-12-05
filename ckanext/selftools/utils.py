@@ -20,96 +20,114 @@ SELFTOOLS_TOOLS = [
     {
         "key": "solr",
         "label": "Solr",
+        "icon": "fas fa-search",
         "tools": [
             {
                 "key": "solr_query",
                 "label": "Query",
                 "snippet": "/selftools/tools/solr/solr_query.html",
+                "icon": "fas fa-search",
             },
             {
                 "key": "solr_index",
                 "label": "Index",
                 "snippet": "/selftools/tools/solr/solr_index.html",
+                "icon": "fas fa-upload",
             },
             {
                 "key": "solr_delete",
                 "label": "Delete",
                 "snippet": "/selftools/tools/solr/solr_delete.html",
+                "icon": "fas fa-trash-alt",
             },
         ],
     },
     {
         "key": "db",
         "label": "DB",
+        "icon": "fas fa-database",
         "tools": [
             {
                 "key": "db_query",
                 "label": "Query",
                 "snippet": "/selftools/tools/db/db_query.html",
+                "icon": "fas fa-search",
             },
             {
                 "key": "db_update",
                 "label": "Update",
                 "snippet": "/selftools/tools/db/db_update.html",
+                "icon": "fas fa-edit",
             },
         ],
     },
     {
         "key": "redis",
         "label": "Redis",
+        "icon": "fas fa-memory",
         "tools": [
             {
                 "key": "redis_query",
                 "label": "Query",
                 "snippet": "/selftools/tools/redis/redis_query.html",
+                "icon": "fas fa-search",
             },
             {
                 "key": "redis_update",
                 "label": "Update/Create",
                 "snippet": "/selftools/tools/redis/redis_update.html",
+                "icon": "fas fa-edit",
             },
             {
                 "key": "redis_delete",
                 "label": "Delete",
                 "snippet": "/selftools/tools/redis/redis_delete.html",
+                "icon": "fas fa-trash",
             },
         ],
     },
     {
         "key": "config",
         "label": "Config",
+        "icon": "fas fa-cogs",
         "tools": [
             {
                 "key": "config_query",
                 "label": "Query",
                 "snippet": "/selftools/tools/config/config_query.html",
+                "icon": "fas fa-search",
             },
         ],
     },
     {
         "key": "model",
         "label": "Model",
+        "icon": "fab fa-python",
         "tools": [
             {
                 "key": "model_export",
                 "label": "Export",
                 "snippet": "/selftools/tools/model/model_export.html",
+                "icon": "fas fa-file-export",
             },
             {
                 "key": "model_import",
                 "label": "Import",
                 "snippet": "/selftools/tools/model/model_import.html",
+                "icon": "fas fa-file-import",
             },
         ],
     },
     {
         "key": "datastore",
         "label": "Datastore",
+        "icon": "fas fa-table",
         "tools": [
             {
                 "key": "datastore_query",
                 "label": "Data",
                 "snippet": "/selftools/tools/datastore/datastore_query.html",
+                "icon": "fas fa-database",
             },
         ],
     },

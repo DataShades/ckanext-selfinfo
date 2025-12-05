@@ -10,7 +10,7 @@ import ckan.plugins.toolkit as tk
 from ckan.tests.helpers import call_action
 from ckan.tests import factories
 
-from ckanext.selfinfo import config
+from ckanext.selfinfo import config, helpers
 
 log = logging.getLogger(__name__)
 
@@ -21,6 +21,7 @@ updated_path: str = "/".join(current_path)
 
 @pytest.mark.ckan_config("ckan.plugins", "selfinfo")
 @pytest.mark.usefixtures("with_plugins", "clean_db")
+@pytest.mark.ckan_config("ckan.selfinfo.categories_list", "python_modules platform_info git_info")
 @pytest.mark.ckan_config("ckan.selfinfo.ckan_repos_path", updated_path)
 @pytest.mark.ckan_config("ckan.selfinfo.ckan_repos", "ckan ckanext-selfinfo")
 class TestUPDATE:
@@ -52,9 +53,9 @@ class TestUPDATE:
 
         ckan_info = selfinfo["python_modules"]["ckan"]["ckan"]
 
-        updated: dict[str, Any] = tk.get_action("update_last_module_check")(
-            context, {"module": "ckan"}
-        )
+        updated: dict[str, Any] = tk.get_action(
+            helpers.selfinfo_action_name("update_last_module_check")
+        )(context, {"module": "ckan"})
 
         assert ckan_info != updated
         before_updated = datetime.fromisoformat(ckan_info["updated"])

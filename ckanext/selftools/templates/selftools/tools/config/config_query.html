@@ -1,11 +1,13 @@
-<div class="">
+{% snippet 'selfinfo/snippets/selfinfo_content_header.html', icon_class='fas fa-cogs me-2', label=_('Config - Query') %}
+
+<div class="p-3">
     <form class="form-control border-0 shadow-none p-0" hx-post="{{ h.url_for('selftools_htmx.selftools_config_query') }}" hx-trigger="submit" hx-target="#config-query-resp" hx-swap="innerHTML">
         <div>
             <label for="config_query">Config Key</label>
             <input type="text" name="q" id="config_query" class="form-control" required>
         </div>
 
-        <button type="button" class="btn btn-dark mt-2" data-bs-toggle="modal" data-bs-target="#config-query-confirmation">
+        <button type="button" class="btn selfiinfo-button-main-color-bg text-white mt-2" data-bs-toggle="modal" data-bs-target="#config-query-confirmation">
             Submit
         </button>
 

@@ -1,20 +1,23 @@
-<div class="d-flex justify-content-between">
-    <form class="form-control border-0 shadow-none p-0" hx-post="{{ h.url_for('selftools_htmx.selftools_solr_delete') }}" hx-trigger="submit" hx-target="#solr-detele-resp" hx-swap="innerHTML">
-        <div class="info-block mb-2">
-            <i class="fa fa-info-circle"></i>
-            {{ _('Deletes Dataset from Index.') }}
-        </div>
-        <div>
-            <label for="ds_id">Dataset Name/ID</label>
-            <input type="text" name="id" id="ds_id" class="form-control" required>
-        </div>
-
-        <button type="button" class="btn btn-dark mt-2" data-bs-toggle="modal" data-bs-target="#solr-delete-confirmation">
-            Delete
-        </button>
-
-        {% snippet "selftools/snippets/confirmation.html", modal_id='solr-delete-confirmation', modal_label_id='solr-delete-label-id' %}
-    </form>
+{% snippet 'selfinfo/snippets/selfinfo_content_header.html', icon_class='fas fa-trash-alt me-2', label=_('Solr - Delete') %}
+<div class="p-3">
+    <div class="d-flex justify-content-between">
+        <form class="form-control border-0 shadow-none p-0" hx-post="{{ h.url_for('selftools_htmx.selftools_solr_delete') }}" hx-trigger="submit" hx-target="#solr-detele-resp" hx-swap="innerHTML">
+            <div class="info-block mb-2">
+                <i class="fa fa-info-circle"></i>
+                {{ _('Deletes Dataset from Index.') }}
+            </div>
+            <div>
+                <label for="ds_id">Dataset Name/ID</label>
+                <input type="text" name="id" id="ds_id" class="form-control" required>
+            </div>
+    
+            <button type="button" class="btn selfiinfo-button-main-color-bg text-white mt-2" data-bs-toggle="modal" data-bs-target="#solr-delete-confirmation">
+                Delete
+            </button>
+    
+            {% snippet "selftools/snippets/confirmation.html", modal_id='solr-delete-confirmation', modal_label_id='solr-delete-label-id' %}
+        </form>
+    </div>
+    
+    <div id="solr-detele-resp" class="bg-light p-3 border rounded mt-3">Confirmation</div>
 </div>
-
-<div id="solr-detele-resp" class="bg-light p-3 border rounded mt-3">Confirmation</div>

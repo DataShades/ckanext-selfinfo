@@ -1,195 +1,118 @@
-<h2 class="m-3 text-center">
-    System Information
-    <button class="text-primary bg-transparent box-shadow-none border-0" onclick='copyElementContent("{{ id }}-anchor")'>
-        <i class="fa fa-link fs-3" aria-hidden="true"></i>
-    </button>
-    <div id="{{ id }}-anchor" class="hidden d-none">
-        {{ full_url ~ '#' ~ id }}
-    </div>
-</h2>
-<div class="row">
-    {% block selfinfo_platform_info %}
+{% snippet 'selfinfo/snippets/selfinfo_content_header.html', icon_class='fas fa-server me-2', label=_('System Information') %}
+<div class="p-3">
+    <div class="row">
+        {% if data.ram_usage %}
+            <div class="col-lg-4 mb-4">
+                <div class="selfinfo-blue-bg selfinfo-stat-card">
+                    <div class="selfinfo-stat-icon">
+                        <i class="fas fa-memory"></i>
+                    </div>
+                    <div class="selfinfo-stat-value">{{ data.ram_usage.precent_usage }}%</div>
+                    <div class="selfinfo-stat-label">RAM Usage ({{ data.ram_usage.used_ram }} / {{ data.ram_usage.total_ram }})</div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if data.disk_usage and data.disk_usage[0] %}
+            <div class="col-lg-4 mb-4">
+                <div class="selfinfo-stat-card selfinfo-orange-bg">
+                    <div class="selfinfo-stat-icon">
+                        <i class="fas fa-hdd"></i>
+                    </div>
+                    <div class="selfinfo-stat-value">{{ data.disk_usage[0].precent_usage }}%</div>
+                    <div class="selfinfo-stat-label">{{ _('Disk Usage') }} ({{ data.disk_usage[0].free_space }} {{ _('free') }} / {{ data.disk_usage[0].total_disk }} {{ _('total') }})</div>
+                </div>
+            </div>
+        {% endif %}
+        
         {% if data.platform_info %}
-            <div class="col-lg-6 pb-3">
-                <div class="card border-dark  h-100">
-                    <div class="card-header bg-dark text-white fw-bold">
-                        {{ _('Platform Information') }}
+            <div class="col-lg-4 mb-4">
+                <div class="selfinfo-stat-card selfinfo-violet-bg">
+                    <div class="selfinfo-stat-icon">
+                        <i class="fab fa-python"></i>
                     </div>
-                    <div class="card-body">
-                        <table class="table table-borderless mb-3">
-                            <thead>
-                                <tr>
-                                    <th scope="col">System Platform</th>
-                                    <th scope="col">Distribution</th>
-                                    <th scope="col">Python Version</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>{{ data.platform_info.platform }}</td>
-                                    <td>{{ data.platform_info.distro }}</td>
-                                    <td>{{ data.platform_info.python_version }} {% if data.platform_info.python_prefix %} ({{data.platform_info.python_prefix}}) {% endif %}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="selfinfo-stat-value">{{ data.platform_info.python_version }}</div>
+                    <div class="selfinfo-stat-label">{{ _('Python Version') }}</div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if data.platform_info and data.platform_info.python_prefix %}
+            <div class="col-lg-4 mb-4">
+                <div class="selfinfo-stat-card selfinfo-ocean-blue-bg">
+                    <div class="selfinfo-stat-icon">
+                        <i class="fas fa-terminal"></i>
+                    </div>
+                    <div class="selfinfo-stat-value">{{ data.platform_info.python_prefix }}</div>
+                    <div class="selfinfo-stat-label">{{ _('Source') }}</div>
+                </div> 
+            </div>
+        {% endif %}
+        
+        {% if data.status_show %}
+            <div class="col-lg-4 mb-4">
+                <div class="selfinfo-stat-card selfinfo-dark-blue-bg">
+                    <div class="selfinfo-stat-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <div class="selfinfo-stat-value">{{ data.status_show.ckan_version }}</div>
+                    <div class="selfinfo-stat-label">{{ _('CKAN Version') }}</div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if data.platform_info %}
+            <div class="col-lg-4 mb-4">
+                <div class="selfinfo-stat-card selfinfo-aurora-bg">
+                    <div class="selfinfo-stat-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="selfinfo-stat-value">{{ data.platform_info.distro }}</div>
+                    <div class="selfinfo-stat-label">
+                        {{ _('Distribution') }} ({{ data.platform_info.platform }})
                     </div>
                 </div>
             </div>
         {% endif %}
-    {% endblock %}
-    {% if data.ram_usage %}
-        {% block selfinfo_ram_usage %}
-            <div class="col-lg-6 pb-3">
-                <div class="card border-dark ">
-                    <div class="card-header bg-dark text-white fw-bold">
-                        {{ _('RAM usage') }}
-                    </div>         
-                    <nav class="p-3">
-                        <div class="nav nav-pills nav-fill border border-dark rounded bg-dark" id="nav-tab" role="tablist">
-                            <button class="nav-link rounded-0 fw-bold active" id="nav-ram-tab-general-tab" data-bs-toggle="tab" data-bs-target="#nav-ram-tab-general" role="tab" aria-controls="nav-ram-tab-general" aria-selected="true">General</button>
-                            {% if profile == 'default' %}
-                                <button class="nav-link rounded-0 fw-bold" id="nav-ram-tab-monitor-tab" data-bs-toggle="tab" data-bs-target="#nav-ram-tab-monitor" role="tab" aria-controls="nav-ram-tab-monitor" aria-selected="false">Monitor</button>
-                            {% endif %}
-                        </div>
-                    </nav>
-                    <div class="tab-content d-block p-3">
-                        <div class="tab-pane fade show active" id="nav-ram-tab-general" role="tabpanel" aria-labelledby="nav-ram-tab-general-tab">
-                                <table class="table table-borderless mb3">
-                                    <tr>
-                                        <th class="col">{{ _('RAM Usage in') }} %</th>
-                                        <th class="col">{{ _('RAM Usage') }}</th>
-                                        <th class="col">{{ _('RAM Total') }}</th>
-                                    </tr>
-                                    <tbody>
-                                        <tr>
-                                            <td>{{ data.ram_usage.precent_usage }}%</td>
-                                            <td>{{ data.ram_usage.used_ram }}</td>
-                                            <td>{{ data.ram_usage.total_ram }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                {% if data.ram_usage.processes %}
-                                    <div class="accordion-item border">
-                                        <div class="accordion-header" id="ram-top-processes">
-                                        <button class="accordion-button collapsed p-2" type="button" data-bs-toggle="collapse" data-bs-target="#ram-top-processes-acc" aria-expanded="false" aria-controls="ram-top-processes-acc">
-                                            <div class="d-flex">
-                                                <span class="h5 mb-0">{{ _('Top 10 Processes') }}</span>
-                                            </div>
-                                        </button>
-                                        </div>
-                                        <div id="ram-top-processes-acc" class="accordion-collapse collapse" aria-labelledby="ram-top-processes-acc-heading">
-                                            <div class="accordion-body">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <ol start="1">
-                                                            {% for process in data.ram_usage.processes[:5] %}
-                                                                <li>
-                                                                    <span title="memory">{{ process[2] }}</span>,
-                                                                    <span title="name">{{ process[1] }}</span>,
-                                                                    <span title="PID">{{ process[0] }}</span>
-                                                                </li>
-                                                            {% endfor %}
-                                                        </ol>
-                                                    </div>
-                                                    {% if data.ram_usage.processes|length > 5 %}
-                                                        <div class="col-lg-6">
-                                                            <ol start="6">
-                                                                {% for process in data.ram_usage.processes[5:] %}
-                                                                    <li>
-                                                                        <span title="memory">{{ process[2] }}</span>,
-                                                                        <span title="name">{{ process[1] }}</span>,
-                                                                        <span title="PID">{{ process[0] }}</span>
-                                                                    </li>
-                                                                {% endfor %}
-                                                            </ol>
-                                                        </div>
-                                                    {% endif %}
-                                                </div>
-                                        </div>
-                                        </div>
+    </div>
+
+    {% if data.ram_usage and data.ram_usage.processes %}
+        <section class="top-processes my-4">
+            <div class="d-flex align-items-center mb-3">
+                <div>
+                    <h3 class="mb-0">
+                        <i class="fas fa-fire text-warning"></i>
+                        {{ _('Top 10 Processes') }}
+                    </h3>
+                    <small class="text-muted">{{ _('Highest memory usage across the system') }}</small>
+                </div>
+            </div>
+
+            <div class="process-grid row gx-3 gy-3">
+                {% for process in data.ram_usage.processes[:10] %}
+                    {% set pid = process[0] %}
+                    {% set name = process[1] %}
+                    {% set mem_raw = process[2] %}
+
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <article class="process-card d-flex flex-column p-3 h-100">
+                            <div class="d-flex align-items-start justify-content-between mb-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="process-rank rounded-circle d-flex align-items-center justify-content-center me-1">{{ loop.index }}</div>
+                                    <div>
+                                        <div class="process-title fw-semibold">{{ name }}</div>
+                                        <div class="text-muted small">PID: {{ pid }}</div>
                                     </div>
-                                {% endif %}
-                        </div>
-                        {% if profile == 'default' %}
-                            <div class="tab-pane fade" id="nav-ram-tab-monitor" role="tabpanel" aria-labelledby="nav-ram-tab-monitor-tab">
-                                <button class="btn btn-dark mb-3" id="ram-monitor">Start monitoring</button>
-                                <table class="table mb3">
-                                    <tr>
-                                        <th class="col">{{ _('RAM Usage in') }} %</th>
-                                        <th class="col">{{ _('RAM Usage') }}</th>
-                                        <th class="col">{{ _('RAM Total') }}</th>
-                                        <th class="col">{{ _('Processes') }}</th>
-                                    </tr>
-                                    <tbody hx-get="/selfinfo/get-ram" hx-trigger="every 5s [getRam()]" hx-swap="beforeend">
-                                        <tr>
-                                            <td>{{ data.ram_usage.precent_usage }}%</td>
-                                            <td>{{ data.ram_usage.used_ram }}</td>
-                                            <td>{{ data.ram_usage.total_ram }}</td>
-                                            <td>
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <ol start="1">
-                                                            {% for process in data.ram_usage.processes[:5] %}
-                                                                <li>
-                                                                    <span title="memory">{{ process[2] }}</span>, 
-                                                                    <span title="name">{{ process[1] }}</span>, 
-                                                                    <span title="PID">{{ process[0] }}</span>
-                                                                </li>
-                                                            {% endfor %}
-                                                        </ol>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <ol start="6">
-                                                            {% for process in data.ram_usage.processes[5:] %}
-                                                                <li>
-                                                                    <span title="memory">{{ process[2] }}</span>, 
-                                                                    <span title="name">{{ process[1] }}</span>, 
-                                                                    <span title="PID">{{ process[0] }}</span>
-                                                                </li>
-                                                            {% endfor %}
-                                                        </ol>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                </div>
+                                <div class="text-end">
+                                    <span class="badge mem-badge selfinfo-main-color-bg">{{ mem_raw }}</span>
+                                </div>
                             </div>
-                        {% endif %}
+
+                        </article>
                     </div>
-                </div>
+                {% endfor %}
             </div>
-        {% endblock %}
+        </section>
     {% endif %}
-    {% block selfinfo_disk_usage %}
-        {% if data.disk_usage %}
-        <div class="col-lg-6 pb-3">
-            <div class="card border-dark  h-100">
-                <div class="card-header bg-dark text-white fw-bold">
-                    {{ _('Disk Usage') }}
-                </div>
-                <div class="card-body">
-                    <table class="table mb3">
-                        <tr>
-                            <th class="col">{{ _('Path') }}</th>
-                            <th class="col">{{ _('Disk Usage in') }} %</th>
-                            <th class="col">{{ _('Disk Total') }}</th>
-                            <th class="col">{{ _('Disk Free') }}</th>
-                        </tr>
-                        <tbody>
-                            {% for disk in data.disk_usage %}
-                                <tr>
-                                    <td>{{ disk.path }}</td>
-                                    <td>{{ disk.precent_usage }}%</td>
-                                    <td>{{ disk.total_disk }}</td>
-                                    <td>{{ disk.free_space }}</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-    {% endblock %}
 </div>

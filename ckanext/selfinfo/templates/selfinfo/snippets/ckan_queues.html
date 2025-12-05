@@ -1,52 +1,45 @@
-<h2 class="m-3 text-center">
-    CKAN Queues
-    <button class="text-primary bg-transparent box-shadow-none border-0" onclick='copyElementContent("{{ id }}-anchor")'>
-        <i class="fa fa-link fs-3" aria-hidden="true"></i>
-    </button>
-    <div id="{{ id }}-anchor" class="hidden d-none">
-        {{ full_url ~ '#' ~ id }}
-    </div>
-</h2>
-
-<nav>
-    <div class="nav nav-pills nav-fill border border-dark rounded bg-dark" id="nav-tab" role="tablist">
+{% snippet 'selfinfo/snippets/selfinfo_content_header.html', icon_class='fas fa-tasks me-2', label=_('CKAN Queues') %}
+<div class="p-3">
+    <nav>
+        <div class="nav nav-pills nav-fill selfinfo-main-color-bg rounded selfinfo-ckan-pills" id="nav-tab" role="tablist">
+            {% for queue, value in data.ckan_queues.items() %}
+                {% set queue_name = queue|replace(':', '-') %}
+                <button class="nav-link px-3 py-2 {% if loop.index == 1 %} active {% endif %}" id="{{ queue_name }}-queue-tab" role="tab" aria-controls="nav-{{ queue_name }}-queue-general" aria-selected="{% if loop.index == 1 %}true{% else %}false{% endif %}" data-bs-toggle="tab" data-bs-target="#{{ id }}-{{ queue_name }}-queue-general">{{ queue_name }} ({{ value.count }}{% if value.above_the_limit %}+{% endif %})</button>
+            {% endfor %}
+        </div>
+    </nav>
+    
+    <div class="tab-content d-block">
         {% for queue, value in data.ckan_queues.items() %}
             {% set queue_name = queue|replace(':', '-') %}
-            <button class="nav-link rounded-0 fw-bold {% if loop.index == 1 %} active {% endif %}" id="{{ queue_name }}-queue-tab" role="tab" aria-controls="nav-{{ queue_name }}-queue-general" aria-selected="{% if loop.index == 1 %}true{% else %}false{% endif %}" data-bs-toggle="tab" data-bs-target="#nav-{{ queue_name }}-queue-general">{{ queue_name }} ({{ value.count }}{% if value.above_the_limit %}+{% endif %})</button>
+            <div class="tab-pane fade {% if loop.index == 1 %} show active {% endif %}" id="{{ id }}-{{ queue_name }}-queue-general" role="tabpanel" aria-labelledby="{{ queue_name }}-queue-tab">
+                <div class="my-4">
+                    {% if value.jobs %}
+                    <table class="table mb3">
+                        <tr>
+                            <th class="col">{{ _('Job ID') }}</th>
+                            <th class="col">{{ _('Title') }}</th>
+                            <th class="col">{{ _('Created') }}</th>
+                            <th class="col">{{ _('Queue') }}</th>
+                        </tr>
+                        <tbody>
+                            {% for job in value.jobs %}
+                                <tr>
+                                    <td>{{ job.id }}</td>
+                                    <td>{{ job.title }}</td>
+                                    <td>{{ job.created }}</td>
+                                    <td>{{ job.queue }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                        <p>
+                            {{ _("No jobs yet created for this queue.") }}
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
         {% endfor %}
     </div>
-</nav>
-
-<div class="tab-content d-block">
-    {% for queue, value in data.ckan_queues.items() %}
-        {% set queue_name = queue|replace(':', '-') %}
-        <div class="tab-pane fade {% if loop.index == 1 %} show active {% endif %}" id="nav-{{ queue_name }}-queue-general" role="tabpanel" aria-labelledby="{{ queue_name }}-queue-tab">
-            <div class="my-4">
-                {% if value.jobs %}
-                <table class="table mb3">
-                    <tr>
-                        <th class="col">{{ _('Job ID') }}</th>
-                        <th class="col">{{ _('Title') }}</th>
-                        <th class="col">{{ _('Created') }}</th>
-                        <th class="col">{{ _('Queue') }}</th>
-                    </tr>
-                    <tbody>
-                        {% for job in value.jobs %}
-                            <tr>
-                                <td>{{ job.id }}</td>
-                                <td>{{ job.title }}</td>
-                                <td>{{ job.created }}</td>
-                                <td>{{ job.queue }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% else %}
-                    <p>
-                        {{ _("No jobs yet created for this queue.") }}
-                    </p>
-                {% endif %}
-            </div>
-        </div>
-    {% endfor %}
 </div>

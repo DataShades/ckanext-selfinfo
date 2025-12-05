@@ -1,20 +1,23 @@
-<div class="d-flex justify-content-between">
-    <form class="form-control border-0 shadow-none p-0" hx-post="{{ h.url_for('selftools_htmx.selftools_redis_delete') }}" hx-trigger="submit" hx-target="#redis-detele-resp" hx-swap="innerHTML">
-        <div class="info-block mb-2">
-            <i class="fa fa-info-circle"></i>
-            {{ _('Deletes Key from Redis.') }}
-        </div>
-        <div>
-            <label for="redis_key">Redis Key</label>
-            <input type="text" name="redis_key" id="redis_key" class="form-control" required>
-        </div>
-
-        <button type="button" class="btn btn-dark mt-2" data-bs-toggle="modal" data-bs-target="#redis-delete-confirmation">
-            Delete
-        </button>
-
-        {% snippet "selftools/snippets/confirmation.html", modal_id='redis-delete-confirmation', modal_label_id='redis-delete-label-id' %}
-    </form>
+{% snippet 'selfinfo/snippets/selfinfo_content_header.html', icon_class='fas fa-trash-alt me-2', label=_('Redis - Delete') %}
+<div class="p-3">
+    <div class="d-flex justify-content-between">
+        <form class="form-control border-0 shadow-none p-0" hx-post="{{ h.url_for('selftools_htmx.selftools_redis_delete') }}" hx-trigger="submit" hx-target="#redis-detele-resp" hx-swap="innerHTML">
+            <div class="info-block mb-2">
+                <i class="fa fa-info-circle"></i>
+                {{ _('Deletes Key from Redis.') }}
+            </div>
+            <div>
+                <label for="redis_key">Redis Key</label>
+                <input type="text" name="redis_key" id="redis_key" class="form-control" required>
+            </div>
+    
+            <button type="button" class="btn selfiinfo-button-main-color-bg text-white mt-2" data-bs-toggle="modal" data-bs-target="#redis-delete-confirmation">
+                Delete
+            </button>
+    
+            {% snippet "selftools/snippets/confirmation.html", modal_id='redis-delete-confirmation', modal_label_id='redis-delete-label-id' %}
+        </form>
+    </div>
+    
+    <div id="redis-detele-resp" class="bg-light p-3 border rounded mt-3">Confirmation</div>
 </div>
-
-<div id="redis-detele-resp" class="bg-light p-3 border rounded mt-3">Confirmation</div>

@@ -1,9 +1,16 @@
-## Unique Redis key per portal/instance
+## Unique Redis Key per Portal Instance
 
-By default, Selfinfo will store some of the Data like Errors or Python Modules under standard Redis keys and if you have another portal/instance connected to same Redis, they might interfere with each other, which is not what we want.
+By default, Selfinfo stores data (such as errors and Python modules) under standard Redis keys. If multiple CKAN portals or instances share the same Redis server, they may interfere with each other's data.
 
-To avoid this, you can add an unique Redis prefix key, that will allow you to separate one portal/instance from another. To do so, add `ckan.selfinfo.redis_prefix_key` config param with an unique prefix key.
+### Configuration
 
-Example: adding `random_key` will store the data under `random_key_errors_selinfo`.
+To prevent conflicts, configure a unique Redis prefix key using `ckan.selfinfo.redis_prefix_key`. This separates data for each portal or instance.
 
-![Selfinfo unique Redis prefix](../assets/redis_unique_prefix.png)
+**Example:**
+
+Setting `ckan.selfinfo.redis_prefix_key = production_portal` will store error data under the key `production_portal_errors_selinfo`.
+
+![Selfinfo Unique Redis Prefix](../assets/redis_unique_prefix.png)
+
+!!! tip "Multi-Instance Setup"
+    When running multiple CKAN instances against the same Redis server, always configure unique prefix keys to avoid data collisions.

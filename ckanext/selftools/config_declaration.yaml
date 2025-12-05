@@ -11,7 +11,8 @@ groups:
             default: ''
           - key: ckan.selftools.categories
             type: list
-            default: solr db redis config model datastore
+            default: solr
+            example: 'solr db redis config model datastore'
           - key: ckan.selftools.tools_blacklist
             type: list
             default: ''

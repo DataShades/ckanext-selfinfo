@@ -1,8 +1,11 @@
 {% set main_data = h.selftracking_get_data() %}
-<div class="p-3 mt-4">
+
+{% snippet 'selfinfo/snippets/selfinfo_content_header.html', icon_class='fas fa-chart-bar me-2', label=_('Selftracking - Main Dashboard') %}
+
+<div class="p-3">
     <div class="row">
-        <div class="col-lg-6 mt-4">
-            <div class="card p-3 h-100">
+        <div class="col-lg-6 mb-4">
+            <div class="selftracking-card card p-3 h-100">
                 <h2 class="mb-3 text-center">
                     {{ _('Total Views') }}
                 </h2>
@@ -13,8 +16,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 mt-4">
-            <div class="card p-3 h-100">
+        <div class="col-lg-6 mb-4">
+            <div class="selftracking-card card p-3 h-100">
                 <h2 class="mb-3 text-center">
                     {{ _('Views for last 24 hours') }}
                 </h2>
@@ -24,8 +27,8 @@
             </div>
         </div>
         {% for key, data in main_data.track_types_count.items() %}
-            <div class="col-lg-6 mt-4">
-                <div class="card p-3 h-100">
+            <div class="col-lg-6 mb-4">
+                <div class="selftracking-card card p-3 h-100">
                     <h2 class="mb-3 text-center">
                         {{ key|capitalize }} {{ _('per last 30 days') }}
                     </h2>

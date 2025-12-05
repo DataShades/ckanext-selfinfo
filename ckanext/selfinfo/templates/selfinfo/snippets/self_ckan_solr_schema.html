@@ -1,13 +1,8 @@
-<h2 class="m-3 text-center">
-    {{ _('Solr Schema') }}
-    <button class="text-primary bg-transparent box-shadow-none border-0" onclick='copyElementContent("{{ id }}-anchor")'>
-        <i class="fa fa-link fs-3" aria-hidden="true"></i>
-    </button>
-    <div id="{{ id }}-anchor" class="hidden d-none">
-        {{ full_url ~ '#' ~ id }}
+{% snippet 'selfinfo/snippets/selfinfo_content_header.html', icon_class='fas fa-search me-2', label=_('Solr Schema') %}
+
+<div class="p-3">
+    <div class="position-relative">
+        <button class="position-absolute end-0 top-0 btn selfiinfo-button-main-color-bg text-white" onclick='copyElementContent("ckan_solr_schema-text")'>{{ _('Copy') }}</button>
+        <pre><code class="language-xml" id="ckan_solr_schema-text">{{ data.ckan_solr_schema.schema | e }}</code></pre>
     </div>
-</h2>
-<div class="position-relative">
-    <button class="position-absolute end-0 top-0 btn btn-dark" onclick='copyElementContent("ckan_solr_schema-text")'>{{ _('Copy') }}</button>
-    <pre><code class="language-xml" id="ckan_solr_schema-text">{{ data.ckan_solr_schema.schema | e }}</code></pre>
 </div>
