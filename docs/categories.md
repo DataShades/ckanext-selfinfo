@@ -8,7 +8,7 @@ This approach allows you to:
 - **Add as needed** — Enable additional categories based on your specific monitoring requirements
 - **Optimize performance** — Reduce data collection overhead by excluding unnecessary categories (e.g., skip Blueprint data on CKAN job workers, or Python modules on large projects)
 
-See [Config Settings](../config_settings.md) for configuration examples.
+See [Config Settings](config_settings.md) for configuration examples.
 
 ---
 

@@ -100,7 +100,7 @@ tk.get_action(helpers.selfinfo_action_name("selfinfo_get_ram"))(context, {})
 
 List of categories that should be shown on the Selfinfo page or returned using the API.
 
-Check the full list of available [Categories](configuration/categories.md).
+Check the full list of available [Categories](categories.md).
 
 **Example:**
 
