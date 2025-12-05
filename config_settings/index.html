@@ -1,7 +1,4 @@
-
-<!doctype html>
-<html lang="en" class="no-js">
-  <head>
+<!DOCTYPE html><html lang="en" class="no-js"><head>
     
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -14,7 +11,7 @@
         <link rel="prev" href="../installation/">
       
       
-        <link rel="next" href="../configuration/secure_url_and_action/">
+        <link rel="next" href="../categories/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -40,7 +37,7 @@
         
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
@@ -52,7 +49,17 @@
     
     
     
-  </head>
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
   
   
     <body dir="ltr">
@@ -64,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#note" class="md-skip">
+        <a href="#configuration-settings" class="md-skip">
           Skip to content
         </a>
       
@@ -83,12 +90,12 @@
     <a href=".." title="ckanext-selfinfo" class="md-header__button md-logo" aria-label="ckanext-selfinfo" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
       
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -112,52 +119,12 @@
     
     
     
-      
-      
-        <label class="md-header__button md-icon" for="__search">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
-        </label>
-        <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
-      <label class="md-search__icon md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
-      </label>
-      <nav class="md-search__options" aria-label="Search">
-        
-        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-        </button>
-      </nav>
-      
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
-            Initializing search
-          </div>
-          <ol class="md-search-result__list" role="presentation"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-      
-    
     
       <div class="md-header__source">
         <a href="https://github.com/DataShades/ckanext-selfinfo" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"></path></svg>
   </div>
   <div class="md-source__repository">
     GitHub
@@ -181,7 +148,7 @@
           
             
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -193,7 +160,7 @@
     <a href=".." title="ckanext-selfinfo" class="md-nav__button md-logo" aria-label="ckanext-selfinfo" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
 
     </a>
     ckanext-selfinfo
@@ -203,7 +170,7 @@
       <a href="https://github.com/DataShades/ckanext-selfinfo" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"></path></svg>
   </div>
   <div class="md-source__repository">
     GitHub
@@ -292,6 +259,8 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
@@ -324,6 +293,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -332,11 +303,233 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#note" class="md-nav__link">
+  <a href="#core-settings" class="md-nav__link">
     <span class="md-ellipsis">
-      NOTE!
+      Core Settings
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Core Settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinforedis_prefix_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.redis_prefix_key
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfopage_url" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.page_url
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfomain_action_name" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.main_action_name
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfoactions_prefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.actions_prefix
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#categories-and-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      Categories and Display
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Categories and Display">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfocategories_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.categories_list
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage-and-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Storage and Limits
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Storage and Limits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfopartitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.partitions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfoerrors_limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.errors_limit
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#git-repository-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      Git Repository Information
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Git Repository Information">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfockan_repos_path" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.ckan_repos_path
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfockan_repos" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.ckan_repos
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solr-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solr Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Solr Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfosolr_schema_filename" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.solr_schema_filename
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-profiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional Profiles
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Additional Profiles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfoadditional_profiles_using_redis_keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.additional_profiles_using_redis_keys
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfoadditional_profiles_expire_time" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.additional_profiles_expire_time
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#duplicated-environments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Duplicated Environments
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Duplicated Environments">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfoduplicated_envsmode" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.duplicated_envs.mode
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfoshared_categories_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.shared_categories_list
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -344,6 +537,28 @@
   
 </nav>
       
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../categories/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Categories
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -363,10 +578,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
             
   
   
@@ -379,8 +594,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Configuration
           </label>
@@ -501,29 +716,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../configuration/categories/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Categories
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -568,10 +760,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8">
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
             
   
   
@@ -584,8 +776,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             Profiles
           </label>
@@ -629,10 +821,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2">
         
           
-          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_8_2" id="__nav_8_2_label" tabindex="0">
             
   
   
@@ -645,8 +837,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_2">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_2">
             <span class="md-nav__icon md-icon"></span>
             Cron Based
           </label>
@@ -690,10 +882,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2_2">
         
           
-          <label class="md-nav__link" for="__nav_7_2_2" id="__nav_7_2_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_8_2_2" id="__nav_8_2_2_label" tabindex="0">
             
   
   
@@ -706,8 +898,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_2_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_2_2">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_2_2">
             <span class="md-nav__icon md-icon"></span>
             Selfinfo internal IP Redis key (experimental)
           </label>
@@ -819,10 +1011,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10">
         
           
-          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
             
   
   
@@ -835,8 +1027,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_9">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
             Selftools
           </label>
@@ -903,10 +1095,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_3">
         
           
-          <label class="md-nav__link" for="__nav_9_3" id="__nav_9_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_10_3" id="__nav_10_3_label" tabindex="0">
             
   
   
@@ -919,8 +1111,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_9_3">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_3">
             <span class="md-nav__icon md-icon"></span>
             Categories
           </label>
@@ -1140,10 +1332,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11">
         
           
-          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
             
   
   
@@ -1156,8 +1348,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_10">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
             <span class="md-nav__icon md-icon"></span>
             Selftracking
           </label>
@@ -1293,7 +1485,7 @@
             
             
               
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -1301,6 +1493,8 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
+  
+    
   
   
     <label class="md-nav__title" for="__toc">
@@ -1310,11 +1504,233 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#note" class="md-nav__link">
+  <a href="#core-settings" class="md-nav__link">
     <span class="md-ellipsis">
-      NOTE!
+      Core Settings
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Core Settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinforedis_prefix_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.redis_prefix_key
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfopage_url" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.page_url
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfomain_action_name" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.main_action_name
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfoactions_prefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.actions_prefix
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#categories-and-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      Categories and Display
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Categories and Display">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfocategories_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.categories_list
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage-and-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Storage and Limits
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Storage and Limits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfopartitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.partitions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfoerrors_limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.errors_limit
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#git-repository-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      Git Repository Information
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Git Repository Information">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfockan_repos_path" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.ckan_repos_path
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfockan_repos" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.ckan_repos
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solr-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solr Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Solr Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfosolr_schema_filename" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.solr_schema_filename
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-profiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional Profiles
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Additional Profiles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfoadditional_profiles_using_redis_keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.additional_profiles_using_redis_keys
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfoadditional_profiles_expire_time" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.additional_profiles_expire_time
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#duplicated-environments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Duplicated Environments
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Duplicated Environments">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfoduplicated_envsmode" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.duplicated_envs.mode
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ckanselfinfoshared_categories_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      ckan.selfinfo.shared_categories_list
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1337,27 +1753,171 @@
   
 
 
-  <h1>Config Settings</h1>
-
-<p><strong><code>ckan.selfinfo.redis_prefix_key</code></strong> - This configuration is needed, when you use Redis with multiple CKAN apps. In order to have a unique key per portal, this configuration can be used. Example <code>ckan_test</code> will be used as <code>ckan_test_errors_selinfo</code>.</p>
-<p><strong><code>ckan.selfinfo.page_url</code></strong> - (Recommended to use) Used to provide alternative URL to Selfinfo Admin Page. By default it is set to <code>/ckan-admin/selfinfo</code>.</p>
-<p><strong><code>ckan.selfinfo.main_action_name</code></strong> - (Recommended to use) Used to provide an alternative name for the main action of selfinfo. By default it is set to <code>get_selfinfo</code>.</p>
-<p><strong><code>ckan.selfinfo.partitions</code></strong> - (Optional) Used for representing disk space. The value is comma separated paths. By default the value is <code>/</code>, which is usually the root.</p>
-<p>Example: <code>/path/to/partition /path/to/partition2 /path/to/partition3</code></p>
-<p><strong><code>ckan.selfinfo.errors_limit</code></strong> - (Optional) Limit used to specify how much errors will be stored in Redis. By default this value is <code>40</code>.</p>
-<p><strong><code>ckan.selfinfo.ckan_repos_path</code></strong> - (Optional) Path to the src folder where CKAN and CKAN Extensions stored at the environment. While provided, additional GIT Infromation will be granted. Make sure that there no other folders and files that are not related to CKAN are stored there. Example: <code>/usr/lib/ckan/default/src</code></p>
-<p><strong><code>ckan.selfinfo.ckan_repos</code></strong> - (Optional) List of CKAN Extension folders separated by space (ckanext-scheming ckanext-spatial ckanext-xloader). By default, if <code>ckan.selfinfo.ckan_repos_path</code> is provided, it will look into the directory and gather the extensions from there.</p>
-<h4 id="note">NOTE!</h4>
-<p>For Linux, keep in mind that the added folder in <code>ckan.selfinfo.ckan_repos_path</code> should have the same owner as the one that runs the application (e.g. if the application runs from <code>ckan</code> User in the system, then ckanext-scheming folder owner should be <code>ckan</code>), otherwise there will be an error related to ownership of the repository.</p>
-<p>Errors for GIT now being stored below the original Table on GIT Info tab.</p>
-<p><strong><code>ckan.selfinfo.solr_schema_filename</code></strong> - (Optional) Used to specify the filename that Solr uses for CKAN schema. Mentioned in <a href="../configuration/solr_schema/">Enable Solr Schema</a>.</p>
-<p><strong><code>ckan.selfinfo.additional_profiles_using_redis_keys</code></strong> - (Optional) Retrieves selfinfo data on page from external sources that store selfinfo data using <code>write-selfinfo</code> cli command under unique Redis key. The stored data should be under same Redis connection as per the "default" profile.</p>
-<p>Example: <code>unique_redis_key_1 unique_redis_key_2</code></p>
-<p><strong><code>ckan.selfinfo.additional_profiles_expire_time</code></strong> - (Optional) How long the additional profiles will exists, afterwards it will be deleted automatically. Should be an positive integer number, the lifetime should be provided in seconds (e.g. 3600 is 1 hour).</p>
-<p><strong><code>ckan.selfinfo.categories_list</code></strong> - (Optional) List of categories that should only be shown on Selfinfo Page or Returned using API. Example of usage <code>ckan.selfinfo.categories_list = errors ram_usage disk_usage</code>.
-By default, if not set, selfinfo will show all categories available.</p>
-<p><strong><code>ckan.selfinfo.duplicated_envs.mode</code></strong> - (Optional) By enabling, removes <code>default</code> profile and replaces it by duplicated Envs mentioned in <a href="../profiles/duplicated_env/">Selfinfo under Redis internal env IP key</a> section. By default set to <code>False</code>.</p>
-<p><strong><code>ckan.selfinfo.categories_list</code></strong> - (Optional) Used in combination with ckan.selfinfo.duplicated_envs.mode to specify, which categories are going to be shared between the duplicated Envs. Mentioned in <a href="../profiles/shared_categories/">Shared categories</a>.</p>
+<h1 id="configuration-settings">Configuration Settings</h1>
+<h2 id="core-settings">Core Settings</h2>
+<h3 id="ckanselfinforedis_prefix_key"><code>ckan.selfinfo.redis_prefix_key</code></h3>
+<p><strong>Type:</strong> <code>string</code>
+<strong>Required:</strong> Recommended for multi-instance setups</p>
+<p>This configuration is needed when you use Redis with multiple CKAN applications. It provides a unique key per portal instance.</p>
+<p><strong>Example:</strong></p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="na">ckan.selfinfo.redis_prefix_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">ckan_test</span>
+</span></code></pre></div>
+<p>This will be used as <code>ckan_test_errors_selfinfo</code> in Redis.</p>
+<hr>
+<h3 id="ckanselfinfopage_url"><code>ckan.selfinfo.page_url</code></h3>
+<p><strong>Type:</strong> <code>string</code>
+<strong>Default:</strong> <code>/ckan-admin/selfinfo</code>
+<strong>Required:</strong> Recommended</p>
+<p>Provides an alternative URL to the Selfinfo admin page.</p>
+<p><strong>Example:</strong></p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="na">ckan.selfinfo.page_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/admin/system-info</span>
+</span></code></pre></div>
+<hr>
+<h3 id="ckanselfinfomain_action_name"><code>ckan.selfinfo.main_action_name</code></h3>
+<p><strong>Type:</strong> <code>string</code>
+<strong>Default:</strong> <code>get_selfinfo</code>
+<strong>Required:</strong> Recommended</p>
+<p>Provides an alternative name for the main action of Selfinfo.</p>
+<p><strong>Example:</strong></p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="na">ckan.selfinfo.main_action_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">system_info</span>
+</span></code></pre></div>
+<hr>
+<h3 id="ckanselfinfoactions_prefix"><code>ckan.selfinfo.actions_prefix</code></h3>
+<p><strong>Type:</strong> <code>string</code>
+<strong>Default:</strong> Empty (no prefix)
+<strong>Required:</strong> Optional</p>
+<p>Adds a custom prefix to all registered API actions from Selfinfo, Selftools, and Selftracking extensions. This provides an additional security layer by obscuring action names, making them harder to discover.</p>
+<div class="admonition note">
+<p class="admonition-title">Scope</p>
+<p>This prefix applies to <strong>all three extensions</strong>:</p>
+<ul>
+<li><strong>Selfinfo</strong> actions (except <code>get_selfinfo</code> which uses <code>ckan.selfinfo.main_action_name</code>)</li>
+<li><strong>Selftools</strong> actions</li>
+<li><strong>Selftracking</strong> actions</li>
+</ul>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Important</p>
+<p>When using a prefix, you must use the helper function <code>h.selfinfo_action_name()</code> in templates and code to construct the correct action name.</p>
+</div>
+<p><strong>Example:</strong></p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Add "custom" prefix to all actions</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="na">ckan.selfinfo.actions_prefix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">custom</span>
+</span></code></pre></div>
+<p><strong>Usage in code:</strong></p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">ckanext.selfinfo</span><span class="w"> </span><span class="kn">import</span> <span class="n">helpers</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># Instead of calling the action directly:</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># tk.get_action("selfinfo_get_ram")(context, {})</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># Use the helper to get the prefixed name:</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="n">tk</span><span class="o">.</span><span class="n">get_action</span><span class="p">(</span><span class="n">helpers</span><span class="o">.</span><span class="n">selfinfo_action_name</span><span class="p">(</span><span class="s2">"selfinfo_get_ram"</span><span class="p">))(</span><span class="n">context</span><span class="p">,</span> <span class="p">{})</span>
+</span></code></pre></div>
+<hr>
+<h2 id="categories-and-display">Categories and Display</h2>
+<h3 id="ckanselfinfocategories_list"><code>ckan.selfinfo.categories_list</code></h3>
+<p><strong>Type:</strong> <code>space-separated list</code>
+<strong>Default:</strong> <code>platform_info</code>
+<strong>Required:</strong> Optional</p>
+<p>List of categories that should be shown on the Selfinfo page or returned using the API.</p>
+<p>Check the full list of available <a href="configuration/categories.md">Categories</a>.</p>
+<p><strong>Example:</strong></p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="na">ckan.selfinfo.categories_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">platform_info errors ram_usage disk_usage</span>
+</span></code></pre></div>
+<hr>
+<h2 id="storage-and-limits">Storage and Limits</h2>
+<h3 id="ckanselfinfopartitions"><code>ckan.selfinfo.partitions</code></h3>
+<p><strong>Type:</strong> <code>space-separated paths</code>
+<strong>Default:</strong> <code>/</code>
+<strong>Required:</strong> Optional</p>
+<p>Specifies paths for disk space monitoring. The value is a space-separated list of partition paths. Required only for <code>disk_usage</code> category.</p>
+<p><strong>Example:</strong></p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="na">ckan.selfinfo.partitions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/path/to/partition /path/to/partition2 /path/to/partition3</span>
+</span></code></pre></div>
+<hr>
+<h3 id="ckanselfinfoerrors_limit"><code>ckan.selfinfo.errors_limit</code></h3>
+<p><strong>Type:</strong> <code>integer</code>
+<strong>Default:</strong> <code>40</code>
+<strong>Required:</strong> Optional</p>
+<p>Limits how many errors will be stored in Redis.</p>
+<p><strong>Example:</strong></p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="na">ckan.selfinfo.errors_limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">100</span>
+</span></code></pre></div>
+<hr>
+<h2 id="git-repository-information">Git Repository Information</h2>
+<h3 id="ckanselfinfockan_repos_path"><code>ckan.selfinfo.ckan_repos_path</code></h3>
+<p><strong>Type:</strong> <code>path</code><br>
+<strong>Required:</strong> Optional</p>
+<p>Path to the source folder where CKAN and CKAN extensions are stored in the environment. When provided, additional Git information will be available. Required for <code>git_info</code> category.</p>
+<div class="admonition warning">
+<p class="admonition-title">Important</p>
+<p>Ensure that only CKAN-related folders are stored in this path. Other files and folders may cause errors.</p>
+</div>
+<p><strong>Example:</strong></p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="na">ckan.selfinfo.ckan_repos_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/usr/lib/ckan/default/src</span>
+</span></code></pre></div>
+<hr>
+<h3 id="ckanselfinfockan_repos"><code>ckan.selfinfo.ckan_repos</code></h3>
+<p><strong>Type:</strong> <code>space-separated list</code><br>
+<strong>Required:</strong> Optional</p>
+<p>List of CKAN extension folder names. By default, if <code>ckan.selfinfo.ckan_repos_path</code> is provided, it will automatically discover extensions from that directory.</p>
+<p><strong>Example:</strong></p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="na">ckan.selfinfo.ckan_repos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">ckanext-scheming ckanext-spatial ckanext-xloader</span>
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Linux Permissions</p>
+<p>For Linux systems, ensure that folders in <code>ckan.selfinfo.ckan_repos_path</code> have the same owner as the user running the application.</p>
+<p>For example, if the application runs as the <code>ckan</code> user, then the <code>ckanext-scheming</code> folder owner should also be <code>ckan</code>. Otherwise, you may encounter repository ownership errors.</p>
+<p>Git-related errors are displayed below the repository table on the Git Info tab.</p>
+</div>
+<hr>
+<h2 id="solr-configuration">Solr Configuration</h2>
+<h3 id="ckanselfinfosolr_schema_filename"><code>ckan.selfinfo.solr_schema_filename</code></h3>
+<p><strong>Type:</strong> <code>string</code>
+<strong>Required:</strong> Optional</p>
+<p>Specifies the filename that Solr uses for the CKAN schema. Required for <code>ckan_solr_schema</code> category.</p>
+<p>See <a href="../configuration/solr_schema/">Enable Solr Schema</a> for more details.</p>
+<p><strong>Example:</strong></p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="na">ckan.selfinfo.solr_schema_filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">schema.xml</span>
+</span></code></pre></div>
+<hr>
+<h2 id="additional-profiles">Additional Profiles</h2>
+<h3 id="ckanselfinfoadditional_profiles_using_redis_keys"><code>ckan.selfinfo.additional_profiles_using_redis_keys</code></h3>
+<p><strong>Type:</strong> <code>space-separated list</code><br>
+<strong>Required:</strong> Optional</p>
+<p>Retrieves Selfinfo data from external sources that store data using the <code>write-selfinfo</code> CLI command under unique Redis keys. The stored data must use the same Redis connection as the "default" profile.</p>
+<p><strong>Example:</strong></p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="na">ckan.selfinfo.additional_profiles_using_redis_keys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">unique_redis_key_1 unique_redis_key_2</span>
+</span></code></pre></div>
+<hr>
+<h3 id="ckanselfinfoadditional_profiles_expire_time"><code>ckan.selfinfo.additional_profiles_expire_time</code></h3>
+<p><strong>Type:</strong> <code>integer</code> (seconds)
+<strong>Required:</strong> Optional</p>
+<p>Defines how long additional profiles will exist before being automatically deleted. Must be a positive integer representing lifetime in seconds.</p>
+<p><strong>Example:</strong></p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># 1 hour = 3600 seconds</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="na">ckan.selfinfo.additional_profiles_expire_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">3600</span>
+</span></code></pre></div>
+<hr>
+<h2 id="duplicated-environments">Duplicated Environments</h2>
+<h3 id="ckanselfinfoduplicated_envsmode"><code>ckan.selfinfo.duplicated_envs.mode</code></h3>
+<p><strong>Type:</strong> <code>boolean</code>
+<strong>Default:</strong> <code>False</code>
+<strong>Required:</strong> Optional</p>
+<p>When enabled, removes the <code>default</code> profile and replaces it with duplicated environments.</p>
+<p>See <a href="../profiles/duplicated_env/">Selfinfo under Redis internal env IP key</a> for more details.</p>
+<p><strong>Example:</strong></p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="na">ckan.selfinfo.duplicated_envs.mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">True</span>
+</span></code></pre></div>
+<hr>
+<h3 id="ckanselfinfoshared_categories_list"><code>ckan.selfinfo.shared_categories_list</code></h3>
+<p><strong>Type:</strong> <code>space-separated list</code><br>
+<strong>Required:</strong> Optional</p>
+<p>Used in combination with <code>ckan.selfinfo.duplicated_envs.mode</code> to specify which categories are shared between duplicated environments.</p>
+<p>See <a href="../profiles/shared_categories/">Shared categories</a> for more details.</p>
+<p><strong>Example:</strong></p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="na">ckan.selfinfo.shared_categories_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">platform_info ckan_information</span>
+</span></code></pre></div>
 
 
 
@@ -1412,5 +1972,7 @@ By default, if not set, selfinfo will show all categories available.</p>
       <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
       
     
-  </body>
-</html>
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
