@@ -138,3 +138,59 @@ def delete_selfinfo_redis_key(key: str):
         click.echo("This is not an selfinfo key.")
         raise click.Abort()
     click.echo(f"Deleted Selfinfo data under '{key}' key.")
+
+
+def clear_packages_cache():
+    """Clear all Python packages version cache from Redis."""
+    try:
+        from importlib.metadata import packages_distributions  # type: ignore[attr-defined]
+    except ImportError:  # For Python<3.8
+        from importlib_metadata import packages_distributions
+
+    redis: Redis = connect_to_redis()
+    pdistribs = packages_distributions()
+
+    # Collect all package names
+    all_modules = []
+    for package_modules in pdistribs.values():
+        all_modules.extend(package_modules)
+
+    if not all_modules:
+        click.echo("No packages found.")
+        return
+
+    click.echo(f"Found {len(all_modules)} packages in the system.")
+
+    # Delete Redis keys for each package
+    deleted_count = 0
+    not_found_count = 0
+
+    with click.progressbar(
+        all_modules, label="Clearing package cache", show_pos=True
+    ) as modules:
+        for module in modules:
+            redis_key = utils.get_redis_key(module)
+            if redis.exists(redis_key):
+                redis.delete(redis_key)
+                deleted_count += 1
+            else:
+                not_found_count += 1
+
+    click.echo(
+        click.style(
+            f"\n✓ Cleared cache for {deleted_count} packages.", fg="green"
+        )
+    )
+
+    if not_found_count > 0:
+        click.echo(
+            click.style(
+                f"  {not_found_count} packages had no cached data.",
+                fg="yellow",
+            )
+        )
+
+    click.echo(
+        "\nNext time you visit the Python Modules page, "
+        "latest versions will be fetched from PyPI."
+    )

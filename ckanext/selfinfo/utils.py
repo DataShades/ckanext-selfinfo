@@ -45,6 +45,12 @@ log = logging.getLogger(__name__)
 def get_redis_key(name: str) -> str:
     """
     Generate a Redis key by combining a prefix, the provided name, and a suffix.
+
+    Args:
+        name: The base name for the Redis key
+
+    Returns:
+        str: Formatted Redis key with prefix and suffix
     """
     return (
         config.selfinfo_get_redis_prefix()
@@ -54,6 +60,20 @@ def get_redis_key(name: str) -> str:
 
 
 def get_python_modules_info(force_reset: bool = False) -> dict[str, Any]:
+    """
+    Retrieve information about installed Python modules and their versions.
+
+    Fetches version information from PyPI for installed packages, using Redis
+    as a cache. Modules are categorized into 'ckan', 'ckanext', and 'other'.
+    Uses parallel fetching with ThreadPoolExecutor for performance.
+
+    Args:
+        force_reset: If True, force refresh of all cached version data
+
+    Returns:
+        dict: Dictionary with three keys ('ckan', 'ckanext', 'other'), each
+              containing module information including current and latest versions
+    """
     redis: Redis = connect_to_redis()
     now: float = datetime.utcnow().timestamp()
 
@@ -63,6 +83,10 @@ def get_python_modules_info(force_reset: bool = False) -> dict[str, Any]:
         getattr(p, "name", ""): getattr(p, "version", "")
         for p in distributions()
     }
+
+    # Collect all modules that need version updates
+    modules_to_fetch: list[str] = []
+    modules_data: dict[str, MutableMapping[str, Any]] = {}
 
     for i, p in pdistribs.items():
         for module in p:
@@ -75,40 +99,87 @@ def get_python_modules_info(force_reset: bool = False) -> dict[str, Any]:
                     "current_version": modules.get(module, "unknown"),
                     "updated": now,
                 }
-                if not redis.hgetall(redis_module_key):
-                    data["latest_version"] = get_lib_latest_version(module)
-                    redis.hset(redis_module_key, mapping=dict(data))
 
-                updated_time = redis.hget(redis_module_key, "updated")
-                is_stale = True
-                if updated_time:
-                    updated_time = updated_time.decode("utf-8")  # type: ignore
-                    is_stale = (now - float(updated_time)) > config.STORE_TIME
-                if is_stale or force_reset:
-                    log.debug(
-                        "Updating module: %s due to isStale: %s, Force: %s",
-                        module,
-                        is_stale,
-                        force_reset,
-                    )
-                    data["latest_version"] = get_lib_latest_version(module)
-                    for key in data:
-                        if data[key] != redis.hget(redis_module_key, key):
-                            redis.hset(
-                                redis_module_key, key=key, value=data[key]
-                            )
+                # Check if module exists in Redis
+                cached_data = redis.hgetall(redis_module_key)
 
-                groups[group][module] = {
-                    k.decode("utf-8"): v.decode("utf-8")
-                    for k, v in redis.hgetall(redis_module_key).items()  # type: ignore
-                }
+                if not cached_data:
+                    # New module - needs version fetch
+                    modules_to_fetch.append(module)
+                    modules_data[module] = data
+                else:
+                    # Check if stale
+                    updated_time = redis.hget(redis_module_key, "updated")
+                    is_stale = True
+                    if updated_time:
+                        updated_time = updated_time.decode("utf-8")  # type: ignore
+                        is_stale = (
+                            now - float(updated_time)
+                        ) > config.STORE_TIME
 
-                # Convert the updated timestamp to a human-readable format
-                groups[group][module]["updated"] = str(
-                    datetime.fromtimestamp(
-                        float(groups[group][module]["updated"])
+                    if is_stale or force_reset:
+                        log.debug(
+                            "Module %s is stale (force=%s), will update",
+                            module,
+                            force_reset,
+                        )
+                        modules_to_fetch.append(module)
+                        modules_data[module] = data
+
+                # Load from Redis for display
+                groups[group][module] = (
+                    {
+                        k.decode("utf-8"): v.decode("utf-8")
+                        for k, v in redis.hgetall(redis_module_key).items()  # type: ignore
+                    }
+                    if cached_data
+                    else data
+                )
+
+    # Batch fetch latest versions for all modules that need updates
+    if modules_to_fetch:
+        log.info(
+            "Fetching latest versions for %d modules in parallel",
+            len(modules_to_fetch),
+        )
+        latest_versions = get_lib_latest_versions_batch(modules_to_fetch)
+
+        # Update Redis with fetched versions
+        for module, version in latest_versions.items():
+            if module in modules_data:
+                data = modules_data[module]
+                data["latest_version"] = version
+
+                redis_module_key = get_redis_key(module)
+                redis.hset(redis_module_key, mapping=dict(data))
+
+                # Update groups dict for display
+                group = (
+                    "ckan"
+                    if module == "ckan"
+                    else (
+                        "ckanext" if module.startswith("ckanext-") else "other"
                     )
                 )
+                if module in groups[group]:
+                    groups[group][module]["latest_version"] = version
+                    groups[group][module]["updated"] = str(
+                        datetime.fromtimestamp(now)
+                    )
+
+    # Convert timestamps to human-readable format
+    for group in groups.values():
+        for module_info in group.values():  # type: ignore
+            if "updated" in module_info and isinstance(
+                module_info["updated"], (int, float, str)
+            ):
+                try:
+                    timestamp = float(module_info["updated"])
+                    module_info["updated"] = str(
+                        datetime.fromtimestamp(timestamp)
+                    )
+                except (ValueError, TypeError):
+                    pass
 
     # Sort specific groups alphabetically by module name
     groups["ckanext"] = dict(sorted(groups["ckanext"].items()))
@@ -118,6 +189,13 @@ def get_python_modules_info(force_reset: bool = False) -> dict[str, Any]:
 
 
 def get_freeze() -> dict[str, "str|list[str]"]:
+    """
+    Get pip freeze output listing all installed Python packages.
+
+    Returns:
+        dict: Dictionary containing 'modules' (list) and 'modules_html' (string)
+              with formatted package list
+    """
     try:
         from pip._internal.operations import freeze
     except ImportError:  # pip < 10.0
@@ -132,9 +210,19 @@ def get_freeze() -> dict[str, "str|list[str]"]:
 
 
 def get_lib_data(lib: str) -> Optional[dict[str, Any]]:
+    """
+    Fetch package metadata from PyPI for a given library.
+
+    Args:
+        lib: Name of the Python package
+
+    Returns:
+        Optional[dict]: JSON response from PyPI API, or None if request fails
+    """
     req = requests.get(
         config.PYPI_URL + lib + "/json",
         headers={"Content-Type": "application/json"},
+        timeout=5,
     )
 
     if req.status_code == 200:
@@ -143,6 +231,15 @@ def get_lib_data(lib: str) -> Optional[dict[str, Any]]:
 
 
 def get_lib_latest_version(lib: str) -> str:
+    """
+    Get the latest version number for a package from PyPI.
+
+    Args:
+        lib: Name of the Python package
+
+    Returns:
+        str: Latest version string, or 'unknown' if not found
+    """
     data = get_lib_data(lib)
 
     if data and data.get("info"):
@@ -150,7 +247,77 @@ def get_lib_latest_version(lib: str) -> str:
     return "unknown"
 
 
+def get_lib_latest_versions_batch(
+    modules: list[str], max_workers: int = 20
+) -> dict[str, str]:
+    """
+    Fetch latest versions for multiple packages in parallel.
+
+    Falls back to synchronous fetching if concurrent.futures is not available.
+
+    Args:
+        modules: List of module names
+        max_workers: Number of parallel requests (only used if parallel execution available)
+
+    Returns:
+        Dict mapping module name to latest version
+    """
+    try:
+        from concurrent.futures import ThreadPoolExecutor, as_completed
+
+        results = {}
+
+        def fetch_version(module: str) -> tuple[str, str]:
+            """Fetch version for a single module"""
+            try:
+                version = get_lib_latest_version(module)
+                return (module, version)
+            except Exception:
+                log.debug("Failed to fetch version for %s", module)
+                return (module, "unknown")
+
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            future_to_module = {
+                executor.submit(fetch_version, module): module
+                for module in modules
+            }
+
+            for future in as_completed(future_to_module):
+                try:
+                    module, version = future.result(timeout=10)
+                    results[module] = version
+                except Exception:
+                    module = future_to_module[future]
+                    log.debug("Error processing %s", module)
+                    results[module] = "unknown"
+
+        return results
+
+    except ImportError:
+        # Fallback to synchronous fetching if concurrent.futures not available
+        log.debug(
+            "concurrent.futures not available, using synchronous fetching"
+        )
+        results = {}
+        for module in modules:
+            try:
+                version = get_lib_latest_version(module)
+                results[module] = version
+            except Exception:
+                log.debug("Failed to fetch version for %s", module)
+                results[module] = "unknown"
+
+        return results
+
+
 def get_ram_usage() -> dict[str, Any]:
+    """
+    Get RAM usage statistics and top 10 memory-consuming processes.
+
+    Returns:
+        dict: Contains 'precent_usage', 'used_ram', 'total_ram', and 'processes'
+              (list of top 10 processes by memory usage)
+    """
     psutil.process_iter.cache_clear()  # type: ignore cache_clear() is dynamic
     memory = psutil.virtual_memory()
     top10 = []
@@ -181,6 +348,13 @@ def get_ram_usage() -> dict[str, Any]:
 
 
 def get_disk_usage() -> list[dict[str, Any]]:
+    """
+    Get disk usage statistics for configured partitions.
+
+    Returns:
+        list: List of dictionaries with 'path', 'precent_usage', 'total_disk',
+              and 'free_space' for each partition
+    """
     paths = config.selfinfo_get_partitions()
     results = []
 
@@ -203,6 +377,12 @@ def get_disk_usage() -> list[dict[str, Any]]:
 
 
 def get_platform_info() -> dict[str, Any]:
+    """
+    Get system and platform information.
+
+    Returns:
+        dict: Contains 'distro', 'python_version', 'platform', and 'python_prefix'
+    """
     return {
         "distro": distro.name() + " " + distro.version(),
         "python_version": platform.python_version(),
@@ -212,6 +392,16 @@ def get_platform_info() -> dict[str, Any]:
 
 
 def gather_git_info() -> dict[str, "dict[str, Any]|list[dict[str, Any]]"]:
+    """
+    Gather Git repository information for configured repositories.
+
+    Collects branch, commit, and remote information for all repositories
+    in the configured repos path.
+
+    Returns:
+        dict: Contains 'repos_info' (list of repo details) and 'access_errors'
+              (dict of repositories with errors)
+    """
     ckan_repos_path = config.selfinfo_get_repos_path()
     git_info = {"repos_info": [], "access_errors": {}}
     if ckan_repos_path:
@@ -274,6 +464,15 @@ def gather_git_info() -> dict[str, "dict[str, Any]|list[dict[str, Any]]"]:
 
 
 def get_git_repo(path: str) -> Optional[git.Repo]:
+    """
+    Get a Git repository object from a filesystem path.
+
+    Args:
+        path: Filesystem path to the Git repository
+
+    Returns:
+        Optional[git.Repo]: Git repository object, or None if path is not a valid repo
+    """
     repo = None
     try:
         repo = git.Repo(path)
@@ -285,7 +484,14 @@ def get_git_repo(path: str) -> Optional[git.Repo]:
 
 
 def retrieve_errors() -> list[dict[str, Any]]:
-    """Collection from function SelfinfoErrorHandler"""
+    """
+    Retrieve logged errors from Redis cache.
+
+    Errors are collected by SelfinfoErrorHandler and stored in Redis.
+
+    Returns:
+        list: List of error dictionaries with details about caught exceptions
+    """
     redis: Redis = connect_to_redis()
     key = get_redis_key("errors")
     data = []
@@ -298,6 +504,13 @@ def retrieve_errors() -> list[dict[str, Any]]:
 
 
 def ckan_actions() -> list[dict[str, Any]]:
+    """
+    Get information about all registered CKAN actions.
+
+    Returns:
+        list: List of dictionaries containing action metadata including
+              function name, docstring, allowed HTTP methods, and curl examples
+    """
     from ckan.logic import _actions
 
     site_url = tk.config.get("ckan.site_url", "http://localhost:5000")
@@ -362,6 +575,13 @@ def ckan_actions() -> list[dict[str, Any]]:
 
 
 def ckan_auth_actions() -> list[dict[str, Any]]:
+    """
+    Get information about all registered CKAN authorization functions.
+
+    Returns:
+        list: List of dictionaries containing auth function metadata including
+              function name, docstring, and whether it's chained
+    """
     from ckan.authz import _AuthFunctions
 
     data = []
@@ -385,6 +605,13 @@ def ckan_auth_actions() -> list[dict[str, Any]]:
 
 
 def ckan_bluprints() -> dict[str, list[dict[str, Any]]]:
+    """
+    Get information about all registered Flask blueprints and their routes.
+
+    Returns:
+        dict: Dictionary mapping blueprint names to lists of route information
+              including path, HTTP methods, and view function details
+    """
     from flask import current_app
 
     app = current_app
@@ -412,6 +639,13 @@ def ckan_bluprints() -> dict[str, list[dict[str, Any]]]:
 
 
 def ckan_helpers() -> list[dict[str, Any]]:
+    """
+    Get information about all registered CKAN template helper functions.
+
+    Returns:
+        list: List of dictionaries containing helper metadata including
+              function name, docstring, source file, and whether it's chained
+    """
     from ckan.lib.helpers import helper_functions
 
     data = []
@@ -438,6 +672,15 @@ def ckan_helpers() -> list[dict[str, Any]]:
 
 
 def get_ckan_registered_cli() -> list[Any]:
+    """
+    Get information about all registered CKAN CLI commands.
+
+    Recursively collects command information including arguments, options,
+    help text, and subcommands.
+
+    Returns:
+        list: List of command trees with nested subcommand information
+    """
     data = []
     if ckan_commands and ckan_commands.commands:
 
@@ -486,6 +729,12 @@ def get_ckan_registered_cli() -> list[Any]:
 
 
 def get_status_show() -> Any:
+    """
+    Get CKAN status information via the status_show action.
+
+    Returns:
+        dict: Status data including version, site title, and API token header name
+    """
     status_data = tk.get_action("status_show")({}, {})
 
     status_data["apitoken_header_name"] = tk.config.get(
@@ -495,6 +744,13 @@ def get_status_show() -> Any:
 
 
 def get_ckan_queues() -> dict[str, dict[str, "str|list[dict[str, Any]]"]]:
+    """
+    Get information about all CKAN background job queues.
+
+    Returns:
+        dict: Dictionary mapping queue names to queue information including
+              job count, list of jobs (up to 100), and overflow indicator
+    """
     data = {}
     for queue in jobs.get_all_queues():
         jobs_counts = queue.count
@@ -508,6 +764,15 @@ def get_ckan_queues() -> dict[str, dict[str, "str|list[dict[str, Any]]"]]:
 
 
 def get_solr_schema() -> dict[str, str]:
+    """
+    Retrieve the Solr schema configuration file.
+
+    Fetches the schema XML file from Solr admin interface if Solr is available
+    and a schema filename is configured.
+
+    Returns:
+        dict: Dictionary containing 'schema' key with XML content, or empty dict if unavailable
+    """
     data = {}
     schema_filename = config.selfinfo_get_solr_schema_filename()
 
@@ -536,6 +801,19 @@ def get_solr_schema() -> dict[str, str]:
 def retrieve_additionals_redis_keys_info(
     key: str,
 ) -> dict[str, dict[str, Any]]:
+    """
+    Retrieve additional selfinfo data from Redis using a prefixed key.
+
+    Automatically prepends 'selfinfo_' to the provided key and retrieves
+    the stored data from Redis. Converts timestamps to human-readable format.
+
+    Args:
+        key: The base key name (without 'selfinfo_' prefix)
+
+    Returns:
+        dict: Retrieved data with 'provided_on' timestamp converted to string,
+              or empty dict if not found or on error
+    """
     redis: Redis = connect_to_redis()
     data = {}
     try:
@@ -556,6 +834,20 @@ def retrieve_additionals_redis_keys_info(
 def retrieve_additional_selfinfo_by_keys(
     key: str,
 ) -> dict[str, dict[str, Any]]:
+    """
+    Retrieve selfinfo data from Redis using an exact key.
+
+    Fetches data from Redis without modifying the key. In duplicated environments
+    mode, enriches data with shared categories from CATEGORIES if the key matches
+    internal IP keys.
+
+    Args:
+        key: The exact Redis key to retrieve
+
+    Returns:
+        dict: Retrieved data with 'provided_on' timestamp converted to string,
+              optionally enriched with shared categories in duplicated env mode
+    """
     redis: Redis = connect_to_redis()
     try:
         selfinfo_key = key
@@ -588,6 +880,15 @@ def retrieve_additional_selfinfo_by_keys(
 
 
 def selfinfo_retrieve_internal_ip():
+    """
+    Retrieve the internal IP address of the current machine.
+
+    Attempts to determine the internal IP by creating a UDP socket connection
+    to an external address (8.8.8.8). Falls back to '127.0.0.1' on error.
+
+    Returns:
+        str: Internal IP address or '127.0.0.1' if detection fails
+    """
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
             s.connect(("8.8.8.8", 80))
@@ -599,12 +900,32 @@ def selfinfo_retrieve_internal_ip():
 
 
 def selfinfo_internal_ip_keys() -> list[str]:
+    """
+    Get all Redis keys for duplicated environment instances.
+
+    Scans Redis for keys matching the duplicated environment pattern
+    (selfinfo_duplicated_env_*) using the configured prefix.
+
+    Returns:
+        list: List of Redis key strings for all duplicated environments
+    """
     redis: Redis = connect_to_redis()
     prefix = config.selfinfo_get_redis_prefix() + "selfinfo_duplicated_env_"
     return [i.decode("utf-8") for i in redis.scan_iter(match=prefix + "*")]
 
 
 def selfinfo_delete_redis_key(key: str) -> bool:
+    """
+    Delete a selfinfo-related key from Redis.
+
+    Only deletes keys containing 'selfinfo_' in their name as a safety measure.
+
+    Args:
+        key: The Redis key to delete
+
+    Returns:
+        bool: True if key was deleted, False if key doesn't contain 'selfinfo_'
+    """
     if "selfinfo_" not in key:
         return False
     redis: Redis = connect_to_redis()
