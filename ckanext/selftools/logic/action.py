@@ -1120,7 +1120,7 @@ def selftools_user_deleted(
         q = (
             model.Session.query(model.User)
             .filter(model.User.state == "deleted")
-            .order_by(desc(model.User.created))
+            .order_by(model.User.created.desc())
         )
 
         if limit:
