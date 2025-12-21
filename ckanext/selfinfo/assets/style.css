@@ -174,13 +174,13 @@ a {
   background: linear-gradient(135deg, #06b6d4 0%, #7c3aed 50%, #f97316 100%) !important
 }
 
-.selfiinfo-button-main-color-bg {
+.selfinfo-button-main-color-bg {
   background: var(--selfinfo-main-color);
   border-color: var(--selfinfo-main-color);
   color: #fff;
 }
 
-.selfiinfo-button-main-color-bg:hover {
+.selfinfo-button-main-color-bg:hover {
   background: rgba(10, 125, 140, .9);
   color: #fff;
   border-color: rgba(10, 125, 140, .9);

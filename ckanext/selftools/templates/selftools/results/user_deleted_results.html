@@ -1,0 +1,65 @@
+{% if count > 0 %}
+<div class="table-responsive scollable-table-container">
+    <div class="d-flex justify-content-between mb-3 align-items-center">
+      <div class="fw-bold fs-3">
+        <span class="me-2">{{ _('Deleted Users') }} : {{ count }}</span>
+      </div>
+      <button class="btn selfinfo-button-main-color-bg text-white" onclick="copyTableJsonToClipboard('selftools-user-deleted-results')">
+        Copy as JSON
+      </button>
+    </div>
+    <table id="selftools-user-deleted-results" class="table table-striped table-bordered table-hover">
+        <thead class="table-light">
+          <tr>
+            <th scope="col">{{ _('ID') }}</th>
+            <th scope="col">{{ _('Name') }}</th>
+            <th scope="col">{{ _('Email') }}</th>
+            <th scope="col">{{ _('Full Name') }}</th>
+            <th scope="col">{{ _('Created') }}</th>
+            <th scope="col">{{ _('Sysadmin') }}</th>
+            <th scope="col">{{ _('State') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.fullname }}</td>
+                <td>{{ user.created }}</td>
+                <td>{{ user.sysadmin }}</td>
+                <td>{{ user.state }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    var dataTable = new DataTable('#selftools-user-deleted-results', {
+        layout: {
+          topStart: {
+              pageLength: {
+                  menu: [ 10, 25, 50, 100, 1000 ]
+              },
+              buttons: [
+                'csv'
+              ],  
+          },
+          topEnd: {
+            searchBuilder: {},
+              search: {
+                  placeholder: 'Search here'
+              }
+          },
+        },
+        order: [[4, 'desc']]  // Sort by Created date descending by default
+    });
+</script>
+{% else %}
+<div class="alert alert-info" role="alert">
+    <i class="fa fa-info-circle"></i>
+    {{ _('No deleted users found.') }}
+</div>
+{% endif %}

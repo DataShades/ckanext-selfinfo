@@ -1,0 +1,34 @@
+{% import 'macros/form.html' as form %}
+
+{% snippet 'selfinfo/snippets/selfinfo_content_header.html', icon_class='fas fa-user-circle me-2', label=_('User - Info') %}
+
+<div class="p-3">
+    <div class="d-flex mb-3">
+        <a class="me-3" href="https://datashades.github.io/ckanext-selfinfo/selftools/categories/user/" target="_blank">
+            {{ _('Documentation') }}
+        </a>
+    </div>
+    
+    <div class="">
+        <form class="form-control border-0 shadow-none p-0" hx-post="{{ h.url_for('selftools_htmx.selftools_user_info') }}" hx-trigger="submit" hx-target="#user-info-resp" hx-swap="innerHTML">
+            <div class="info-block mb-3">
+                <i class="fa fa-info-circle"></i>
+                {{ _('Enter username or user ID to view detailed information about packages, organizations, and groups.') }}
+            </div>
+    
+            <div class="mb-3">
+                {{ form.input('user_identifier', label=_('Username or ID'), error='', attrs={'placeholder': 'admin or user-id-here', 'required': 'required'}) }}
+            </div>
+    
+            <button type="button" class="btn selfinfo-button-main-color-bg text-white mt-2" data-bs-toggle="modal" data-bs-target="#user-info-confirmation">
+                {{ _('Load User Info') }}
+            </button>
+
+            {% snippet "selftools/snippets/confirmation.html", modal_id='user-info-confirmation', modal_label_id='user-info-label-id' %}
+        </form>
+    </div>
+    
+    <div id="user-info-resp" class="mt-3">
+        <p class="text-muted bg-light p-3 border rounded">{{ _('Enter username or ID and click "Load User Info"...') }}</p>
+    </div>
+</div>

@@ -12,7 +12,7 @@ groups:
           - key: ckan.selftools.categories
             type: list
             default: solr
-            example: 'solr db redis config model datastore'
+            example: 'solr db redis config model datastore user'
           - key: ckan.selftools.tools_blacklist
             type: list
             default: ''

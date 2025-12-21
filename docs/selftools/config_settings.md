@@ -49,7 +49,7 @@ ckan.selftools.operations_limit = 50
 **Default:** `solr` (only Solr shown by default)
 **Required:** Optional
 
-Specifies which categories to display in Selftools. Available categories: `solr`, `db`, `redis`, `config`, `model`, `datastore`.
+Specifies which categories to display in Selftools. Available categories: `solr`, `db`, `redis`, `config`, `model`, `datastore`, `user`.
 
 By default, only the `solr` category is enabled to provide a minimal initial setup. Add additional categories based on your needs.
 
@@ -57,7 +57,7 @@ By default, only the `solr` category is enabled to provide a minimal initial set
 
 ```ini
 # Enable all categories
-ckan.selftools.categories = solr db redis config model datastore
+ckan.selftools.categories = solr db redis config model datastore user
 
 # Enable only database and configuration tools
 ckan.selftools.categories = db config
@@ -193,7 +193,7 @@ ckan.selftools.config_blacklist = ckan.custom_api_token
 
 ```ini
 # All categories enabled for full access
-ckan.selftools.categories = solr db redis config model datastore
+ckan.selftools.categories = solr db redis config model datastore user
 ckan.selftools.operations_limit = 200
 ckan.selftools.model_fields_blacklist = User.password User.apikey
 ```

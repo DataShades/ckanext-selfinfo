@@ -1,5 +1,7 @@
 # ckanext-selfinfo
 
+**Latest Update:** A new **[User](https://datashades.github.io/ckanext-selfinfo/selftools/categories/user/)** category has been added to Selftools, providing tools for CKAN users through the UI.
+
 This extension is built to represent a basic information about the running CKAN Application accessible only to admins.
 
 CKAN should be configured to be able to connect to Redis as it heavily relies on it for storage.
@@ -63,7 +65,7 @@ ckan.selfinfo.categories_list = platform_info ram_usage disk_usage errors
 
 ```ini
 # Enable all tools (v1 behavior)
-ckan.selftools.categories = solr db redis config model datastore
+ckan.selftools.categories = solr db redis config model datastore user
 
 # Or enable only specific tools you need
 ckan.selftools.categories = solr db redis

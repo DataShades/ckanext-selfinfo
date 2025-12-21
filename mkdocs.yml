@@ -42,6 +42,7 @@ nav:
       - Config: selftools/categories/config.md
       - Model: selftools/categories/model.md
       - Datastore: selftools/categories/datastore.md
+      - User: selftools/categories/user.md
     - Config Settings: selftools/config_settings.md
     - Extending Selftools: selftools/extending_selftools.md
   - Selftracking:
