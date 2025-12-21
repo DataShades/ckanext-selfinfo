@@ -1120,7 +1120,7 @@ def selftools_user_deleted(
         q = (
             model.Session.query(model.User)
             .filter(model.User.state == "deleted")
-            .order_by(model.User.created.desc())
+            .order_by(model.User.created.desc())  # type: ignore
         )
 
         if limit:
@@ -1573,7 +1573,7 @@ def selfinfo_group_list_for_user(
 
     groups_q = (
         model.Session.query(model.Group)
-        .filter(model.Group.is_organization.is_(False))
+        .filter(model.Group.is_organization.is_(False))  # type: ignore
         .filter(model.Group.state == "active")
     )
 
@@ -1593,7 +1593,7 @@ def selfinfo_group_list_for_user(
         q = (
             model.Session.query(model.Member, model.Group)
             .filter(model.Member.table_name == "user")
-            .filter(model.Member.capacity.in_(roles))
+            .filter(model.Member.capacity.in_(roles))  # type: ignore
             .filter(model.Member.table_id == user_id)
             .filter(model.Member.state == "active")
             .join(model.Group)
@@ -1623,7 +1623,7 @@ def selfinfo_group_list_for_user(
         if not group_ids:
             return []
 
-        groups_q = groups_q.filter(model.Group.id.in_(group_ids))
+        groups_q = groups_q.filter(model.Group.id.in_(group_ids))  # type: ignore
         groups_and_capacities = [
             (group, group_ids_to_capacities[group.id])
             for group in groups_q.all()
@@ -1634,6 +1634,6 @@ def selfinfo_group_list_for_user(
         groups_and_capacities,
         context,
         with_package_counts=asbool(data_dict.get("include_dataset_count")),
-        with_member_counts=asbool(data_dict.get("include_member_count")),
+        with_member_counts=asbool(data_dict.get("include_member_count")),  # type: ignore
     )
     return groups_list
