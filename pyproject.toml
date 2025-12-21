@@ -153,5 +153,6 @@ reportInvalidStubStatement = true
 reportIncompleteStub = true
 reportUnsupportedDunderAll = true
 reportUnusedCoroutine = true
-reportUnnecessaryTypeIgnoreComment = true
+reportUnnecessaryTypeIgnoreComment = false  # disabled for CKAN 2.10 compatibility
 reportMatchNotExhaustive = true
+reportAttributeAccessIssue = false  # disabled for CKAN 2.10 SQLAlchemy compatibility
