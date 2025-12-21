@@ -8,7 +8,7 @@
         <link rel="canonical" href="https://datashades.github.io/ckanext-selfinfo/selftools/config_settings/">
       
       
-        <link rel="prev" href="../categories/datastore/">
+        <link rel="prev" href="../categories/user/">
       
       
         <link rel="next" href="../extending_selftools/">
@@ -985,6 +985,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../categories/user/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    User
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1612,11 +1635,11 @@
 <p><strong>Type:</strong> Space-separated list
 <strong>Default:</strong> <code>solr</code> (only Solr shown by default)
 <strong>Required:</strong> Optional</p>
-<p>Specifies which categories to display in Selftools. Available categories: <code>solr</code>, <code>db</code>, <code>redis</code>, <code>config</code>, <code>model</code>, <code>datastore</code>.</p>
+<p>Specifies which categories to display in Selftools. Available categories: <code>solr</code>, <code>db</code>, <code>redis</code>, <code>config</code>, <code>model</code>, <code>datastore</code>, <code>user</code>.</p>
 <p>By default, only the <code>solr</code> category is enabled to provide a minimal initial setup. Add additional categories based on your needs.</p>
 <p><strong>Example:</strong></p>
 <div class="language-ini highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Enable all categories</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="na">ckan.selftools.categories</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">solr db redis config model datastore</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="na">ckan.selftools.categories</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">solr db redis config model datastore user</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Enable only database and configuration tools</span>
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="na">ckan.selftools.categories</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">db config</span>
@@ -1717,7 +1740,7 @@
 </span></code></pre></div>
 <h3 id="development-environment">Development Environment</h3>
 <div class="language-ini highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># All categories enabled for full access</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="na">ckan.selftools.categories</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">solr db redis config model datastore</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="na">ckan.selftools.categories</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">solr db redis config model datastore user</span>
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="na">ckan.selftools.operations_limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">200</span>
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="na">ckan.selftools.model_fields_blacklist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">User.password User.apikey</span>
 </span></code></pre></div>
