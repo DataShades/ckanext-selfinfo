@@ -1,0 +1,27 @@
+{% if success %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <h5 class="alert-heading">
+        <i class="fas fa-check-circle me-2"></i>
+        {{ _('Success!') }}
+    </h5>
+    <hr>
+    <p class="mb-2"><strong>{{ _('Message:') }}</strong> {{ message }}</p>
+    {% if user_id %}
+    <p class="mb-2"><strong>{{ _('User ID:') }}</strong> <code>{{ user_id }}</code></p>
+    {% endif %}
+    {% if username %}
+    <p class="mb-0"><strong>{{ _('Username:') }}</strong> <code>{{ username }}</code></p>
+    {% endif %}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% else %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <h5 class="alert-heading">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        {{ _('Error!') }}
+    </h5>
+    <hr>
+    <p class="mb-0">{{ message }}</p>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}

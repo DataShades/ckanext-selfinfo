@@ -684,3 +684,320 @@ def selftools_datastore_delete() -> Any | str:
 
     # Return JSON response for HTMX
     return jsonify(resp)
+
+
+@selftools_htmx.route("/selftools/user-add", methods=["POST"])
+def selftools_user_add() -> Any | str:
+    context: types.Context = cast(
+        types.Context,
+        {
+            "model": model,
+            "user": tk.current_user.name,
+            "auth_user_obj": tk.current_user,
+        },
+    )
+    try:
+        tk.check_access("sysadmin", context)
+    except tk.NotAuthorized:
+        tk.abort(404)
+
+    try:
+        data_dict = logic.clean_dict(
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
+        )
+    except dict_fns.DataError:
+        return tk.base.abort(400, _("Integrity Error"))
+
+    resp = tk.get_action(helpers.selfinfo_action_name("selftools_user_add"))(
+        context, data_dict
+    )
+
+    if not resp.get("success"):
+        return tk.render(
+            "/selftools/results/user_add_result.html",
+            extra_vars={
+                "success": False,
+                "message": resp.get("message", _("Something went wrong...")),
+            },
+        )
+
+    return tk.render(
+        "/selftools/results/user_add_result.html",
+        extra_vars={
+            "success": True,
+            "message": resp.get("message", _("User created successfully")),
+            "user_id": resp.get("user_id", ""),
+            "username": resp.get("username", ""),
+        },
+    )
+
+
+@selftools_htmx.route("/selftools/user-deleted", methods=["POST"])
+def selftools_user_deleted() -> Any | str:
+    context: types.Context = cast(
+        types.Context,
+        {
+            "model": model,
+            "user": tk.current_user.name,
+            "auth_user_obj": tk.current_user,
+        },
+    )
+    try:
+        tk.check_access("sysadmin", context)
+    except tk.NotAuthorized:
+        tk.abort(404)
+
+    try:
+        data_dict = logic.clean_dict(
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
+        )
+    except dict_fns.DataError:
+        return tk.base.abort(400, _("Integrity Error"))
+
+    resp = tk.get_action(
+        helpers.selfinfo_action_name("selftools_user_deleted")
+    )(context, data_dict)
+
+    if not resp.get("success"):
+        return (
+            resp["message"]
+            if resp.get("message")
+            else _("Something went wrong...")
+        )
+
+    return tk.render(
+        "/selftools/results/user_deleted_results.html",
+        extra_vars={
+            "users": resp.get("users", []),
+            "count": resp.get("count", 0),
+        },
+    )
+
+
+@selftools_htmx.route("/selftools/user-info", methods=["POST"])
+def selftools_user_info() -> Any | str:
+    context: types.Context = cast(
+        types.Context,
+        {
+            "model": model,
+            "user": tk.current_user.name,
+            "auth_user_obj": tk.current_user,
+        },
+    )
+    try:
+        tk.check_access("sysadmin", context)
+    except tk.NotAuthorized:
+        tk.abort(404)
+
+    try:
+        data_dict = logic.clean_dict(
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
+        )
+    except dict_fns.DataError:
+        return tk.base.abort(400, _("Integrity Error"))
+
+    resp = tk.get_action(helpers.selfinfo_action_name("selftools_user_info"))(
+        context, data_dict
+    )
+
+    if not resp.get("success"):
+        return tk.render(
+            "/selftools/results/user_info_results.html",
+            extra_vars={
+                "success": False,
+                "message": resp.get("message", _("Something went wrong...")),
+            },
+        )
+
+    return tk.render(
+        "/selftools/results/user_info_results.html",
+        extra_vars={
+            "success": True,
+            "user": resp.get("user", {}),
+            "package_count": resp.get("package_count", 0),
+            "org_count": resp.get("org_count", 0),
+            "group_count": resp.get("group_count", 0),
+            "follows_count": resp.get("follows_count", 0),
+            "collaborator_count": resp.get("collaborator_count", 0),
+            "collaborators_enabled": resp.get("collaborators_enabled", False),
+        },
+    )
+
+
+@selftools_htmx.route("/selftools/user-packages", methods=["POST"])
+def selftools_user_packages() -> Any | str:
+    context: types.Context = cast(
+        types.Context,
+        {
+            "model": model,
+            "user": tk.current_user.name,
+            "auth_user_obj": tk.current_user,
+        },
+    )
+    try:
+        tk.check_access("sysadmin", context)
+    except tk.NotAuthorized:
+        tk.abort(404)
+
+    try:
+        data_dict = logic.clean_dict(
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
+        )
+    except dict_fns.DataError:
+        return tk.base.abort(400, _("Integrity Error"))
+
+    resp = tk.get_action(
+        helpers.selfinfo_action_name("selftools_user_packages")
+    )(context, data_dict)
+
+    return tk.render(
+        "/selftools/results/user_packages.html",
+        extra_vars={"packages": resp.get("packages", [])},
+    )
+
+
+@selftools_htmx.route("/selftools/user-organizations", methods=["POST"])
+def selftools_user_organizations() -> Any | str:
+    context: types.Context = cast(
+        types.Context,
+        {
+            "model": model,
+            "user": tk.current_user.name,
+            "auth_user_obj": tk.current_user,
+        },
+    )
+    try:
+        tk.check_access("sysadmin", context)
+    except tk.NotAuthorized:
+        tk.abort(404)
+
+    try:
+        data_dict = logic.clean_dict(
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
+        )
+    except dict_fns.DataError:
+        return tk.base.abort(400, _("Integrity Error"))
+
+    resp = tk.get_action(
+        helpers.selfinfo_action_name("selftools_user_organizations")
+    )(context, data_dict)
+
+    return tk.render(
+        "/selftools/results/user_organizations.html",
+        extra_vars={"organizations": resp.get("organizations", [])},
+    )
+
+
+@selftools_htmx.route("/selftools/user-groups", methods=["POST"])
+def selftools_user_groups() -> Any | str:
+    context: types.Context = cast(
+        types.Context,
+        {
+            "model": model,
+            "user": tk.current_user.name,
+            "auth_user_obj": tk.current_user,
+        },
+    )
+    try:
+        tk.check_access("sysadmin", context)
+    except tk.NotAuthorized:
+        tk.abort(404)
+
+    try:
+        data_dict = logic.clean_dict(
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
+        )
+    except dict_fns.DataError:
+        return tk.base.abort(400, _("Integrity Error"))
+
+    resp = tk.get_action(
+        helpers.selfinfo_action_name("selftools_user_groups")
+    )(context, data_dict)
+
+    return tk.render(
+        "/selftools/results/user_groups.html",
+        extra_vars={"groups": resp.get("groups", [])},
+    )
+
+
+@selftools_htmx.route("/selftools/user-follows", methods=["POST"])
+def selftools_user_follows() -> Any | str:
+    context: types.Context = cast(
+        types.Context,
+        {
+            "model": model,
+            "user": tk.current_user.name,
+            "auth_user_obj": tk.current_user,
+        },
+    )
+    try:
+        tk.check_access("sysadmin", context)
+    except tk.NotAuthorized:
+        tk.abort(404)
+
+    try:
+        data_dict = logic.clean_dict(
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
+        )
+    except dict_fns.DataError:
+        return tk.base.abort(400, _("Integrity Error"))
+
+    resp = tk.get_action(
+        helpers.selfinfo_action_name("selftools_user_follows")
+    )(context, data_dict)
+
+    return tk.render(
+        "/selftools/results/user_follows.html",
+        extra_vars={"follows": resp.get("follows", [])},
+    )
+
+
+@selftools_htmx.route("/selftools/user-collaborators", methods=["POST"])
+def selftools_user_collaborators() -> Any | str:
+    context: types.Context = cast(
+        types.Context,
+        {
+            "model": model,
+            "user": tk.current_user.name,
+            "auth_user_obj": tk.current_user,
+        },
+    )
+    try:
+        tk.check_access("sysadmin", context)
+    except tk.NotAuthorized:
+        tk.abort(404)
+
+    try:
+        data_dict = logic.clean_dict(
+            dict_fns.unflatten(
+                logic.tuplize_dict(logic.parse_params(request.form))
+            )
+        )
+    except dict_fns.DataError:
+        return tk.base.abort(400, _("Integrity Error"))
+
+    resp = tk.get_action(
+        helpers.selfinfo_action_name("selftools_user_collaborators")
+    )(context, data_dict)
+
+    return tk.render(
+        "/selftools/results/user_collaborators.html",
+        extra_vars={
+            "collaborators": resp.get("collaborators", []),
+            "enabled": resp.get("enabled", False),
+        },
+    )

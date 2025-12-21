@@ -20,6 +20,7 @@ from ckan.lib.search import clear, rebuild, commit
 from ckan.lib.redis import connect_to_redis, Redis
 
 from ckanext.selftools import utils, config
+from ckanext.selfinfo import config as selfinfo_config
 
 # Import datastore backend functions for proper connection handling
 try:
@@ -1089,3 +1090,550 @@ def selftools_datastore_delete(
             "success": False,
             "message": str(e),
         }
+
+
+def selftools_user_deleted(
+    context: types.Context, data_dict: dict[str, Any]
+) -> dict[str, Any]:
+    """Get all deleted users sorted by deletion date."""
+    tk.check_access("sysadmin", context, data_dict)
+
+    # Verify operations password
+    if not utils.selftools_verify_operations_pwd(
+        data_dict.get("selftools_pwd")
+    ):
+        return {
+            "success": False,
+            "message": "Unauthorized action.",
+            "users": [],
+            "count": 0,
+        }
+
+    limit = int(data_dict.get("limit", 100))
+    max_limit = config.selftools_get_operations_limit()
+
+    if limit > max_limit:
+        limit = max_limit
+
+    try:
+        # Query for deleted users (state='deleted'), ordered by created date descending
+        q = (
+            model.Session.query(model.User)
+            .filter(model.User.state == "deleted")
+            .order_by(desc(model.User.created))
+        )
+
+        if limit:
+            q = q.limit(limit)
+
+        deleted_users = q.all()
+
+        users_list = []
+        for user in deleted_users:
+            users_list.append(
+                {
+                    "id": user.id,
+                    "name": user.name,
+                    "email": user.email if user.email else "",
+                    "fullname": user.fullname if user.fullname else "",
+                    "created": (
+                        user.created.isoformat() if user.created else ""
+                    ),
+                    "state": user.state,
+                    "sysadmin": user.sysadmin,
+                }
+            )
+
+        return {
+            "success": True,
+            "users": users_list,
+            "count": len(users_list),
+        }
+    except Exception as e:
+        log.error("User deleted query error: %s", repr(e))
+        return {
+            "success": False,
+            "message": str(e),
+            "users": [],
+            "count": 0,
+        }
+
+
+def selftools_user_add(
+    context: types.Context, data_dict: dict[str, Any]
+) -> dict[str, Any]:
+    """Add a new user with optional extra fields."""
+    tk.check_access("sysadmin", context, data_dict)
+
+    # Verify operations password
+    if not utils.selftools_verify_operations_pwd(
+        data_dict.get("selftools_pwd")
+    ):
+        return {
+            "success": False,
+            "message": "Unauthorized action.",
+        }
+
+    # Get required fields
+    username = data_dict.get("username", "").strip()
+    email = data_dict.get("email", "").strip()
+    password = data_dict.get("password", "")
+    password_confirm = data_dict.get("password_confirm", "")
+
+    # Validate required fields
+    if not username:
+        return {
+            "success": False,
+            "message": "Username is required.",
+        }
+
+    if not email:
+        return {
+            "success": False,
+            "message": "Email is required.",
+        }
+
+    if not password:
+        return {
+            "success": False,
+            "message": "Password is required.",
+        }
+
+    # Validate password match
+    if password != password_confirm:
+        return {
+            "success": False,
+            "message": "Passwords do not match.",
+        }
+
+    # Build user dict with standard fields
+    user_dict = {
+        "name": username,
+        "email": email,
+        "password": password,
+    }
+
+    # Add optional fullname
+    fullname = data_dict.get("fullname", "").strip()
+    if fullname:
+        user_dict["fullname"] = fullname
+
+    # Parse and add extra fields from JSON
+    extra_fields_json = data_dict.get("extra_fields", "").strip()
+    if extra_fields_json:
+        try:
+            extra_fields = json.loads(extra_fields_json)
+            if not isinstance(extra_fields, dict):
+                return {
+                    "success": False,
+                    "message": "Extra fields must be a JSON object (dictionary).",
+                }
+            # Merge extra fields into user_dict
+            user_dict.update(extra_fields)
+        except json.JSONDecodeError as e:
+            return {
+                "success": False,
+                "message": f"Invalid JSON in extra fields: {str(e)}",
+            }
+
+    try:
+        # Create user using CKAN's user_create action
+        new_user = tk.get_action("user_create")(context, user_dict)
+
+        return {
+            "success": True,
+            "message": f"User created successfully with ID: {new_user.get('id')}",
+            "user_id": new_user.get("id"),
+            "username": new_user.get("name"),
+        }
+    except tk.ValidationError as e:
+        error_message = (
+            str(e.error_dict) if hasattr(e, "error_dict") else str(e)
+        )
+        return {
+            "success": False,
+            "message": f"Validation error: {error_message}",
+        }
+    except Exception as e:
+        log.error("User add error: %s", repr(e))
+        return {
+            "success": False,
+            "message": f"Error creating user: {str(e)}",
+        }
+
+
+def selftools_user_info(
+    context: types.Context, data_dict: dict[str, Any]
+) -> dict[str, Any]:
+    """Get user information with counts for packages, organizations, and groups."""
+    tk.check_access("sysadmin", context, data_dict)
+
+    # Verify operations password
+    if not utils.selftools_verify_operations_pwd(
+        data_dict.get("selftools_pwd")
+    ):
+        return {
+            "success": False,
+            "message": "Unauthorized action.",
+        }
+
+    user_identifier = data_dict.get("user_identifier", "").strip()
+    if not user_identifier:
+        return {
+            "success": False,
+            "message": "Username or ID is required.",
+        }
+
+    try:
+        # Try to get user by name or id
+        user = model.User.get(user_identifier)
+
+        if not user:
+            return {
+                "success": False,
+                "message": f"User '{user_identifier}' not found.",
+            }
+
+        # Get package count
+        package_count = (
+            model.Session.query(model.Package)
+            .filter(
+                model.Package.creator_user_id == user.id,
+                model.Package.state != "deleted",
+            )
+            .count()
+        )
+
+        # Get organization count using organization_list_for_user action
+        orgs = tk.get_action("organization_list_for_user")(
+            context, {"id": user.id, "permission": "read"}
+        )
+        org_count = len(orgs) if orgs else 0
+
+        # Get group count using group_list_for_user action
+        groups = tk.get_action(
+            selfinfo_config.selfinfo_get_actions_prefix()
+            + "selfinfo_group_list_for_user"
+        )(context, {"id": user.id, "permission": "read"})
+        group_count = len(groups) if groups else 0
+
+        # Get follows count
+        follows = tk.get_action("followee_list")(context, {"id": user.id})
+        follows_count = len(follows) if follows else 0
+
+        # Get collaborator count (only if feature is enabled)
+        collaborator_count = 0
+        collaborators_enabled = tk.asbool(
+            tk.config.get("ckan.auth.allow_dataset_collaborators", False)
+        )
+        if collaborators_enabled:
+            try:
+                collaborators = tk.get_action(
+                    "package_collaborator_list_for_user"
+                )(context, {"id": user.id})
+                collaborator_count = len(collaborators) if collaborators else 0
+            except Exception:
+                collaborator_count = 0
+
+        return {
+            "success": True,
+            "user": {
+                "id": user.id,
+                "name": user.name,
+                "email": user.email if user.email else "",
+                "fullname": user.fullname if user.fullname else "",
+                "created": user.created.isoformat() if user.created else "",
+                "state": user.state,
+                "sysadmin": user.sysadmin,
+            },
+            "package_count": package_count,
+            "org_count": org_count,
+            "group_count": group_count,
+            "follows_count": follows_count,
+            "collaborator_count": collaborator_count,
+            "collaborators_enabled": collaborators_enabled,
+        }
+    except Exception as e:
+        log.error("User info query error: %s", repr(e))
+        return {
+            "success": False,
+            "message": str(e),
+        }
+
+
+def selftools_user_packages(
+    context: types.Context, data_dict: dict[str, Any]
+) -> dict[str, Any]:
+    """Get all packages created by a user."""
+    tk.check_access("sysadmin", context, data_dict)
+
+    user_id = data_dict.get("user_id", "").strip()
+    if not user_id:
+        return {"packages": []}
+
+    try:
+        packages = (
+            model.Session.query(model.Package)
+            .filter(
+                model.Package.creator_user_id == user_id,
+                model.Package.state != "deleted",
+            )
+            .all()
+        )
+
+        packages_list = []
+        for pkg in packages:
+            packages_list.append(
+                {
+                    "name": pkg.name,
+                    "title": pkg.title if pkg.title else pkg.name,
+                    "state": pkg.state,
+                    "type": pkg.type,
+                    "private": pkg.private,
+                    "metadata_created": (
+                        pkg.metadata_created.isoformat()
+                        if pkg.metadata_created
+                        else ""
+                    ),
+                }
+            )
+
+        return {"packages": packages_list}
+    except Exception as e:
+        log.error("User packages query error: %s", repr(e))
+        return {"packages": []}
+
+
+def selftools_user_organizations(
+    context: types.Context, data_dict: dict[str, Any]
+) -> dict[str, Any]:
+    """Get all organizations for a user with their roles."""
+    tk.check_access("sysadmin", context, data_dict)
+
+    user_id = data_dict.get("user_id", "").strip()
+    if not user_id:
+        return {"organizations": []}
+
+    try:
+        # Use organization_list_for_user action
+        orgs = tk.get_action("organization_list_for_user")(
+            context,
+            {
+                "id": user_id,
+                "permission": "read",
+                "include_dataset_count": True,
+            },
+        )
+
+        return {"organizations": orgs if orgs else []}
+    except Exception as e:
+        log.error("User organizations query error: %s", repr(e))
+        return {"organizations": []}
+
+
+def selftools_user_groups(
+    context: types.Context, data_dict: dict[str, Any]
+) -> dict[str, Any]:
+    """Get all groups for a user with their roles."""
+    tk.check_access("sysadmin", context, data_dict)
+
+    user_id = data_dict.get("user_id", "").strip()
+    if not user_id:
+        return {"groups": []}
+
+    try:
+        # Use custom selfinfo_group_list_for_user action
+        groups = tk.get_action(
+            selfinfo_config.selfinfo_get_actions_prefix()
+            + "selfinfo_group_list_for_user"
+        )(
+            context,
+            {
+                "id": user_id,
+                "permission": "read",
+                "include_dataset_count": True,
+            },
+        )
+
+        return {"groups": groups if groups else []}
+    except Exception as e:
+        log.error("User groups query error: %s", repr(e))
+        return {"groups": []}
+
+
+def selftools_user_follows(
+    context: types.Context, data_dict: dict[str, Any]
+) -> dict[str, Any]:
+    """Get all entities that a user follows."""
+    tk.check_access("sysadmin", context, data_dict)
+
+    user_id = data_dict.get("user_id", "").strip()
+    if not user_id:
+        return {"follows": []}
+
+    try:
+        # Use followee_list action to get what user follows
+        follows = tk.get_action("followee_list")(context, {"id": user_id})
+
+        return {"follows": follows if follows else []}
+    except Exception as e:
+        log.error("User follows query error: %s", repr(e))
+        return {"follows": []}
+
+
+def selftools_user_collaborators(
+    context: types.Context, data_dict: dict[str, Any]
+) -> dict[str, Any]:
+    """Get all datasets where user is a collaborator."""
+    tk.check_access("sysadmin", context, data_dict)
+
+    user_id = data_dict.get("user_id", "").strip()
+    if not user_id:
+        return {"collaborators": [], "enabled": False}
+
+    # Check if collaborators feature is enabled
+    collaborators_enabled = tk.asbool(
+        tk.config.get("ckan.auth.allow_dataset_collaborators", False)
+    )
+
+    if not collaborators_enabled:
+        return {"collaborators": [], "enabled": False}
+
+    try:
+        # Use package_collaborator_list_for_user action
+        collaborators = tk.get_action("package_collaborator_list_for_user")(
+            context, {"id": user_id}
+        )
+
+        # Enrich with package details
+        enriched_collaborators = []
+        for collab in collaborators if collaborators else []:
+            try:
+                pkg = model.Package.get(collab.get("package_id"))
+                if pkg:
+                    enriched_collaborators.append(
+                        {
+                            "package_id": collab.get("package_id"),
+                            "package_name": pkg.name,
+                            "package_title": (
+                                pkg.title if pkg.title else pkg.name
+                            ),
+                            "capacity": collab.get("capacity"),
+                            "modified": collab.get("modified"),
+                        }
+                    )
+            except Exception:
+                # If package not found, still add basic info
+                enriched_collaborators.append(
+                    {
+                        "package_id": collab.get("package_id"),
+                        "package_name": collab.get("package_id"),
+                        "package_title": collab.get("package_id"),
+                        "capacity": collab.get("capacity"),
+                        "modified": collab.get("modified"),
+                    }
+                )
+
+        return {"collaborators": enriched_collaborators, "enabled": True}
+    except Exception as e:
+        log.error("User collaborators query error: %s", repr(e))
+        return {"collaborators": [], "enabled": True}
+
+
+def selfinfo_group_list_for_user(
+    context: types.Context, data_dict: dict[str, Any]
+) -> list[dict[str, Any]]:
+    """
+    Return the groups that the user has a given permission for.
+
+    Similar to organization_list_for_user but for groups instead of organizations.
+
+    :param id: the name or id of the user to get the group list for
+    :param permission: the permission the user has against the returned groups
+        (optional, default: "manage_group")
+    :param include_dataset_count: include the package_count in each group
+        (optional, default: False)
+
+    :returns: list of groups that the user has the given permission for
+    """
+    from ckan import authz
+    from ckan.lib.dictization import model_dictize
+    from ckan.common import asbool
+
+    if data_dict.get("id"):
+        user_obj = model.User.get(data_dict["id"])
+        if not user_obj:
+            raise tk.ObjectNotFound
+        user = user_obj.name
+    else:
+        user = context["user"]
+
+    tk.check_access("sysadmin", context, data_dict)
+    sysadmin = authz.is_sysadmin(user)
+
+    groups_q = (
+        model.Session.query(model.Group)
+        .filter(model.Group.is_organization.is_(False))
+        .filter(model.Group.state == "active")
+    )
+
+    if sysadmin:
+        groups_and_capacities = [(group, "admin") for group in groups_q.all()]
+    else:
+        # for non-Sysadmins check they have the required permission
+        permission = data_dict.get("permission", "manage_group")
+        roles = authz.get_roles_with_permission(permission)
+
+        if not roles:
+            return []
+        user_id = authz.get_user_id_for_username(user, allow_none=True)
+        if not user_id:
+            return []
+
+        q = (
+            model.Session.query(model.Member, model.Group)
+            .filter(model.Member.table_name == "user")
+            .filter(model.Member.capacity.in_(roles))
+            .filter(model.Member.table_id == user_id)
+            .filter(model.Member.state == "active")
+            .join(model.Group)
+        )
+
+        group_ids: set[str] = set()
+        roles_that_cascade = authz.check_config_permission(
+            "roles_that_cascade_to_sub_groups"
+        )
+        group_ids_to_capacities: dict[str, str] = {}
+
+        for member, group in q.all():
+            if member.capacity in roles_that_cascade:
+                children_group_ids = [
+                    grp_tuple[0]
+                    for grp_tuple in group.get_children_group_hierarchy(
+                        type="group"
+                    )
+                ]
+                for group_id in children_group_ids:
+                    group_ids_to_capacities[group_id] = member.capacity
+                group_ids |= set(children_group_ids)
+
+            group_ids_to_capacities[group.id] = member.capacity
+            group_ids.add(group.id)
+
+        if not group_ids:
+            return []
+
+        groups_q = groups_q.filter(model.Group.id.in_(group_ids))
+        groups_and_capacities = [
+            (group, group_ids_to_capacities[group.id])
+            for group in groups_q.all()
+        ]
+
+    context["with_capacity"] = True
+    groups_list = model_dictize.group_list_dictize(
+        groups_and_capacities,
+        context,
+        with_package_counts=asbool(data_dict.get("include_dataset_count")),
+        with_member_counts=asbool(data_dict.get("include_member_count")),
+    )
+    return groups_list

@@ -25,13 +25,13 @@
     
             <fieldset class="border p-3 mb-3">
                 <legend class="w-auto">
-                    <a class="btn selfiinfo-button-main-color-bg text-white" data-bs-toggle="collapse" href="#model_custom_relationships_collapse" role="button" aria-expanded="false" aria-controls="model_custom_relationships_collapse">
+                    <a class="btn selfinfo-button-main-color-bg text-white" data-bs-toggle="collapse" href="#model_custom_relationships_collapse" role="button" aria-expanded="false" aria-controls="model_custom_relationships_collapse">
                         Custom Relationships
                     </a>
                 </legend>
                 <div class="collapse" id="model_custom_relationships_collapse">
                     <div>
-                        <button class="btn selfiinfo-button-main-color-bg text-white" title="Add Relationship" hx-post="{{ h.url_for('selftools_htmx.selftools_model_export_custom_relationships_fields') }}" hx-trigger="click" hx-target="#model_custom_relationships_collapse" hx-swap="beforeend">
+                        <button class="btn selfinfo-button-main-color-bg text-white" title="Add Relationship" hx-post="{{ h.url_for('selftools_htmx.selftools_model_export_custom_relationships_fields') }}" hx-trigger="click" hx-target="#model_custom_relationships_collapse" hx-swap="beforeend">
                             {{ _('Add Relationship') }}
                         </button>  
                     </div>
@@ -42,13 +42,13 @@
     
             <fieldset class="border p-3 mb-3">
                 <legend class="w-auto">
-                    <a class="btn selfiinfo-button-main-color-bg text-white" data-bs-toggle="collapse" href="#model_custom_default_value_condition_collapse" role="button" aria-expanded="false" aria-controls="model_custom_default_value_condition_collapse">
+                    <a class="btn selfinfo-button-main-color-bg text-white" data-bs-toggle="collapse" href="#model_custom_default_value_condition_collapse" role="button" aria-expanded="false" aria-controls="model_custom_default_value_condition_collapse">
                         Default Value Condition
                     </a>
                 </legend>
                 <div class="collapse" id="model_custom_default_value_condition_collapse">
                     <div>
-                        <button class="btn selfiinfo-button-main-color-bg text-white" title="Add Condition" hx-post="{{ h.url_for('selftools_htmx.selftools_model_export_custom_default_value_condition') }}" hx-trigger="click" hx-target="#model_custom_default_value_condition_collapse" hx-swap="beforeend">
+                        <button class="btn selfinfo-button-main-color-bg text-white" title="Add Condition" hx-post="{{ h.url_for('selftools_htmx.selftools_model_export_custom_default_value_condition') }}" hx-trigger="click" hx-target="#model_custom_default_value_condition_collapse" hx-swap="beforeend">
                             {{ _('Add Condition') }}
                         </button>  
                     </div>
@@ -62,7 +62,7 @@
                 <input type="number" name="limit" min="1" max="{{ h.get_operations_limit() }}" step="1" value="{{ h.get_operations_limit() }}" class=""  required />
             </div>
     
-            <button type="button" class="btn selfiinfo-button-main-color-bg text-white mt-2" data-bs-toggle="modal" data-bs-target="#model-export-confirmation">
+            <button type="button" class="btn selfinfo-button-main-color-bg text-white mt-2" data-bs-toggle="modal" data-bs-target="#model-export-confirmation">
                 Preview
             </button>
     

@@ -1,0 +1,97 @@
+{% if success %}
+<div class="card mb-3">
+    <div class="card-header selfinfo-main-color-bg text-white">
+        <h5 class="mb-0">
+            <i class="fas fa-user me-2"></i>
+            {{ user.fullname if user.fullname else user.name }}
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>{{ _('Username:') }}</strong> {{ user.name }}</p>
+                <p><strong>{{ _('ID:') }}</strong> {{ user.id }}</p>
+                <p><strong>{{ _('Email:') }}</strong> {{ user.email if user.email else _('N/A') }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>{{ _('State:') }}</strong> {{ user.state }}</p>
+                <p><strong>{{ _('Sysadmin:') }}</strong> {% if user.sysadmin %}Yes{% else %}No{% endif %}</p>
+                <p><strong>{{ _('Created:') }}</strong> {{ user.created if user.created else _('N/A') }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-3">
+        <button class="btn selfinfo-button-main-color-bg w-100 p-3 mb-2" 
+                hx-post="{{ h.url_for('selftools_htmx.selftools_user_packages') }}"
+                hx-vals='{"user_id": "{{ user.id }}"}'
+                hx-trigger="click"
+                hx-target="#user-data-content"
+                hx-swap="innerHTML">
+            <i class="fas fa-database me-2"></i>
+            {{ _('Own Datasets') }} ({{ package_count }})
+        </button>
+    </div>
+    <div class="col-md-3">
+        <button class="btn selfinfo-button-main-color-bg w-100 p-3 mb-2" 
+                hx-post="{{ h.url_for('selftools_htmx.selftools_user_organizations') }}"
+                hx-vals='{"user_id": "{{ user.id }}"}'
+                hx-trigger="click"
+                hx-target="#user-data-content"
+                hx-swap="innerHTML">
+            <i class="fas fa-building me-2"></i>
+            {{ _('Organizations roles') }} ({{ org_count }})
+        </button>
+    </div>
+    <div class="col-md-3">
+        <button class="btn selfinfo-button-main-color-bg w-100 p-3 mb-2" 
+                hx-post="{{ h.url_for('selftools_htmx.selftools_user_groups') }}"
+                hx-vals='{"user_id": "{{ user.id }}"}'
+                hx-trigger="click"
+                hx-target="#user-data-content"
+                hx-swap="innerHTML">
+            <i class="fas fa-users me-2"></i>
+            {{ _('Groups roles') }} ({{ group_count }})
+        </button>
+    </div>
+    <div class="col-md-3">
+        <button class="btn selfinfo-button-main-color-bg w-100 p-3 mb-2" 
+                hx-post="{{ h.url_for('selftools_htmx.selftools_user_follows') }}"
+                hx-vals='{"user_id": "{{ user.id }}"}'
+                hx-trigger="click"
+                hx-target="#user-data-content"
+                hx-swap="innerHTML">
+            <i class="fas fa-heart me-2"></i>
+            {{ _('Follows') }} ({{ follows_count }})
+        </button>
+    </div>
+</div>
+
+{% if collaborators_enabled %}
+<div class="row mb-3">
+    <div class="col-md-3">
+        <button class="btn selfinfo-button-main-color-bg w-100 p-3 mb-2" 
+                hx-post="{{ h.url_for('selftools_htmx.selftools_user_collaborators') }}"
+                hx-vals='{"user_id": "{{ user.id }}"}'
+                hx-trigger="click"
+                hx-target="#user-data-content"
+                hx-swap="innerHTML">
+            <i class="fas fa-user-friends me-2"></i>
+            {{ _('Collaborator Datasets') }} ({{ collaborator_count }})
+        </button>
+    </div>
+</div>
+{% endif %}
+
+<div id="user-data-content" class="bg-light p-3 border rounded">
+    <p class="text-muted text-center">{{ _('Click on a button above to load data...') }}</p>
+</div>
+
+{% else %}
+<div class="alert alert-danger" role="alert">
+    <i class="fa fa-exclamation-triangle"></i>
+    {{ message if message else _('User not found or an error occurred.') }}
+</div>
+{% endif %}

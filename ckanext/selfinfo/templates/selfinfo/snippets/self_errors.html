@@ -14,7 +14,7 @@
                 </div>
                 {% if data.errors|length and profile == 'default' %}
                     <form action="">
-                        <button class="btn selfiinfo-button-main-color-bg text-white" type="submit" name="drop_errors" value="true">{{ _('Clear Errors') }}</button>
+                        <button class="btn selfinfo-button-main-color-bg text-white" type="submit" name="drop_errors" value="true">{{ _('Clear Errors') }}</button>
                     </form>
                 {% endif %}
             </div>
@@ -22,7 +22,7 @@
                 {% for error in data.errors|reverse %}
                 {% set even = loop.index % 2 == 0 %}
                     <div class="list-group-item p-3 {% if even %} list-group-item-secondary {% endif %} position-relative">
-                        <button class="position-absolute end-0 top-0 m-3 btn selfiinfo-button-main-color-bg text-white mb-3" onclick='copyElementContent("selfinfo-{{ loop.index }}-error")'>{{ _('Copy') }}</button>
+                        <button class="position-absolute end-0 top-0 m-3 btn selfinfo-button-main-color-bg text-white mb-3" onclick='copyElementContent("selfinfo-{{ loop.index }}-error")'>{{ _('Copy') }}</button>
                         {% if error.error_url %}
                             <div class="mb-3">
                                 {% if error.error_url.startswith("http") %}

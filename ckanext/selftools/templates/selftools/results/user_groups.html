@@ -1,0 +1,55 @@
+{% if groups %}
+<div class="table-responsive scollable-table-container">
+    <div class="d-flex justify-content-between mb-3 align-items-center">
+        <div class="fw-bold fs-5">
+            <i class="fas fa-users me-2"></i>
+            <span class="me-2">{{ _('User Groups') }} : {{ groups|length }}</span>
+        </div>
+    </div>
+    <table id="selftools-user-groups-table" class="table table-striped table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th scope="col">{{ _('Name') }}</th>
+                <th scope="col">{{ _('Title') }}</th>
+                <th scope="col">{{ _('Role') }}</th>
+                <th scope="col">{{ _('State') }}</th>
+                <th scope="col">{{ _('Packages') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for group in groups %}
+            <tr>
+                <td><a href="{{ h.url_for('group.read', id=group.name) }}" target="_blank">{{ group.name }}</a></td>
+                <td>{{ group.title if group.title else group.name }}</td>
+                <td>{{ group.capacity }}</td>
+                <td>{{ group.state }}</td>
+                <td>{{ group.package_count if group.package_count else 0 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    new DataTable('#selftools-user-groups-table', {
+        layout: {
+            topStart: {
+                pageLength: {
+                    menu: [ 10, 25, 50, 100 ]
+                },
+                buttons: ['csv']
+            },
+            topEnd: {
+                search: {
+                    placeholder: 'Search groups'
+                }
+            }
+        }
+    });
+</script>
+{% else %}
+<div class="alert alert-info" role="alert">
+    <i class="fa fa-info-circle"></i>
+    {{ _('User is not a member of any groups.') }}
+</div>
+{% endif %}

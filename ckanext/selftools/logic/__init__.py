@@ -24,6 +24,15 @@ def get_actions():
         f"{prefix}selftools_datastore_query": action.selftools_datastore_query,
         f"{prefix}selftools_datastore_table_data": action.selftools_datastore_table_data,
         f"{prefix}selftools_datastore_delete": action.selftools_datastore_delete,
+        f"{prefix}selftools_user_add": action.selftools_user_add,
+        f"{prefix}selftools_user_deleted": action.selftools_user_deleted,
+        f"{prefix}selftools_user_info": action.selftools_user_info,
+        f"{prefix}selftools_user_packages": action.selftools_user_packages,
+        f"{prefix}selftools_user_organizations": action.selftools_user_organizations,
+        f"{prefix}selftools_user_groups": action.selftools_user_groups,
+        f"{prefix}selftools_user_follows": action.selftools_user_follows,
+        f"{prefix}selftools_user_collaborators": action.selftools_user_collaborators,
+        f"{prefix}selfinfo_group_list_for_user": action.selfinfo_group_list_for_user,
     }
 
     return actions

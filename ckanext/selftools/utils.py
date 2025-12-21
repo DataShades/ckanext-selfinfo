@@ -131,6 +131,31 @@ SELFTOOLS_TOOLS = [
             },
         ],
     },
+    {
+        "key": "user",
+        "label": "User",
+        "icon": "fas fa-users",
+        "tools": [
+            {
+                "key": "user_add",
+                "label": "Add",
+                "snippet": "/selftools/tools/user/user_add.html",
+                "icon": "fas fa-user-plus",
+            },
+            {
+                "key": "user_info",
+                "label": "Info",
+                "snippet": "/selftools/tools/user/user_info.html",
+                "icon": "fas fa-user-circle",
+            },
+            {
+                "key": "user_deleted",
+                "label": "Deleted",
+                "snippet": "/selftools/tools/user/user_deleted.html",
+                "icon": "fas fa-user-slash",
+            },
+        ],
+    },
 ]
 
 
