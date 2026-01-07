@@ -13,6 +13,15 @@ Provides an ability to search in DB using registered Models in CKAN.
 
 ![DB Query](../../assets/db_query.png)
 
+### Enhanced Query Capabilities
+
+The Query tool now supports:
+
+- **Multiple conditions**: you can add multiple search conditions simultaneously for more precise data filtering
+- **Flexible comparison operators**: various comparison operators are available (equals, not equals, contains, etc.) for more accurate query construction
+
+This allows you to create complex database queries without writing SQL code manually.
+
 ## Update
 
 Provides an ability to update data within DB.
