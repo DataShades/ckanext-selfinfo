@@ -7,15 +7,23 @@
         <div>
             {{ form.select('model', label=_('Model'), options=extras.model_options, error='', attrs={'class': 'select2', 'data-module': 'autocomplete'}) }}
         </div>
-        <div class="row">
-            <div class="col-lg-6">
-                {{ form.input('field', label=_('Field'), error='') }}            
-            </div>
-            <div class="col-lg-6">
-                {{ form.input('value', label=_('Value'), error='') }}           
-            </div>
-        </div>
 
+        <fieldset class="border p-3 mb-3">
+            <legend class="w-auto">
+                <a class="btn selfinfo-button-main-color-bg text-white" data-bs-toggle="collapse" href="#db_q_where_collapse" role="button" aria-expanded="false" aria-controls="db_q_where_collapse">
+                    WHERE Conditions
+                </a>
+            </legend>
+            <div class="collapse" id="db_q_where_collapse">
+                <div>
+                    <button class="btn selfinfo-button-main-color-bg text-white" title="Add Condition" hx-post="{{ h.url_for('selftools_htmx.selftools_db_query_where_fields') }}" hx-trigger="click" hx-target="#db_q_where_collapse" hx-swap="beforeend">
+                        {{ _('Add Condition') }}
+                    </button>  
+                </div>
+                <div class="where-conditions-map">
+                </div>
+            </div>
+        </fieldset>
 
         <fieldset class="border p-3 mb-3">
             <legend class="w-auto">

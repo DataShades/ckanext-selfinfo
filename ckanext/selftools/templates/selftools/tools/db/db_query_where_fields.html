@@ -1,0 +1,22 @@
+{% import 'macros/form.html' as form %}
+
+<div class="row align-items-center where-condition-item mt-2">
+    <div class="col-lg-4">
+        {{ form.input('field[]', label=_('Field'), error='') }}           
+    </div>
+    <div class="col-lg-3">
+        {{ form.select('operator[]', label=_('Operator'), options=[
+            {"value": "equal", "text": "Equal"},
+            {"value": "not_equal", "text": "Not Equal"},
+            {"value": "contains", "text": "Contains"},
+            {"value": "starts_with", "text": "Starts With"},
+            {"value": "ends_with", "text": "Ends With"}
+        ], selected="equal", error='') }}
+    </div>
+    <div class="col-lg-4">
+        {{ form.input('value[]', label=_('Value'), error='') }}          
+    </div>
+    <div class="col-lg-1">
+        <button class="btn btn-danger" type="button" onclick="this.closest('.where-condition-item').remove()"><i class="fas fa-minus"></i></button>
+    </div>
+</div>
