@@ -13,9 +13,14 @@
                     <input type="text" class="form-control mb-3" placeholder="Search items..." data-module="search-through-content" data-module-target="#self-errors-parent .list-group-item">
                 </div>
                 {% if data.errors|length and profile == 'default' %}
-                    <form action="">
-                        <button class="btn selfinfo-button-main-color-bg text-white" type="submit" name="drop_errors" value="true">{{ _('Clear Errors') }}</button>
-                    </form>
+                    <div>
+                        <button class="btn selfinfo-button-main-color-bg text-white" 
+                                type="button" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#clearErrorsModal">
+                            {{ _('Clear Errors') }}
+                        </button>
+                    </div>
                 {% endif %}
             </div>
             <div class="list-group" id="self-errors-parent">
@@ -46,3 +51,31 @@
         </p>
     {% endif %}
 </div>
+
+{% if data.errors|length and profile == 'default' %}
+<div class="modal fade" id="clearErrorsModal" tabindex="-1" aria-labelledby="clearErrorsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="clearErrorsModalLabel">{{ _('Confirm Clear Errors') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>{{ _('Are you sure you want to clear all errors?') }}</p>
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    {{ _('This will permanently delete') }} <strong>{{ data.errors|length }}</strong> {{ _('error(s)') }}.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Cancel') }}</button>
+                <form action="" method="get" style="display: inline;">
+                    <button type="submit" name="drop_errors" value="true" class="btn btn-danger">
+                        {{ _('Yes, Clear All Errors') }}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

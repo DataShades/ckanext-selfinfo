@@ -6,12 +6,14 @@ import json
 from sqlalchemy import desc, exc as sql_exceptions, text
 from sqlalchemy.inspection import inspect
 import redis
+import psycopg2.errors
 from typing import Any, Literal
 from datetime import datetime
 
 from ckan import types
 import ckan.model as model
 import ckan.plugins.toolkit as tk
+from ckan.common import request
 from ckan.lib.search.common import (
     is_available as solr_available,
     make_connection as solr_connection,
@@ -32,6 +34,125 @@ except ImportError:
     get_read_engine = None
 
 log = logging.getLogger(__name__)
+
+
+def apply_db_filter(
+    query: Any,
+    model_class: Any,
+    field: str,
+    value: str,
+    operator: str = "equal",
+) -> Any:
+    """
+    Apply filter to SQLAlchemy query based on operator type.
+
+    Args:
+        query: SQLAlchemy query object
+        model_class: Model class to filter
+        field: Field name to filter on
+        value: Value to filter by
+        operator: Comparison operator (equal, not_equal, starts_with, ends_with, contains)
+
+    Returns:
+        Modified query object
+
+    Raises:
+        ValueError: If operator is not supported for the field type
+        AttributeError: If field does not exist in model
+    """
+    # Check if field exists in model (protection against non-existent fields)
+    if not hasattr(model_class, field):
+        raise AttributeError(
+            f"Field '{field}' does not exist in model '{model_class.__name__}'"
+        )
+
+    column = getattr(model_class, field)
+
+    # Get column type to determine which operators are supported
+    try:
+        column_type = str(column.type).lower()
+    except Exception:
+        column_type = "unknown"
+
+    # Handle NULL/empty values
+    if value.lower() in ["null", "none", ""]:
+        if operator == "equal":
+            return query.filter(column.is_(None))
+        elif operator == "not_equal":
+            return query.filter(column.isnot(None))
+        else:
+            raise ValueError(
+                "Only 'equal' and 'not_equal' operators are supported for NULL values"
+            )
+
+    # Check if this is a JSON/JSONB type
+    is_json = any(t in column_type for t in ["json", "jsonb"])
+
+    # For JSON/JSONB fields, use text casting and pattern matching
+    if is_json:
+        if operator == "not_equal":
+            raise ValueError(
+                f"Operator '{operator}' is not supported for JSON field '{field}'. "
+                f"Use 'equal', 'contains', 'starts_with', or 'ends_with' instead."
+            )
+        # Use SQLAlchemy's cast to avoid SQL injection
+        from sqlalchemy import cast, String
+
+        if operator == "starts_with":
+            return query.filter(cast(column, String).ilike(f"{value}%"))
+        elif operator == "ends_with":
+            return query.filter(cast(column, String).ilike(f"%{value}"))
+        elif operator == "contains":
+            return query.filter(cast(column, String).ilike(f"%{value}%"))
+        else:  # equal - search as contains for JSON
+            return query.filter(cast(column, String).ilike(f"%{value}%"))
+
+    # Check if this is a non-string type (expanded list)
+    is_non_string = any(
+        t in column_type
+        for t in [
+            "boolean",
+            "bool",
+            "integer",
+            "int",
+            "bigint",
+            "smallint",
+            "float",
+            "numeric",
+            "decimal",
+            "real",
+            "double",
+            "date",
+            "time",
+            "timestamp",
+            "uuid",
+            "array",
+            "[]",
+        ]
+    )
+
+    # Pattern matching operators are only supported for string types
+    if is_non_string and operator in ["starts_with", "ends_with", "contains"]:
+        raise ValueError(
+            f"Operator '{operator}' is not supported for field '{field}' "
+            f"with type '{column_type}'. Use 'equal' or 'not_equal' instead."
+        )
+
+    # Apply the filter for regular types
+    if operator == "not_equal":
+        return query.filter(column != value)
+    elif operator == "starts_with":
+        return query.filter(column.ilike(f"{value}%"))
+    elif operator == "ends_with":
+        return query.filter(column.ilike(f"%{value}"))
+    elif operator == "contains":
+        return query.filter(column.ilike(f"%{value}%"))
+    else:  # equal (default)
+        # For boolean, convert string to boolean
+        if "bool" in column_type:
+            bool_value = value.lower() in ["true", "1", "yes", "t"]
+            return query.filter(column == bool_value)
+        return query.filter(column == value)
 
 
 def selftools_solr_query(
@@ -115,10 +236,14 @@ def selftools_db_query(
 
     q_model = data_dict.get("model")
     limit = data_dict.get("limit")
-    field = data_dict.get("field")
-    value = data_dict.get("value")
     order = data_dict.get("order")
     order_by = data_dict.get("order_by")
+
+    # Get multiple WHERE conditions from field[], value[], and operator[] arrays
+    where_fields = request.form.getlist("field[]")
+    where_values = request.form.getlist("value[]")
+    where_operators = request.form.getlist("operator[]")
+
     if q_model:
         model_fields_blacklist = [
             b.strip().split(".")
@@ -158,8 +283,20 @@ def selftools_db_query(
                 model_class = curr_model[0]["model"]
                 q = model.Session.query(model_class)
 
-                if field and value:
-                    q = q.filter(getattr(model_class, field) == value)
+                # Apply multiple WHERE conditions
+                if where_fields and where_values:
+                    for i, (field, value) in enumerate(
+                        zip(where_fields, where_values)
+                    ):
+                        if field and value:  # Skip empty conditions
+                            operator = (
+                                where_operators[i]
+                                if i < len(where_operators)
+                                else "equal"
+                            )
+                            q = apply_db_filter(
+                                q, model_class, field, value, operator
+                            )
 
                 if order_by and order:
                     if order == "desc":
@@ -188,10 +325,22 @@ def selftools_db_query(
                 AttributeError,
                 sql_exceptions.CompileError,
                 sql_exceptions.ArgumentError,
+                ValueError,
             ) as e:
                 return {
                     "success": False,
                     "message": str(e),
+                }
+            except psycopg2.errors.InvalidTextRepresentation as e:
+                return {
+                    "success": False,
+                    "message": f"Invalid value for field type. {str(e).split('DETAIL:')[0].strip()}",
+                }
+            except Exception as e:
+                log.error("DB Query error: %s", repr(e))
+                return {
+                    "success": False,
+                    "message": f"Database error: {str(e)}",
                 }
     return False
 

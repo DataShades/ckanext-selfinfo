@@ -4,6 +4,7 @@ this.ckan.module('reset-module-last-check', function($) {
                   monthNames: ["January", "February", "March", "April", "May", "June",
                   "July", "August", "September", "October", "November", "December"
                   ],
+                  action: null
 		},
 		initialize: function () {
 			$.proxyAll(this, /_on/);
@@ -15,9 +16,9 @@ this.ckan.module('reset-module-last-check', function($) {
                         $(item).on('click', function(event){
                               event.preventDefault();
                               const target = this.getAttribute('data-target');
-                              if (target) {
+                              if (target && _this.options.action) {
                                     var client = _this.sandbox.client;
-                                    client.call('POST', "update_last_module_check", { module : target }, _this._onClickLoaded);
+                                    client.call('POST', _this.options.action, { module : target }, _this._onClickLoaded);
                               }
                         });
                   })

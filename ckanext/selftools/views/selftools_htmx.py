@@ -133,6 +133,14 @@ def selftools_solr_index() -> Any | str:
         return _("Indexed.")
 
 
+@selftools_htmx.route("/selftools/db-query-where-fields", methods=["POST"])
+def selftools_db_query_where_fields() -> Any | str:
+    return tk.render(
+        "/selftools/tools/db/db_query_where_fields.html",
+        extra_vars={},
+    )
+
+
 @selftools_htmx.route("/selftools/db-query", methods=["POST"])
 def selftools_db_query() -> Any | str:
     context: types.Context = cast(
