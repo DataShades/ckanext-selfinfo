@@ -660,14 +660,27 @@ def ckan_helpers() -> list[dict[str, Any]]:
         if isinstance(f, (types.BuiltinFunctionType, types.BuiltinMethodType)):
             continue
 
-        data.append(
-            {
-                "func_name": n,
-                "docstring": inspect.getdoc(f),
-                "defined": inspect.getsourcefile(f),
-                "chained": chained,
-            }
-        )
+        try:
+            data.append(
+                {
+                    "func_name": n,
+                    "docstring": inspect.getdoc(f),
+                    "defined": inspect.getsourcefile(f),
+                    "chained": chained,
+                }
+            )
+        except TypeError as e:
+            log.debug(
+                "Cannot retrieve source file for helper %s", n, exc_info=True
+            )
+            data.append(
+                {
+                    "func_name": n,
+                    "docstring": inspect.getdoc(f),
+                    "defined": "Error: " + e.__str__(),
+                    "chained": chained,
+                }
+            )
     return data
 
 
