@@ -7,7 +7,7 @@ selfinfo-js:
     - js/reset-module-last-check.js
     - js/search-through-content.js
     - js/search-through-table.js
-    - js/datepicker.js
+    - js/self-datepicker.js
     - script.js
   extra:
     preload:

@@ -1,4 +1,4 @@
-ckan.module('datepicker', function ($, _) {
+ckan.module('self-datepicker', function ($, _) {
     'use strict';
     return {
       options: {

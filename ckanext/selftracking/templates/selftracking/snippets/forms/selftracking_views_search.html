@@ -8,7 +8,7 @@
                 id=type_machine ~ '-from-date',
                 label=_('From'),
                 error='',
-                attrs={'data-module': 'datepicker', 'class': 'form-control'},
+                attrs={'data-module': 'self-datepicker', 'class': 'form-control'},
                 value=h.render_datetime(from_date, date_format='%Y-%m-%d')
             ) }}
         </div>
@@ -18,7 +18,7 @@
                 id=type_machine ~ '-to-date',
                 label=_('To'),
                 error='',
-                attrs={'data-module': 'datepicker', 'class': 'form-control'},
+                attrs={'data-module': 'self-datepicker', 'class': 'form-control'},
                 value=h.render_datetime(to_date, date_format='%Y-%m-%d')
             ) }}
         </div>
