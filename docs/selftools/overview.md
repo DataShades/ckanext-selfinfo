@@ -2,7 +2,7 @@
 
 ![Selftracking Screen](../assets/selftools_main.png)
 
-This plugin suggested to be an addition to Selfinfo tools, but considered to be moved to a separate plugin, due to difference in main idea and purpouse of Selfinfo.
+This plugin suggested to be an addition to Selfinfo tools, but considered to be moved to a separate plugin, due to difference in main idea and purpose of Selfinfo.
 
 Unlike Selfinfo, where you retrieve information about CKAN setup, Selftools provides an actual data that stored for CKAN and be able to do manipulations with it like create/update/delete operations.
 

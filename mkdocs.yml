@@ -34,7 +34,7 @@ nav:
   - Extending Selfinfo: extending/overview.md
   - Selftools:
     - Overview: selftools/overview.md
-    - Confiruation: selftools/configuration.md
+    - Configuration: selftools/configuration.md
     - Categories:
       - Solr: selftools/categories/solr.md
       - DB: selftools/categories/db.md
